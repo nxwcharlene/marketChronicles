@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'marketChronicles.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bf3210_database',
+        'USER': 'cheklin',
+        'PASSWORD': 'sharedpassword',
+        'HOST': '172.22.143.201',
+        'PORT': '3306',
     }
 }
 
