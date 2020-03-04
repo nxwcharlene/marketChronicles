@@ -78,6 +78,7 @@ const tiers = [
     title: 'Economic Surprise',
     price: '0',
     description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support'],
+    button: '/macro',
     buttonText: 'Start Search',
     buttonVariant: 'outlined',
   },
@@ -91,6 +92,7 @@ const tiers = [
       'Help center access',
       'Priority email support',
     ],
+    button: '/earnings',
     buttonText: 'Start Search',
     buttonVariant: 'outlined', // instead of 'outlined' can also use 'contained' for a filled button
   },
@@ -103,6 +105,7 @@ const tiers = [
       'Help center access',
       'Phone & email support',
     ],
+    button: '/event',
     buttonText: 'Start Search',
     buttonVariant: 'outlined',
   },
@@ -194,15 +197,18 @@ export default function MainPage() {
                       </ul>
                     </CardContent>
                     <CardActions>
-                      <Button fullWidth variant={tier.buttonVariant} color="primary">
-                        {tier.buttonText}
-                      </Button>
+                        <a href={tier.button}>
+                            <Button fullWidth variant={tier.buttonVariant} onClick={tier.button} color="primary">
+                                {tier.buttonText}
+                            </Button>
+                        </a>
                     </CardActions>
                   </Card>
                 </Grid>
               ))}
             </Grid>
           </Container>
+
           {/* Footer */}
           <Container maxWidth="md" component="footer" className={classes.footer}>
             <Grid container spacing={4} justify="space-evenly">
