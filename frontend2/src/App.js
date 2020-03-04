@@ -96,7 +96,7 @@ const tiers = [
     title: 'Economic Surprise',
     price: '0',
     description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support'],
-    buttonText: 'Sign up for free',
+    buttonText: 'Start Search',
     buttonVariant: 'outlined',
   },
   {
@@ -109,8 +109,8 @@ const tiers = [
       'Help center access',
       'Priority email support',
     ],
-    buttonText: 'Get started',
-    buttonVariant: 'contained',
+    buttonText: 'Start Search',
+    buttonVariant: 'outlined', // instead of 'outlined' can also use 'contained' for a filled button
   },
   {
     title: 'Stock Price Movement',
@@ -121,7 +121,7 @@ const tiers = [
       'Help center access',
       'Phone & email support',
     ],
-    buttonText: 'Contact us',
+    buttonText: 'Start Search',
     buttonVariant: 'outlined',
   },
 ];
