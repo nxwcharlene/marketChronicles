@@ -197,12 +197,10 @@ export default function MainPage() {
                       </ul>
                     </CardContent>
                     <CardActions>
-                        <a href={tier.button}>
-                            <Button fullWidth variant={tier.buttonVariant} onClick={tier.button} color="primary">
-                                {tier.buttonText}
-                            </Button>
-                        </a>
-                    </CardActions>
+                        <Button fullWidth variant={tier.buttonVariant} href={tier.button} color="primary">
+                            {tier.buttonText}
+                        </Button>
+                   </CardActions>
                   </Card>
                 </Grid>
               ))}
