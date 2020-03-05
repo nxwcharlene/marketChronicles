@@ -1,14 +1,52 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import { Radiobox } from 'react-inputs-validation';
+import 'react-inputs-validation/lib/react-inputs-validation.min.css';
+import { render } from 'react-dom';
+import DropdownList from 'react-widgets/lib/DropdownList';
+import Container from '@material-ui/core/Container';
+
+let country = ["US", "Singapore", "China"]
+
 
 function MacroPage() {
 
   return (
     <div>
-        <h1>Market Chronicles</h1>
-        <div style={{backgroundColor: "#375259"}}>Test</div>
-        <p><div style={{backgroundColor: "#cccecf"}}>Welcome to the macro page </div> </p>
-        <p>This is our macro page</p>
+        <h2>&emsp; Market Chronicles</h2>
+        <div style={{height:20, backgroundColor: "#375259"}}/>
+        <div style={{height:5, backgroundColor: "#cccecf"}}/>
+        <p>&emsp; Welcome to our macro page!</p>
+        <div style={{height:5}}/>
+        <h3>&emsp; Search for past economic surprises</h3>
+        <form>
+            <label>
+                &emsp; Region:
+                <input type="text" name="name" />
+            </label>
+            <input type="submit" value="Submit" />
+            <div style={{height:10}}/>
+            <label>
+                &emsp; Select a region:
+                    <select>
+                    <option value="US">US</option>
+                    <option value="EMEA">EMEA</option>
+                    <option value="APAC">APAC</option>
+                    </select>
+            </label>
+            <input type="submit" value="Submit" />
+        </form>
+
+      <div style={{height:50}}/>
+      <h3>&emsp; Random test input boxes</h3>
+
+        <DropdownList
+        data={country}
+        defaultValue={"US"}>
+        </DropdownList>
+
     </div>
+
   );
 }
 
