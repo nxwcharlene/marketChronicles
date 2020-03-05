@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Radiobox } from 'react-inputs-validation';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 import { render } from 'react-dom';
-import DropdownList from 'react-widgets/lib/DropdownList';
+import { DropdownList } from 'react-widgets'
 import Container from '@material-ui/core/Container';
 
 let country = ["US", "Singapore", "China"]

@@ -18,15 +18,16 @@ import Box from '@material-ui/core/Box';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import background from '../images/background_image.jpg';
 
+
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <div variant="body2" style={{ color:"grey" }} align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
         Market Chronicles
       </Link>{' '}
       {new Date().getFullYear()}
-    </Typography>
+    </div>
   );
 }
 
@@ -42,7 +43,9 @@ const useStyles = makeStyles(theme => ({
     margin: 0,
     padding: 0,
     backgroundImage: 'url(' + background + ')',
-    backgroundSize: 'cover'
+    backgroundSize: 'cover',
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(15),
   },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -70,14 +73,16 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(2),
   },
   footer: {
-    borderTop: `1px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(8),
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(6),
-      paddingBottom: theme.spacing(6),
-    },
+    backgroundSize: 'cover',
+    backgroundColor: theme.palette.type == 'dark' ? theme.palette.grey[900] : theme.palette.grey[900],
+    borderTop: `0px solid ${theme.palette.divider}`,
+    marginTop: theme.spacing(0),
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(1),
+//    [theme.breakpoints.up('sm')]: {
+//      paddingTop: theme.spacing(0),
+//      paddingBottom: theme.spacing(0),
+//    },
   },
 }));
 
@@ -167,12 +172,12 @@ export default function MainPage() {
           {/* Hero unit */}
           <body className={classes.body}>
               <Container maxWidth="sm" component="main" className={classes.heroContent}>
-                    <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
+                    <h1 component="h3" variant="h3" align="center" style={{color:"white"}} gutterBottom>
                       MARKET CHRONICLES
-                    </Typography>
-                    <Typography variant="h6" align="center" color="textSecondary" component="p">
+                    </h1>
+                    <h3 variant="h6" align="center" style={{color:"white"}} component="p">
                       A simple tool for investors to explore how markets moved in reaction to economic and earnings surprises in the past
-                    </Typography>
+                    </h3>
               </Container>
 
           {/* End hero unit */}
@@ -218,27 +223,10 @@ export default function MainPage() {
                 </Grid>
               </Container>
           </body>
+
           {/* Footer */}
-          <Container maxWidth="md" component="footer" className={classes.footer}>
-            <Grid container spacing={4} justify="space-evenly">
-              {footers.map(footer => (
-                <Grid item xs={6} sm={3} key={footer.title}>
-                  <Typography variant="h6" color="textPrimary" gutterBottom>
-                    {footer.title}
-                  </Typography>
-                  <ul>
-                    {footer.description.map(item => (
-                      <li key={item}>
-                        <Link href="#" variant="subtitle1" color="textSecondary">
-                          {item}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </Grid>
-              ))}
-            </Grid>
-            <Box mt={5}>
+          <Container maxWidth="xl" component="footer" className={classes.footer}>
+            <Box mt={0}>
               <Copyright />
             </Box>
           </Container>
@@ -246,3 +234,23 @@ export default function MainPage() {
         </React.Fragment>
     );
 }
+
+////This is for the footer
+//            <Grid container spacing={4} justify="space-evenly">
+//              {footers.map(footer => (
+//                <Grid item xs={6} sm={3} key={footer.title}>
+//                  <Typography variant="h6" color="textPrimary" gutterBottom>
+//                    {footer.title}
+//                  </Typography>
+//                  <ul>
+//                    {footer.description.map(item => (
+//                      <li key={item}>
+//                        <Link href="#" variant="subtitle1" color="textSecondary">
+//                          {item}
+//                        </Link>
+//                      </li>
+//                    ))}
+//                  </ul>
+//                </Grid>
+//              ))}
+//            </Grid>
