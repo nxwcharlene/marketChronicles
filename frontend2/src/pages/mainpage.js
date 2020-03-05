@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from "react-dom";
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -15,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import background from '../images/background_image.jpg';
 
 function Copyright() {
   return (
@@ -36,6 +38,12 @@ const useStyles = makeStyles(theme => ({
       listStyle: 'none',
     },
   },
+  body:{
+    margin: 0,
+    padding: 0,
+    backgroundImage: 'url(' + background + ')',
+    backgroundSize: 'cover'
+  },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
@@ -53,7 +61,7 @@ const useStyles = makeStyles(theme => ({
   },
   cardHeader: {
     backgroundColor:
-      theme.palette.type === 'dark' ? theme.palette.grey[700] : theme.palette.grey[200],
+      theme.palette.type == 'dark' ? theme.palette.grey[700] : theme.palette.grey[200],
   },
   cardPricing: {
     display: 'flex',
@@ -155,58 +163,61 @@ export default function MainPage() {
               </Button>
             </Toolbar>
           </AppBar>
-          {/* Hero unit */}
-          <Container maxWidth="sm" component="main" className={classes.heroContent}>
-            <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
-              MARKET CHRONICLES
-            </Typography>
-            <Typography variant="h6" align="center" color="textSecondary" component="p">
-              A simple tool for investors to explore how markets moved in reaction to economic and earnings surprises in the past
-            </Typography>
-          </Container>
-          {/* End hero unit */}
-          <Container maxWidth="md" component="main">
-            <Grid container spacing={5} alignItems="flex-end">
-              {tiers.map(tier => (
-                // Enterprise card is full width at sm breakpoint
-                <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>
-                  <Card>
-                    <CardHeader
-                      title={tier.title}
-                      subheader={tier.subheader}
-                      titleTypographyProps={{ align: 'center' }}
-                      subheaderTypographyProps={{ align: 'center' }}
-    //                  action={tier.title === 'Pro' ? <StarIcon /> : null}
-                      className={classes.cardHeader}
-                    />
-                    <CardContent>
-                      <div className={classes.cardPricing}>
-                        <Typography component="h2" variant="h3" color="textPrimary">
-                          ${tier.price}
-                        </Typography>
-                        <Typography variant="h6" color="textSecondary">
-                          /mo
-                        </Typography>
-                      </div>
-                      <ul>
-                        {tier.description.map(line => (
-                          <Typography component="li" variant="subtitle1" align="center" key={line}>
-                            {line}
-                          </Typography>
-                        ))}
-                      </ul>
-                    </CardContent>
-                    <CardActions>
-                        <Button fullWidth variant={tier.buttonVariant} href={tier.button} color="primary">
-                            {tier.buttonText}
-                        </Button>
-                   </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
 
+          {/* Hero unit */}
+          <body className={classes.body}>
+              <Container maxWidth="sm" component="main" className={classes.heroContent}>
+                    <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
+                      MARKET CHRONICLES
+                    </Typography>
+                    <Typography variant="h6" align="center" color="textSecondary" component="p">
+                      A simple tool for investors to explore how markets moved in reaction to economic and earnings surprises in the past
+                    </Typography>
+              </Container>
+
+          {/* End hero unit */}
+
+              <Container maxWidth="md" component="main">
+                <Grid container spacing={5} alignItems="flex-end">
+                  {tiers.map(tier => (
+                    // Enterprise card is full width at sm breakpoint
+                    <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>
+                      <Card>
+                        <CardHeader
+                          title={tier.title}
+                          subheader={tier.subheader}
+                          titleTypographyProps={{ align: 'center' }}
+                          subheaderTypographyProps={{ align: 'center' }}
+                          className={classes.cardHeader}
+                        />
+                        <CardContent>
+                          <div className={classes.cardPricing}>
+                            <Typography component="h2" variant="h3" color="textPrimary">
+                              ${tier.price}
+                            </Typography>
+                            <Typography variant="h6" color="textSecondary">
+                              /mo
+                            </Typography>
+                          </div>
+                          <ul>
+                            {tier.description.map(line => (
+                              <Typography component="li" variant="subtitle1" align="center" key={line}>
+                                {line}
+                              </Typography>
+                            ))}
+                          </ul>
+                        </CardContent>
+                        <CardActions>
+                            <Button fullWidth variant={tier.buttonVariant} href={tier.button} color="primary">
+                                {tier.buttonText}
+                            </Button>
+                       </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Container>
+          </body>
           {/* Footer */}
           <Container maxWidth="md" component="footer" className={classes.footer}>
             <Grid container spacing={4} justify="space-evenly">
