@@ -44,8 +44,8 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     backgroundImage: 'url(' + background + ')',
     backgroundSize: 'cover',
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(15),
+    paddingTop: theme.spacing(6),
+    paddingBottom: theme.spacing(20),
   },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -77,8 +77,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.type == 'dark' ? theme.palette.grey[900] : theme.palette.grey[900],
     borderTop: `0px solid ${theme.palette.divider}`,
     marginTop: theme.spacing(0),
-    paddingTop: theme.spacing(0.5),
-    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(1.5),
+    paddingBottom: theme.spacing(1.5),
 //    [theme.breakpoints.up('sm')]: {
 //      paddingTop: theme.spacing(0),
 //      paddingBottom: theme.spacing(0),
@@ -89,8 +89,8 @@ const useStyles = makeStyles(theme => ({
 const tiers = [
   {
     title: 'Economic Surprise',
-    price: '0',
-    description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support'],
+    price: '',
+    description: ['Find out how a stock', 'reacted to a macroeconomic', 'release in the past',],
     button: '/macro',
     buttonText: 'Start Search',
     buttonVariant: 'outlined',
@@ -98,12 +98,11 @@ const tiers = [
   {
     title: 'Earnings Surprise',
 //    subheader: 'Most popular',
-    price: '15',
+    price: '',
     description: [
-      '20 users included',
-      '10 GB of storage',
-      'Help center access',
-      'Priority email support',
+      'Find out how a stock',
+      'reacted to an earnings',
+      'release in the past',
     ],
     button: '/earnings',
     buttonText: 'Start Search',
@@ -111,12 +110,11 @@ const tiers = [
   },
   {
     title: 'Stock Price Movement',
-    price: '30',
+    price: '',
     description: [
-      '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',
+      'Find out what events',
+      'occurred on days of large',
+      'stock price movement',
     ],
     button: '/event',
     buttonText: 'Start Search',
@@ -198,18 +196,16 @@ export default function MainPage() {
                         <CardContent>
                           <div className={classes.cardPricing}>
                             <Typography component="h2" variant="h3" color="textPrimary">
-                              ${tier.price}
-                            </Typography>
-                            <Typography variant="h6" color="textSecondary">
-                              /mo
+                              {tier.price}
                             </Typography>
                           </div>
                           <ul>
                             {tier.description.map(line => (
-                              <Typography component="li" variant="subtitle1" align="center" key={line}>
+                              <Typography variant="h6" color="textSecondary" component="li" variant="subtitle1" align="center" key={line}>
                                 {line}
                               </Typography>
                             ))}
+                            <div style={{height:10}}/>
                           </ul>
                         </CardContent>
                         <CardActions>
