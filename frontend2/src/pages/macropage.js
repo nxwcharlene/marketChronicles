@@ -5,6 +5,7 @@ import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 import { render } from 'react-dom';
 import { DropdownList } from 'react-widgets'
 import Container from '@material-ui/core/Container';
+import MacroResults from 'frontend2/src/results/macroresults.js'
 
 let country = ["US", "Singapore", "China"]
 
@@ -47,7 +48,7 @@ function MacroPage() {
 
         <hr></hr>
         <h3>&emsp; Results </h3>
-
+        <MacroResults />
     </div>
 
   );
