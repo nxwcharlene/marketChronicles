@@ -65,67 +65,65 @@
 
 
 //ATTEMPT 2
-//import React from 'react';
-//
-///**
-// * App
-// *
-// * Simple react js fetch example
-// */
-//class resultsList extends React.Component {
-//    constructor(props) {
-//        super(props);
-//        this.state. = {
-//            items: [],
-//            isLoaded: false
-//        }
-//
-//    }
-//
-//    /**
-//     * componentDidMount
-//     *
-//     * Fetch json array of objects from given url and update state.
-//     */
-//    componentDidMount() {
-//
-//        fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=0H3OLF9PWVUMK66F')
-//            .then(res => res.json())
-//            .then(json => {
-//                this.setState({
-//                    items: json,
-//                    isLoaded: true,
-//                })
-//            }).catch((err) => {
-//                console.log(err);
-//            });
-//
-//    }
-//
-////render UI
-//    render() {
-//
-//        const { isLoaded, items } = this.state;
-//
-//        if (!isLoaded)
-//            return <div>Loading...</div>;
-//
-//        return (
-//            <div>
-//                <ul>
-//                    {items.map(item => (
-//                        <li key={item.id}>
-//                            Date: {item.id}
-//                        </li>
-//                    ))}
-//                </ul>
-//            </div>
-//        );
-//
-//    }
-//
-//}
-//
-//export default resultsList;
+import React from 'react';
 
-//ATTEMPT 3
+/**
+ * App
+ *
+ * Simple react js fetch example
+ */
+class MacroResults extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            items: [],
+            isLoaded: false
+        }
+
+    }
+
+    /**
+     * componentDidMount
+     *
+     * Fetch json array of objects from given url and update state.
+     */
+    componentDidMount() {
+
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    items: json,
+                    isLoaded: true,
+                })
+            }).catch((err) => {
+                console.log(err);
+            });
+
+    }
+
+//render UI
+    render() {
+
+        const { isLoaded, items } = this.state;
+
+        if (!isLoaded)
+            return <div>Loading...</div>;
+
+        return (
+            <div>
+                <ul>
+                    {items.map(item => (
+                        <li key={item.id}>
+                            Name: {item.name} | Email: {item.email}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
+
+    }
+
+}
+
+export default MacroResults;
