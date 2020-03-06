@@ -45,6 +45,9 @@ function MacroPage() {
         defaultValue={"US"}>
         </DropdownList>
 
+        <hr></hr>
+        <h3>&emsp; Results </h3>
+
     </div>
 
   );
