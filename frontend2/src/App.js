@@ -19,7 +19,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import MainPage from './pages/mainpage';
 import MacroPage from './pages/macropage';
 import EarningsPage from './pages/earningspage';
-import EventsPage from './pages/eventspage';
+import PriceMovementPage from './pages/pricemovementpage';
 
 class App extends Component{
     render() {
@@ -29,7 +29,7 @@ class App extends Component{
                     <Route exact path ="/" component={MainPage} />
                     <Route path ="/economic" component={MacroPage} />
                     <Route path ="/earnings" component={EarningsPage} />
-                    <Route path ="/price_movement" component={EventsPage} />
+                    <Route path ="/price_movement" component={PriceMovementPage} />
                 </Switch>
             </Router>
         );
