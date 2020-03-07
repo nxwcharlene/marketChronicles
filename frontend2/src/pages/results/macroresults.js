@@ -18,7 +18,6 @@ class MacroResults extends React.Component {
             items: [],
             isLoaded: false
         }
-
     }
 
     /**

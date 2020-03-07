@@ -1,13 +1,46 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import { Radiobox } from 'react-inputs-validation';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 import { render } from 'react-dom';
 import { DropdownList } from 'react-widgets'
 import Container from '@material-ui/core/Container';
 import MacroResults from './results/macroresults.js'
+import { makeStyles } from '@material-ui/core/styles';
 
 let country = ["US", "Singapore", "China"]
+
+const useStyles = makeStyles(theme => ({
+  '@global': {
+    ul: {
+      margin: 0,
+      padding: 0,
+      listStyle: 'none',
+    },
+  },
+  body:{
+    margin: 0,
+    padding: 0,
+    backgroundColor: 'blue',
+    backgroundSize: 'cover',
+    paddingTop: theme.spacing(6),
+    paddingBottom: theme.spacing(20),
+  },
+  appBar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  toolbar: {
+    flexWrap: 'wrap',
+  },
+  toolbarTitle: {
+    flexGrow: 1,
+  },
+}));
+
+
+
 
 
 function MacroPage() {
