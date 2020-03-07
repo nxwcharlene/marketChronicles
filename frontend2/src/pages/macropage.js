@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import { Radiobox } from 'react-inputs-validation';
-import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 import { render } from 'react-dom';
 import { DropdownList } from 'react-widgets'
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import MacroResults from './results/macroresults.js'
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { Radiobox } from 'react-inputs-validation';
+import 'react-inputs-validation/lib/react-inputs-validation.min.css';
+import MacroResults from './results/macroresults.js'
 
 let country = ["US", "Singapore", "China"]
 
@@ -56,7 +56,7 @@ function MacroPage() {
                 <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
                     <Toolbar className={classes.toolbar}>
                         <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-                            Market Chronicles
+                            Economic Surprise
                         </Typography>
                         <nav>
                             <Link variant="button" color="textPrimary" href="/" className={classes.link}>
