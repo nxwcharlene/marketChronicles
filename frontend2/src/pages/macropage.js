@@ -55,61 +55,63 @@ function MacroPage() {
             <div>
                 <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
                     <Toolbar className={classes.toolbar}>
-                       <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+                        <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
                             Market Chronicles
                         </Typography>
-                    <nav>
-                        <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                            ABOUT US
-                        </Link>
-                        <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                            ECONOMIC CALENDAR
-                        </Link>
-                        <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                            SEARCH
-                        </Link>
-                    </nav>
-                    <Button href="#" color="primary" variant="outlined" className={classes.link}>
-                        Login
-                    </Button>
+                        <nav>
+                            <Link variant="button" color="textPrimary" href="/" className={classes.link}>
+                                HOME
+                            </Link>
+                            <Link variant="button" color="textPrimary" href="/earnings" className={classes.link}>
+                                EARNINGS SURPRISE
+                            </Link>
+                            <Link variant="button" color="textPrimary" href="/price_movement" className={classes.link}>
+                                PRICE MOVEMENT
+                            </Link>
+                        </nav>
+                        <Button href="#" color="primary" variant="outlined" className={classes.link}>
+                            Login
+                        </Button>
                     </Toolbar>
                 </AppBar>
 
-                <h2>&emsp; Market Chronicles</h2>
                 <div style={{height:20, backgroundColor: "#375259"}}/>
                 <div style={{height:5, backgroundColor: "#cccecf"}}/>
-                <p>&emsp; Welcome to our macro page!</p>
-                <div style={{height:5}}/>
-                <h3>&emsp; Search for past economic surprises</h3>
-                <form>
-                    <label>
-                        &emsp; Region:
-                        <input type="text" name="name" />
-                    </label>
-                    <input type="submit" value="Submit" />
-                    <div style={{height:10}}/>
-                    <label>
-                        &emsp; Select a region:
-                            <select>
-                            <option value="US">US</option>
-                            <option value="EMEA">EMEA</option>
-                            <option value="APAC">APAC</option>
-                            </select>
-                    </label>
-                    <input type="submit" value="Submit" />
-                </form>
 
-              <div style={{height:50}}/>
-              <h3>&emsp; Random test input boxes</h3>
+                <Container maxWidth="xl">
+                    <h3>Search for past economic surprises</h3>
+                    <form>
+                        <label>
+                            Region:
+                            <input type="text" name="name" />
+                        </label>
+                        <input type="submit" value="Submit" />
+                        <div style={{height:10}}/>
+                        <label>
+                            Select a region:
+                                <select>
+                                <option value="US">US</option>
+                                <option value="EMEA">EMEA</option>
+                                <option value="APAC">APAC</option>
+                                </select>
+                        </label>
+                        <input type="submit" value="Submit" />
+                    </form>
 
-                <DropdownList
-                data={country}
-                defaultValue={"US"}>
-                </DropdownList>
+                    <div style={{height:50}}/>
+                    <h3>Random test input boxes</h3>
 
-                <hr></hr>
-                <h3>&emsp; Results </h3>
-                <MacroResults />
+                    <DropdownList
+                    data={country}
+                    defaultValue={"US"}>
+                    </DropdownList>
+
+                    <hr></hr>
+                    <h3>Results </h3>
+                    <MacroResults />
+
+                </Container>
+
             </div>
     </React.Fragment>
   );

@@ -27,9 +27,9 @@ class App extends Component{
             <Router>
                 <Switch>
                     <Route exact path ="/" component={MainPage} />
-                    <Route path ="/macro" component={MacroPage} />
+                    <Route path ="/economic" component={MacroPage} />
                     <Route path ="/earnings" component={EarningsPage} />
-                    <Route path ="/event" component={EventsPage} />
+                    <Route path ="/price_movement" component={EventsPage} />
                 </Switch>
             </Router>
         );

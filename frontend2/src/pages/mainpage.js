@@ -23,7 +23,7 @@ function Copyright() {
   return (
     <div variant="body2" style={{ color:"grey" }} align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="/">
         Market Chronicles
       </Link>{' '}
       {new Date().getFullYear()}
@@ -91,7 +91,7 @@ const tiers = [
     title: 'Economic Surprise',
     price: '',
     description: ['Find out how a stock', 'reacted to a macroeconomic', 'release in the past',],
-    button: '/macro',
+    button: '/economic',
     buttonText: 'Start Search',
     buttonVariant: 'outlined',
   },
@@ -116,7 +116,7 @@ const tiers = [
       'occurred on days of large',
       'stock price movement',
     ],
-    button: '/event',
+    button: '/price_movement',
     buttonText: 'Start Search',
     buttonVariant: 'outlined',
   },
@@ -147,18 +147,18 @@ export default function MainPage() {
           <CssBaseline />
           <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
             <Toolbar className={classes.toolbar}>
-              <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-                Market Chronicles
-              </Typography>
+                  <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+                    Market Chronicles
+                  </Typography>
               <nav>
-                <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                  ABOUT US
+                <Link variant="button" color="textPrimary" href="/economic" className={classes.link}>
+                  ECONOMIC SURPRISE
                 </Link>
-                <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                  ECONOMIC CALENDAR
+                <Link variant="button" color="textPrimary" href="/earnings" className={classes.link}>
+                  EARNINGS SURPRISE
                 </Link>
-                <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                  SEARCH
+                <Link variant="button" color="textPrimary" href="/price_movement" className={classes.link}>
+                  PRICE MOVEMENT
                 </Link>
               </nav>
               <Button href="#" color="primary" variant="outlined" className={classes.link}>
