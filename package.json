@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@material-ui/core": "^4.9.5",
+    "react-backdrop-filter": "^2.1.0",
+    "react-router-dom": "^5.1.2"
+  }
+}
