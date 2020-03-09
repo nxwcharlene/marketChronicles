@@ -93,7 +93,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1, 1.5),
   },
   margin: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0),
   },
 }));
 
@@ -139,44 +139,26 @@ function MacroPage() {
                 <div style={{height:5, backgroundColor: "#cccecf"}}/>
 
                 <Container maxWidth="xl">
+                    <div style={{height:5}}/>
                     <h3>Search for past economic surprises</h3>
-                    <form>
-                        <div style={{height:10}}/>
-                        <label>
-                            Select a region: &emsp;
-                                <select>
-                                <option value="US">US</option>
-                                <option value="EMEA">EMEA</option>
-                                <option value="APAC">APAC</option>
-                                </select>
-                        </label>
-                        <input type="submit" value="Submit" />
-                        <div style={{height:10}}/>
-                        <label>
-                            Region: &emsp;
-                            <input type="text" name="name" />
-                        </label>
-                        <input type="submit" value="Submit" />
-                    </form>
-
-                    <div style={{height:50}}/>
-                    <h3>Random test input boxes</h3>
-
-                    <Autocomplete
-                      id="combo-box-demo"
-                      options={indicator}
-                      getOptionLabel={option => option.indicator_name}
-                      style={{ width: 300 }}
-                      renderInput={params => <TextField {...params} label="Indicator" variant="outlined" />}>
-                    </Autocomplete>
-
-
 
                     <div>
                       <FormControl className={classes.margin}>
                         <InputLabel htmlFor="demo-customized-textbox">Age</InputLabel>
                         <BootstrapInput id="demo-customized-textbox" />
                       </FormControl>
+
+                      <FormControl className={classes.margin}>
+                          <Autocomplete
+                              id="combo-box-demo"
+                              options={indicator}
+                              getOptionLabel={option => option.indicator_name}
+                              style={{ width: 300 }}
+                              renderInput={params => <TextField {...params} label="Indicator" variant="outlined" />}>
+                          </Autocomplete>
+                      </FormControl>
+
+
                       <FormControl className={classes.margin}>
                         <InputLabel id="demo-customized-select-label">Age</InputLabel>
                         <Select
@@ -209,6 +191,37 @@ function MacroPage() {
                         </NativeSelect>
                       </FormControl>
                     </div>
+
+
+
+                    <div style={{height:50}}/>
+                    <h3>Random test input boxes</h3>
+                    <div style={{height:50}}/>
+
+                    <form>
+                        <div style={{height:10}}/>
+                        <label>
+                            Select a region: &emsp;
+                                <select>
+                                <option value="US">US</option>
+                                <option value="EMEA">EMEA</option>
+                                <option value="APAC">APAC</option>
+                                </select>
+                        </label>
+                        <input type="submit" value="Submit" />
+                        <div style={{height:10}}/>
+                        <label>
+                            Region: &emsp;
+                            <input type="text" name="name" />
+                        </label>
+                        <input type="submit" value="Submit" />
+                    </form>
+
+
+
+
+
+
 
 
 
