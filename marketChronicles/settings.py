@@ -25,7 +25,7 @@ SECRET_KEY = '09z=flz0$y1n-md7)%u56v2ed#jmap&3^x1wk$-h$68fjd(g=)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://localhost:3000'] # this is to allow frontend to call the backend
+ALLOWED_HOSTS = ['http://localhost:3000', '172.22.143.201:3000'] # this is to allow frontend to call the backend
 
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'macro',
+    'earnings',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
