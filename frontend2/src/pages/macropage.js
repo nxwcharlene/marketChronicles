@@ -40,7 +40,7 @@ const BootstrapInput = withStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #ced4da',
     fontSize: 16,
-    padding: '10px 26px 10px 12px',
+//    padding: '10px 26px 10px 12px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
     // Use the system font instead of the default Roboto font.
     fontFamily: [
@@ -149,13 +149,26 @@ function MacroPage() {
                       </FormControl>
 
                       <FormControl className={classes.margin}>
+                        <InputLabel htmlFor="demo-customized-autocomplete">Age</InputLabel>
                           <Autocomplete
                               id="combo-box-demo"
                               options={indicator}
                               getOptionLabel={option => option.indicator_name}
-                              style={{ width: 300 }}
+                              style={{ height: 5, width: 300 }}
                               renderInput={params => <TextField {...params} label="Indicator" variant="outlined" />}>
                           </Autocomplete>
+
+
+                          <Autocomplete
+                            id="size-small-outlined"
+                            size="small"
+                            options={indicator}
+                            getOptionLabel={option => option.title}
+                            defaultValue={indicator[1]}
+                            renderInput={params => (
+                              <TextField {...params} variant="outlined" label="Size small" placeholder="Favorites" />
+                            )}
+                          />
                       </FormControl>
 
 
