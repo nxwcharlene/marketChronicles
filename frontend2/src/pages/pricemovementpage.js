@@ -188,9 +188,6 @@ function PriceMovementPage() {
                   </Grid>
 
 
-
-
-
                 </Container>
 
             </div>

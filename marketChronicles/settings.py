@@ -25,7 +25,7 @@ SECRET_KEY = '09z=flz0$y1n-md7)%u56v2ed#jmap&3^x1wk$-h$68fjd(g=)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://localhost:3000'] # this is to allow frontend to call the backend
 
 
 # Application definition
