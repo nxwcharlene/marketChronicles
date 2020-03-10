@@ -9,9 +9,8 @@ export default function IndicatorBox() {
       size="small"
       options={indicatorlist}
       getOptionLabel={option => option.name}
-      defaultValue={indicator[1]}
       style={{ width: 300 }}
-      renderInput={params => <TextField {...params} style={{width:600}} label="Indicator" placeholder="Economic Indicator" variant="outlined" />}
+      renderInput={params => <TextField {...params} style={{width:600}} placeholder="Economic Indicator" variant="outlined" />}
     />
   );
 }

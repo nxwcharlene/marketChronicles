@@ -100,12 +100,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const indicator = [
-  { indicator_name: 'Unemployment rate', year: 1994 },
-  { indicator_name: 'Inflation rate', year: 2012 },
-]
-
-
 function MacroPage() {
   const classes = useStyles();
   const [age, setAge] = React.useState('');
@@ -187,13 +181,6 @@ function MacroPage() {
 
 
 
-
-
-
-
-
-
-
                     <DropdownList
                     data={country}
                     defaultValue={"US"}>
@@ -202,9 +189,6 @@ function MacroPage() {
                     <hr></hr>
                     <h3>Results </h3>
                     <MacroResults />
-
-
-
 
                 </Container>
 

@@ -43,12 +43,9 @@ export default function MagnitudeBox() {
           value={age}
           onChange={handleChange}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={"Large"}>Large</MenuItem>
+          <MenuItem value={"Medium"}>Medium</MenuItem>
+          <MenuItem value={"Small"}>Small</MenuItem>
         </Select>
       </FormControl>
     </div>

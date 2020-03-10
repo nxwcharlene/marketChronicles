@@ -9,7 +9,6 @@ export default function SecurityBox() {
         size="small"
         options={securitylist}
         getOptionLabel={option => option.title}
-        defaultValue={indicator[1]}
         renderInput={params => (
           <TextField {...params} variant="outlined" placeholder="Security" />
         )}>
