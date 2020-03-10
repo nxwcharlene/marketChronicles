@@ -172,12 +172,13 @@ function MacroPage() {
                         </FormControl>
 
                       <FormControl className={classes.margin}>
-                        <InputLabel htmlFor="demo-customized-select-native">Age</InputLabel>
+                        <InputLabel htmlFor="demo-customized-select-native">Surprise Direction</InputLabel>
                         <NativeSelect
                           id="demo-customized-select-native"
                           value={age}
                           onChange={handleChange}
                           input={<BootstrapInput />}
+                          style = {{width: 100}}
                         >
                           <option value="" />
                           <option value={10}>Ten</option>
