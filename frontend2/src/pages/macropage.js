@@ -67,7 +67,6 @@ const BootstrapInput = withStyles(theme => ({
   },
 }))(InputBase);
 
-
 const useStyles = makeStyles(theme => ({
   '@global': {
     ul: {
@@ -131,41 +130,13 @@ function MacroPage() {
                            <IndicatorBox />
                         </FormControl>
 
+                        <div style={{height:20}}/>
+
                         <InputLabel htmlFor="demo-customized-select-native">Surprise Direction</InputLabel>
                         <FormControl className={classes.margin}>
                           <DirectionBox />
                         </FormControl>
                     </div>
-
-                    <div style={{height:50}}/>
-                    <h3>Random test input boxes</h3>
-                    <div style={{height:50}}/>
-
-                    <form>
-                        <div style={{height:10}}/>
-                        <label>
-                            Select a region: &emsp;
-                                <select>
-                                <option value="US">US</option>
-                                <option value="EMEA">EMEA</option>
-                                <option value="APAC">APAC</option>
-                                </select>
-                        </label>
-                        <input type="submit" value="Submit" />
-                        <div style={{height:10}}/>
-                        <label>
-                            Region: &emsp;
-                            <input type="text" name="name" />
-                        </label>
-                        <input type="submit" value="Submit" />
-                    </form>
-
-
-
-                    <DropdownList
-                    data={country}
-                    defaultValue={"US"}>
-                    </DropdownList>
 
                     <hr></hr>
                     <h3>Results </h3>
