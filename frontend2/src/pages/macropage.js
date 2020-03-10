@@ -27,6 +27,7 @@ import IndicatorBox from './SearchBar/IndicatorBox.js'
 import MagnitudeBox from './SearchBar/MagnitudeBox.js'
 import DirectionBox from './SearchBar/DirectionBox.js'
 import SecurityBox from './SearchBar/SecurityBox.js'
+import EconAppBar from './AppBar/EconAppBar.js'
 
 let country = ["US", "Singapore", "China"]
 
@@ -110,27 +111,7 @@ function MacroPage() {
     <React.Fragment>
         <CssBaseline />
             <div>
-                <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-                    <Toolbar className={classes.toolbar}>
-                        <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-                            Economic Surprise
-                        </Typography>
-                        <nav>
-                            <Link variant="button" color="textPrimary" href="/" className={classes.link}>
-                                HOME
-                            </Link>
-                            <Link variant="button" color="textPrimary" href="/earnings" className={classes.link}>
-                                EARNINGS SURPRISE
-                            </Link>
-                            <Link variant="button" color="textPrimary" href="/price_movement" className={classes.link}>
-                                PRICE MOVEMENT
-                            </Link>
-                        </nav>
-                        <Button href="#" color="primary" variant="outlined" className={classes.link}>
-                            Login
-                        </Button>
-                    </Toolbar>
-                </AppBar>
+                <EconAppBar />
 
                 <div style={{height:20, backgroundColor: "#375259"}}/>
                 <div style={{height:5, backgroundColor: "#cccecf"}}/>
