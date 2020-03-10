@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import { render } from 'react-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-//import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -49,7 +47,7 @@ const classes = useStyles();
         <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
             <Toolbar className={classes.toolbar}>
                 <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-                Earnings Surprise
+                    Earnings Surprise
                 </Typography>
             <nav>
                 <Link variant="button" color="textPrimary" href="/" className={classes.link}>

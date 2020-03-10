@@ -25,7 +25,7 @@ import IndicatorBox from './SearchBar/IndicatorBox.js'
 import MagnitudeBox from './SearchBar/MagnitudeBox.js'
 import DirectionBox from './SearchBar/DirectionBox.js'
 import SecurityBox from './SearchBar/SecurityBox.js'
-import EarnAppBar from './AppBar/EconAppBar.js'
+import EarnAppBar from './AppBar/EarnAppBar.js'
 
 
 const useStyles = makeStyles(theme => ({
