@@ -28,7 +28,6 @@ import MagnitudeBox from './SearchBar/MagnitudeBox.js'
 import DirectionBox from './SearchBar/DirectionBox.js'
 import SecurityBox from './SearchBar/SecurityBox.js'
 import EconAppBar from './AppBar/EconAppBar.js'
-import demo from './demo_results.jpeg'
 
 const BootstrapInput = withStyles(theme => ({
   root: {
@@ -160,7 +159,6 @@ function MacroPage(){
 
                         <hr></hr>
                         <h3>Sample Results Output</h3>
-                        <img src={demo}/>
 
                         <h3>Results from API</h3>
                         <MacroResults />
