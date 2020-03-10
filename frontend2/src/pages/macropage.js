@@ -143,43 +143,34 @@ function MacroPage() {
                     <h3>Search for past economic surprises</h3>
 
                     <div>
-                      <FormControl className={classes.margin}>
-                        <InputLabel htmlFor="demo-customized-textbox">Age</InputLabel>
-                        <BootstrapInput id="demo-customized-textbox" />
-                      </FormControl>
+                        <InputLabel>Name of Security</InputLabel>
+                          <Autocomplete
+                            id="size-small-outlined"
+                            size="small"
+                            options={indicator}
+                            getOptionLabel={option => option.title}
+                            defaultValue={indicator[1]}
+                            renderInput={params => (
+                              <TextField {...params} variant="outlined" placeholder="Security" />
+                            )}>
+                          </Autocomplete>
 
+                        <div style={{height:20}}/>
 
-                    <InputLabel>Name of Security</InputLabel>
-                      <Autocomplete
-                        id="size-small-outlined"
-                        size="small"
-                        options={indicator}
-                        getOptionLabel={option => option.title}
-                        defaultValue={indicator[1]}
-                        renderInput={params => (
-                          <TextField {...params} variant="outlined" label="Security" placeholder="Security" />
-                        )}>
-                      </Autocomplete>
+                        <InputLabel>Economic Indicator</InputLabel>
+                        <FormControl className={classes.margin}>
+                          <Autocomplete
+                            id="size-small-outlined"
+                            size="small"
+                            options={indicator}
+                            getOptionLabel={option => option.title}
+                            defaultValue={indicator[1]}
+                            renderInput={params => (
+                              <TextField {...params} style={{width:600}} variant="outlined" placeholder="Economic Indicator" />
+                            )}>
+                          </Autocomplete>
+                        </FormControl>
 
-
-
-                      <FormControl className={classes.margin}>
-                        <InputLabel id="demo-customized-select-label">Age</InputLabel>
-                        <Select
-                          labelId="demo-customized-select-label"
-                          id="demo-customized-select"
-                          value={age}
-                          onChange={handleChange}
-                          input={<BootstrapInput />}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                      </FormControl>
                       <FormControl className={classes.margin}>
                         <InputLabel htmlFor="demo-customized-select-native">Age</InputLabel>
                         <NativeSelect
