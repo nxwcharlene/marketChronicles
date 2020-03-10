@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import background from '../images/background_image.jpg';
+import MainAppBar from './AppBar/MainAppBar.js';
 
 
 function Copyright() {
@@ -145,27 +146,7 @@ export default function MainPage() {
     return(
         <React.Fragment>
           <CssBaseline />
-          <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-            <Toolbar className={classes.toolbar}>
-                  <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-                    Market Chronicles
-                  </Typography>
-              <nav>
-                <Link variant="button" color="textPrimary" href="/economic" className={classes.link}>
-                  ECONOMIC SURPRISE
-                </Link>
-                <Link variant="button" color="textPrimary" href="/earnings" className={classes.link}>
-                  EARNINGS SURPRISE
-                </Link>
-                <Link variant="button" color="textPrimary" href="/price_movement" className={classes.link}>
-                  PRICE MOVEMENT
-                </Link>
-              </nav>
-              <Button href="#" color="primary" variant="outlined" className={classes.link}>
-                Login
-              </Button>
-            </Toolbar>
-          </AppBar>
+          <MainAppBar />
 
           {/* Hero unit */}
           <body className={classes.body}>
@@ -230,24 +211,3 @@ export default function MainPage() {
         </React.Fragment>
     );
 }
-
-////This is for the footer
-//            <Grid container spacing={4} justify="space-evenly">
-//              {footers.map(footer => (
-//                <Grid item xs={6} sm={3} key={footer.title}>
-//                  <Typography variant="h6" color="textPrimary" gutterBottom>
-//                    {footer.title}
-//                  </Typography>
-//                  <ul>
-//                    {footer.description.map(item => (
-//                      <li key={item}>
-//                        <Link href="#" variant="subtitle1" color="textSecondary">
-//                          {item}
-//                        </Link>
-//                      </li>
-//                    ))}
-//                  </ul>
-//                </Grid>
-//              ))}
-//            </Grid>
-

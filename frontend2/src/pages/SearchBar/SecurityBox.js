@@ -8,7 +8,7 @@ export default function SecurityBox() {
         id="size-small-outlined"
         size="small"
         options={securitylist}
-        getOptionLabel={option => option.title}
+        getOptionLabel={option => option.name}
         renderInput={params => (
           <TextField {...params} style={{width:500}} variant="outlined" placeholder="Security" />
         )}>

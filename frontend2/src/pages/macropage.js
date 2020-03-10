@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import { render } from 'react-dom';
 import { DropdownList } from 'react-widgets'
@@ -95,61 +95,86 @@ const useStyles = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(1),
   },
+  gobutton: {
+    margin: theme.spacing(1),
+    paddingBottom: theme.spacing(2),
+//    '& > *': {
+//      margin: theme.spacing(5),
+//    },
+  },
 }));
 
-function MacroPage() {
-  const classes = useStyles();
-  const [age, setAge] = React.useState('');
-  const handleChange = event => {
+function MacroPage(){
+    const classes = useStyles();
+    const [age, setAge] = React.useState('');
+    const handleChange = event => {
     setAge(event.target.value);
-  };
-  return (
-    <React.Fragment>
-        <CssBaseline />
-            <div>
-                <EconAppBar />
+    };
 
-                <div style={{height:20, backgroundColor: "#375259"}}/>
-                <div style={{height:5, backgroundColor: "#cccecf"}}/>
+      return (
+        <React.Fragment>
+            <CssBaseline />
+                <div>
+                    <EconAppBar />
 
-                <Container maxWidth="xl">
-                    <div style={{height:5}}/>
-                    <h3>&emsp;&emsp;Search for Past Economic Surprises</h3>
+                    <div style={{height:20, backgroundColor: "#375259"}}/>
+                    <div style={{height:5, backgroundColor: "#cccecf"}}/>
 
-                    <div>
-                        <InputLabel>&emsp; Name of Security</InputLabel>
-                        <FormControl className={classes.margin}>
-                        <SecurityBox />
-                        </FormControl>
+                    <Container maxWidth="xl">
+                        <div style={{height:5}}/>
+                        <h3>&emsp;&emsp;Search for Past Economic Surprises</h3>
 
-                        <div style={{height:10}}/>
 
-                        <FormControl className={classes.margin}>
-                         <IndicatorBox />
-                         <FormHelperText>Economic Indicator </FormHelperText>
-                        </FormControl>
+                        <div>
+                            <form>
+                                <InputLabel>&emsp; Name of Security</InputLabel>
+                                <FormControl className={classes.margin}>
+                                <SecurityBox />
+                                </FormControl>
 
-                        <FormControl className={classes.margin}>
-                        <DirectionBox />
-                        <FormHelperText>Surprise Direction </FormHelperText>
-                        </FormControl>
+                                <div style={{height:10}}/>
 
-                        <FormControl className={classes.margin}>
-                        <MagnitudeBox />
-                        <FormHelperText>Surprise Magnitude </FormHelperText>
-                        </FormControl>
+                                <FormControl className={classes.margin}>
+                                 <IndicatorBox />
+                                 <FormHelperText>Economic Indicator </FormHelperText>
+                                </FormControl>
 
-                    </div>
+                                <FormControl className={classes.margin}>
+                                <DirectionBox />
+                                <FormHelperText>Surprise Direction </FormHelperText>
+                                </FormControl>
 
-                    <hr></hr>
-                    <h3>Results </h3>
-                    <MacroResults />
+                                <FormControl className={classes.margin}>
+                                <MagnitudeBox />
+                                <FormHelperText>Surprise Magnitude </FormHelperText>
+                                </FormControl>
 
-                </Container>
+                                <div className={classes.gobutton}>
+                                    <Button variant="contained" color="primary" style={{margin:1}}>
+                                        START SEARCH
+                                    </Button>
+                                </div>
+                            </form>
+                        </div>
 
-            </div>
-    </React.Fragment>
-  );
+                        <hr></hr>
+                        <h3>Results </h3>
+
+                        <p> Date: 2018-12-02</p>
+                        <p> Actual: </p>
+                        <p> Estimate: </p>
+                        <p> % change in stock price </p>
+                        <div style={{height:30}}/>
+
+
+                        <h3>Random test results</h3>
+                        <MacroResults />
+
+                    </Container>
+
+                </div>
+        </React.Fragment>
+      );
 }
 
 export default MacroPage;
