@@ -140,20 +140,11 @@ function MacroPage() {
 
                 <Container maxWidth="xl">
                     <div style={{height:5}}/>
-                    <h3>Search for past economic surprises</h3>
+                    <h3>Search for Past Economic Surprises</h3>
 
                     <div>
                         <InputLabel>Name of Security</InputLabel>
-                          <Autocomplete
-                            id="size-small-outlined"
-                            size="small"
-                            options={indicator}
-                            getOptionLabel={option => option.title}
-                            defaultValue={indicator[1]}
-                            renderInput={params => (
-                              <TextField {...params} variant="outlined" placeholder="Security" />
-                            )}>
-                          </Autocomplete>
+                         <SecurityBox />
 
                         <div style={{height:20}}/>
 
