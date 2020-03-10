@@ -19,6 +19,7 @@ import MacroResults from './results/macroresults.js'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
@@ -113,33 +114,29 @@ function MacroPage() {
 
                 <Container maxWidth="xl">
                     <div style={{height:5}}/>
-                    <h3>Search for Past Economic Surprises</h3>
+                    <h3>&emsp;&emsp;Search for Past Economic Surprises</h3>
 
                     <div>
-                        <InputLabel>Name of Security</InputLabel>
+                        <InputLabel>&emsp; Name of Security</InputLabel>
                         <FormControl className={classes.margin}>
                         <SecurityBox />
                         </FormControl>
 
-                        <div style={{height:20}}/>
+                        <div style={{height:10}}/>
 
-                        <InputLabel>Economic Indicator</InputLabel>
                         <FormControl className={classes.margin}>
                          <IndicatorBox />
+                         <FormHelperText>Economic Indicator </FormHelperText>
                         </FormControl>
 
-                        <div style={{height:20}}/>
-
-                        <InputLabel htmlFor="demo-customized-select-native">Surprise Direction</InputLabel>
                         <FormControl className={classes.margin}>
                         <DirectionBox />
+                        <FormHelperText>Surprise Direction </FormHelperText>
                         </FormControl>
 
-                        <div style={{height:20}}/>
-
-                        <InputLabel htmlFor="demo-customized-select-native">Surprise Magnitude</InputLabel>
                         <FormControl className={classes.margin}>
                         <MagnitudeBox />
+                        <FormHelperText>Surprise Magnitude </FormHelperText>
                         </FormControl>
 
                     </div>

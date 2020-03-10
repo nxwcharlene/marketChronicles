@@ -1,12 +1,12 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
-import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
 const BootstrapInput = withStyles(theme => ({
   root: {
@@ -20,7 +20,7 @@ const BootstrapInput = withStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #ced4da',
     fontSize: 16,
-//    padding: '10px 26px 10px 12px',
+    padding: '9px 26px 10px 12px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
     // Use the system font instead of the default Roboto font.
     fontFamily: [
@@ -61,7 +61,7 @@ export default function DirectionBox() {
           value={direction}
           input={<BootstrapInput />}
           onChange={handleChange}
-          style = {{width: 400}}
+          style = {{width: 200}}
         >
           <option value="" />
           <option value={"Exceed"}>Exceed Expectations</option>
