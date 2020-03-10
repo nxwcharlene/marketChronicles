@@ -10,7 +10,7 @@ export default function SecurityBox() {
         options={securitylist}
         getOptionLabel={option => option.title}
         renderInput={params => (
-          <TextField {...params} variant="outlined" placeholder="Security" />
+          <TextField {...params} style={{width:500}} variant="outlined" placeholder="Security" />
         )}>
     </Autocomplete>
    )

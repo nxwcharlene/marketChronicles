@@ -61,8 +61,9 @@ export default function DirectionBox() {
           value={direction}
           input={<BootstrapInput />}
           onChange={handleChange}
-          style = {{width: 300}}
+          style = {{width: 400}}
         >
+          <option value="" />
           <option value={"Exceed"}>Exceed Expectations</option>
           <option value={"Meet"}>Meet Expectations</option>
           <option value={"Below"}>Below Expectations</option>

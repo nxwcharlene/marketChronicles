@@ -92,7 +92,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1, 1.5),
   },
   margin: {
-    margin: theme.spacing(0),
+    margin: theme.spacing(1),
   },
 }));
 
@@ -117,21 +117,31 @@ function MacroPage() {
 
                     <div>
                         <InputLabel>Name of Security</InputLabel>
-                           <SecurityBox />
+                        <FormControl className={classes.margin}>
+                        <SecurityBox />
+                        </FormControl>
 
                         <div style={{height:20}}/>
 
                         <InputLabel>Economic Indicator</InputLabel>
                         <FormControl className={classes.margin}>
-                           <IndicatorBox />
+                         <IndicatorBox />
                         </FormControl>
 
                         <div style={{height:20}}/>
 
                         <InputLabel htmlFor="demo-customized-select-native">Surprise Direction</InputLabel>
                         <FormControl className={classes.margin}>
-                          <DirectionBox />
+                        <DirectionBox />
                         </FormControl>
+
+                        <div style={{height:20}}/>
+
+                        <InputLabel htmlFor="demo-customized-select-native">Surprise Magnitude</InputLabel>
+                        <FormControl className={classes.margin}>
+                        <MagnitudeBox />
+                        </FormControl>
+
                     </div>
 
                     <hr></hr>
