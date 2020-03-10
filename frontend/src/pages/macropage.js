@@ -28,6 +28,7 @@ import MagnitudeBox from './SearchBar/MagnitudeBox.js'
 import DirectionBox from './SearchBar/DirectionBox.js'
 import SecurityBox from './SearchBar/SecurityBox.js'
 import EconAppBar from './AppBar/EconAppBar.js'
+import demo from './demo_results.jpeg'
 
 const BootstrapInput = withStyles(theme => ({
   root: {
@@ -96,8 +97,8 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
   },
   gobutton: {
-    margin: theme.spacing(3),
-    paddingBottom: theme.spacing(2),
+    margin: theme.spacing(1.5),
+//    paddingBottom: theme.spacing(2),
 //    '& > *': {
 //      margin: theme.spacing(5),
 //    },
@@ -149,17 +150,21 @@ function MacroPage(){
                                 <FormHelperText>Surprise Magnitude </FormHelperText>
                                 </FormControl>
 
-                                <div>
-                                    <Button className={classes.gobutton} size="large" variant="contained" color="default">
-                                        SEARCH
-                                    </Button>
-                                </div>
+                                <Button className={classes.gobutton} size="medium" variant="contained" color="primary">
+                                    SEARCH
+                                </Button>
+
                             </form>
                         </div>
 
                         <hr></hr>
                         <h3>Sample Results Output</h3>
-
+                        <img src={demo} style={{width: 500}} />
+                        <div style={{height:10}}/>
+                        <img src={demo} style={{width: 500}} />
+                        <div style={{height:10}}/>
+                        <img src={demo} style={{width: 500}} />
+                        <div style={{height:10}}/>
                         <h3>Results from API</h3>
                         <MacroResults />
 

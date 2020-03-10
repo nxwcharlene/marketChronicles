@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.5",
+    "@material-ui/lab": "^4.0.0-alpha.45",
     "@progress/kendo-react-form": "^3.11.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -13,6 +14,7 @@
     "react-backdrop-filter": "^2.1.0",
     "react-dom": "^16.13.0",
     "react-inputs-validation": "^4.3.4",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-widgets": "^4.4.11"
   },
