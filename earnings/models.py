@@ -28,3 +28,12 @@ class macro(models.Model):
     Surprise = models.CharField()
     StdDev = models.CharField()
     C = models.CharField()
+
+class earnings(models.Model):
+    stock_id = models.IntegerField()
+    Quarter = models.CharField()
+    Date = models.DateField()
+    Median = models.FloatField()
+    Actual = models.FloatField()
+    StdDev = models.FloatField()
+    z_score = models.FloatField()
