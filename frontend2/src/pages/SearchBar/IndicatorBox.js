@@ -2,20 +2,29 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-export default function ComboBox() {
+export default function IndicatorBox() {
   return (
     <Autocomplete
-      id="combo-box-demo"
-      options={top100Films}
-      getOptionLabel={option => option.title}
+      id="size-small-outlined"
+      size="small"
+      options={indicatorlist}
+      getOptionLabel={option => option.name}
+      defaultValue={indicator[1]}
       style={{ width: 300 }}
-      renderInput={params => <TextField {...params} label="Combo box" variant="outlined" />}
+      renderInput={params => <TextField {...params} style={{width:600}} label="Indicator" placeholder="Economic Indicator" variant="outlined" />}
     />
   );
 }
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
+const indicatorlist = [
+  { name: 'Non-Farm Payroll'},
+  { name: 'ISM Manufacturing PMI'},
+  { name: 'ISM Non-Manufacturing PMI'},
+  { name: 'GDP Growth Rate'},
+  { name: 'Retail Sales MoM'},
+  { name: 'Initial Jobless Claims'},
+  { name: 'Unemployment Rate'},
+  { name: 'CPI MoM'},
+  { name: 'NAHB Housing Market Index'},
+  { name: 'FOMC Rate Decision (Upper Bound)'},
  ];

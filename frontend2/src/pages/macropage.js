@@ -23,7 +23,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
-
+import IndicatorBox from './SearchBar/IndicatorBox.js'
+import MagnitudeBox from './SearchBar/MagnitudeBox.js'
+import DirectionBox from './SearchBar/DirectionBox.js'
+import SecurityBox from './SearchBar/SecurityBox.js'
 
 let country = ["US", "Singapore", "China"]
 
@@ -144,42 +147,20 @@ function MacroPage() {
 
                     <div>
                         <InputLabel>Name of Security</InputLabel>
-                         <SecurityBox />
+                           <SecurityBox />
 
                         <div style={{height:20}}/>
 
                         <InputLabel>Economic Indicator</InputLabel>
                         <FormControl className={classes.margin}>
-                          <Autocomplete
-                            id="size-small-outlined"
-                            size="small"
-                            options={indicator}
-                            getOptionLabel={option => option.title}
-                            defaultValue={indicator[1]}
-                            renderInput={params => (
-                              <TextField {...params} style={{width:600}} variant="outlined" placeholder="Economic Indicator" />
-                            )}>
-                          </Autocomplete>
+                           <IndicatorBox />
                         </FormControl>
 
-                      <FormControl className={classes.margin}>
                         <InputLabel htmlFor="demo-customized-select-native">Surprise Direction</InputLabel>
-                        <NativeSelect
-                          id="demo-customized-select-native"
-                          value={age}
-                          onChange={handleChange}
-                          input={<BootstrapInput />}
-                          style = {{width: 100}}
-                        >
-                          <option value="" />
-                          <option value={10}>Ten</option>
-                          <option value={20}>Twenty</option>
-                          <option value={30}>Thirty</option>
-                        </NativeSelect>
-                      </FormControl>
+                        <FormControl className={classes.margin}>
+                          <DirectionBox />
+                        </FormControl>
                     </div>
-
-
 
                     <div style={{height:50}}/>
                     <h3>Random test input boxes</h3>

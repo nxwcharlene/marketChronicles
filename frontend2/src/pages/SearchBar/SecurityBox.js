@@ -14,6 +14,8 @@ export default function SecurityBox() {
           <TextField {...params} variant="outlined" placeholder="Security" />
         )}>
     </Autocomplete>
+   )
+}
 
 // have to find the list of stocks from array
 const securitylist = [
