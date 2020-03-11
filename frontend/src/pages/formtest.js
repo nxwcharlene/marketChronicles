@@ -10,34 +10,35 @@ class Form extends Component {
             magnitude: ""
         }
         this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
         const {name, value, type, checked} = event.target
         type === "checkbox" ? this.setState({ [name]: checked }) : this.setState({ [name]: value })
-        console.log(this.state)
-        console.log(JSON.stringify(this.state))
+//        console.log(this.state)
+//        console.log(JSON.stringify(this.state))
     }
 
     handleSubmit (event) {
-    //alert('A list was submitted: ' + this.state.formvalue);
-    event.preventDefault();
-    fetch('http://127.0.0.1:8000/', {
-        method: 'POST',
-        headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    },
-        body: JSON.stringify({
-        instrument: this.state.instrument,
-        indicator: this.state.indicator,
-        direction: this.state.direction,
-        magnitude: this.state.magnitude,
+        //alert('A list was submitted: ' + this.state.formvalue);
+        event.preventDefault();
+        fetch('http://127.0.0.1:8000/', {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+            instrument: this.state.instrument,
+            indicator: this.state.indicator,
+            direction: this.state.direction,
+            magnitude: this.state.magnitude,
+            })
         })
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.log(err);
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
     }
 
     render() {
@@ -100,7 +101,7 @@ class Form extends Component {
                 <h2>{this.state.indicator}</h2>
                 <h2>Direction: {this.state.direction}</h2>
                 <h2>Magnitude: {this.state.magnitude}</h2>
-                <button onChange={this.handleSubmit}>Submit</button>
+                <button onClick={this.handleSubmit}>Submit</button>
             </form>
         )
     }
