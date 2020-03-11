@@ -15,6 +15,8 @@ class Form extends Component {
     handleChange(event) {
         const {name, value, type, checked} = event.target
         type === "checkbox" ? this.setState({ [name]: checked }) : this.setState({ [name]: value })
+        console.log(this.state)
+        console.log(JSON.stringify(this.state))
     }
 
     render() {
@@ -85,4 +87,3 @@ class Form extends Component {
 
 export default Form
 
-//have to convert state to JSON format
