@@ -26,6 +26,7 @@ import MagnitudeBox from './SearchBar/MagnitudeBox.js'
 import DirectionBox from './SearchBar/DirectionBox.js'
 import SecurityBox from './SearchBar/SecurityBox.js'
 import EarnAppBar from './AppBar/EarnAppBar.js'
+import Form from './formtest.js'
 
 
 const useStyles = makeStyles(theme => ({
@@ -89,6 +90,10 @@ function EarningsPage() {
                         </label>
                         <input type="submit" value="Submit" />
                     </form>
+
+                <div style={{height:5}}/>
+                <h1> Testing form submission </h1>
+                <Form />
 
                 </Container>
 
