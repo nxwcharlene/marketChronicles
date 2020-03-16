@@ -1,7 +1,4 @@
-import React, { Component } from 'react';
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import AppBar from '@material-ui/core/AppBar';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -9,8 +6,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-//import StarIcon from '@material-ui/icons/StarBorder';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
@@ -65,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   },
   cardHeader: {
     backgroundColor:
-      theme.palette.type == 'dark' ? theme.palette.grey[700] : theme.palette.grey[200],
+      theme.palette.type === 'dark' ? theme.palette.grey[700] : theme.palette.grey[200],
   },
   cardPricing: {
     display: 'flex',
@@ -75,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   },
   footer: {
     backgroundSize: 'cover',
-    backgroundColor: theme.palette.type == 'dark' ? theme.palette.grey[900] : theme.palette.grey[900],
+    backgroundColor: theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[900],
     borderTop: `0px solid ${theme.palette.divider}`,
     marginTop: theme.spacing(0),
     paddingTop: theme.spacing(1.5),
@@ -120,24 +115,6 @@ const tiers = [
     button: '/price_movement',
     buttonText: 'Start Search',
     buttonVariant: 'outlined',
-  },
-];
-const footers = [
-  {
-    title: 'Company',
-    description: ['Team', 'History', 'Contact us', 'Locations'],
-  },
-  {
-    title: 'Features',
-    description: ['Cool stuff', 'Random feature', 'Team feature', 'Developer stuff', 'Another one'],
-  },
-  {
-    title: 'Resources',
-    description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
-  },
-  {
-    title: 'Legal',
-    description: ['Privacy policy', 'Terms of use'],
   },
 ];
 
