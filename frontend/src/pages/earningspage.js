@@ -26,7 +26,7 @@ import MagnitudeBox from './SearchBar/MagnitudeBox.js'
 import DirectionBox from './SearchBar/DirectionBox.js'
 import SecurityBox from './SearchBar/SecurityBox.js'
 import EarnAppBar from '../components/structure/navbar/EarnAppBar.js'
-import Form from './formtest.js'
+import Form from '../components/userform/formtest.js'
 
 
 const useStyles = makeStyles(theme => ({
