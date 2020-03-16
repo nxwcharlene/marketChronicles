@@ -21,10 +21,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
-import IndicatorBox from '../components/userform/SearchBar/IndicatorBox.js'
-import MagnitudeBox from '../components/userform/SearchBar/MagnitudeBox.js'
-import DirectionBox from '../components/userform/SearchBar/DirectionBox.js'
-import SecurityBox from '../components/userform/SearchBar/SecurityBox.js'
 import EarnAppBar from '../components/structure/navbar/EarnAppBar.js'
 import Form from '../components/userform/formtest.js'
 
