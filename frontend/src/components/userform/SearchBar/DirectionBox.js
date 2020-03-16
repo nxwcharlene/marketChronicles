@@ -45,7 +45,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DirectionBox() {
-    const classes = useStyles();
     const [direction, setDirection] = React.useState('');
     const handleChange = event => {
     setDirection(event.target.value);

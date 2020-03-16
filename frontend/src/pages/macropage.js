@@ -9,13 +9,12 @@ import MacroResults from './results/macroresults.js'
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import InputBase from '@material-ui/core/InputBase';
-import IndicatorBox from '../components/userform/SearchBar/IndicatorBox.js'
-import MagnitudeBox from '../components/userform/SearchBar/MagnitudeBox.js'
-import DirectionBox from '../components/userform/SearchBar/DirectionBox.js'
-import SecurityBox from '../components/userform/SearchBar/SecurityBox.js'
-import EconAppBar from '../components/structure/navbar/EconAppBar.js'
-import demo from '../images/demo_results.jpeg'
+import IndicatorBox from '../components/userform/SearchBar/IndicatorBox.js';
+import MagnitudeBox from '../components/userform/SearchBar/MagnitudeBox.js';
+import DirectionBox from '../components/userform/SearchBar/DirectionBox.js';
+import SecurityBox from '../components/userform/SearchBar/SecurityBox.js';
+import EconAppBar from '../components/structure/navbar/EconAppBar.js';
+import demo from '../images/demo_results.jpeg';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
