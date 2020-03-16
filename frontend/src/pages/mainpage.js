@@ -17,7 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import background from '../images/background_image.jpg';
-import MainAppBar from './AppBar/MainAppBar.js';
+import MainAppBar from '../components/structure/navbar/MainAppBar.js';
 
 
 function Copyright() {
