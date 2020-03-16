@@ -159,7 +159,7 @@ export default function MainPage() {
                           </div>
                           <ul>
                             {tier.description.map(line => (
-                              <Typography variant="h6" color="textSecondary" component="li" variant="subtitle1" align="center" key={line}>
+                              <Typography variant="subtitle1" color="textSecondary" component="li" align="center" key={line}>
                                 {line}
                               </Typography>
                             ))}

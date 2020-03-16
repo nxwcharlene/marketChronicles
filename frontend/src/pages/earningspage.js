@@ -1,26 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { render } from 'react-dom';
-import { DropdownList } from 'react-widgets'
-import AppBar from '@material-ui/core/AppBar';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { Radiobox } from 'react-inputs-validation';
+import { makeStyles } from '@material-ui/core/styles';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 // for the user input form
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import InputBase from '@material-ui/core/InputBase';
 import EarnAppBar from '../components/structure/navbar/EarnAppBar.js'
 import Form from '../components/userform/formtest.js'
 
