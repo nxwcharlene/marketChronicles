@@ -25,7 +25,7 @@ SECRET_KEY = '09z=flz0$y1n-md7)%u56v2ed#jmap&3^x1wk$-h$68fjd(g=)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://localhost:3000', '172.22.143.201:3000'] # this is to allow frontend to call the backend
+ALLOWED_HOSTS = ['localhost:3000', '127.0.0.1', '172.22.143.201:3000',] # this is to allow frontend to call the backend
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'macro',
     'earnings',
     'pricemovement',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'marketChronicles.urls'
@@ -129,3 +131,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+]
+CORS_ORIGIN_REGEX_WHITELIST = [
+    'http://localhost:3000',
+]
+
