@@ -1,9 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import { withStyles } from '@material-ui/core/styles';
@@ -43,14 +38,7 @@ const BootstrapInput = withStyles(theme => ({
   },
 }))(InputBase);
 
-const useStyles = makeStyles(theme => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
-}));
-
 export default function MagnitudeBox() {
-    const classes = useStyles();
     const [magnitude, setMagnitude] = React.useState('');
     const handleChange = event => {
     setMagnitude(event.target.value);

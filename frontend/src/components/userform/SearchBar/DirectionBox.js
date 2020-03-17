@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 
@@ -37,12 +37,6 @@ const BootstrapInput = withStyles(theme => ({
     },
   },
 }))(InputBase);
-
-const useStyles = makeStyles(theme => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
-}));
 
 export default function DirectionBox() {
     const [direction, setDirection] = React.useState('');
