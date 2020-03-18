@@ -9,6 +9,8 @@ import MacroForm from '../components/userform/MacroForm.js';
 import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
+import SelectDate from '../components/userform/SearchBar/SelectDate.js';
+import Footer from '../components/structure/footer/Footer.js';
 
 function Copyright() {
   return (
@@ -52,6 +54,7 @@ function MacroPage(){
                         <div>
                             <MacroForm />
                             <div style={{height:10}}/>
+                            <SelectDate/>
                         </div>
 
                         <hr></hr>
@@ -69,11 +72,7 @@ function MacroPage(){
                     </Container>
 
                   {/* Footer */}
-                      <Container maxWidth="xl" component="footer" className={classes.footer}>
-                        <Box mt={0}>
-                          <Copyright />
-                        </Box>
-                      </Container>
+                      <Footer />
                   {/* End footer */}
 
                 </div>
