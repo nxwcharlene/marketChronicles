@@ -4,9 +4,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
-import IncomeBox from './SearchBar/IncomeBox.js';
-import MagnitudeBox from './SearchBar/MagnitudeBox.js';
-import DirectionBox from './SearchBar/DirectionBox.js';
+import PriceBox from './SearchBar/PriceBox.js';
+import PriceDayBox from './SearchBar/PriceDayBox.js';
 import SecurityBox from './SearchBar/SecurityBox.js';
 
 const useStyles = makeStyles(theme => ({
@@ -40,18 +39,13 @@ function PriceForm(){
                     <div style={{height:10}}/>
 
                     <FormControl className={classes.margin}>
-                     <IncomeBox />
-                     <FormHelperText>Income Statement Line Item</FormHelperText>
+                     <PriceBox />
+                     <FormHelperText>% change in stock price</FormHelperText>
                     </FormControl>
 
                     <FormControl className={classes.margin}>
-                    <DirectionBox />
-                    <FormHelperText>Surprise Direction </FormHelperText>
-                    </FormControl>
-
-                    <FormControl className={classes.margin}>
-                    <MagnitudeBox />
-                    <FormHelperText>Surprise Magnitude </FormHelperText>
+                    <PriceDayBox />
+                    <FormHelperText>Within a period of </FormHelperText>
                     </FormControl>
 
                     <Button className={classes.gobutton} size="medium" variant="contained" color="primary">
