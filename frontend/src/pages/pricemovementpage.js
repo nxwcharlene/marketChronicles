@@ -80,7 +80,7 @@ function PriceMovementPage() {
                     <div style={{height:10}}/>
                     <hr></hr>
                     <h3>Sample Results Output</h3>
-
+                    <div style={{height:500}}/>
                     <form>
                         <label>
                             Company:
