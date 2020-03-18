@@ -4,7 +4,7 @@
 import React from 'react';
 
 //API_URL created on django side
-const API_URL = 'http://localhost:8000';
+//const API_URL = 'http://localhost:8000';
 
 /**
  * App

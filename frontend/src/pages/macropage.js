@@ -4,7 +4,7 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
-import MacroResults from './results/macroresults.js'
+import MacroResults from '../components/results/macroresults.js';
 // for the user input form
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -58,10 +58,6 @@ const useStyles = makeStyles(theme => ({
 
 function MacroPage(){
     const classes = useStyles();
-    const [age, setAge] = React.useState('');
-    const handleChange = event => {
-    setAge(event.target.value);
-    };
 
       return (
         <React.Fragment>
@@ -110,11 +106,11 @@ function MacroPage(){
 
                         <hr></hr>
                         <h3>Sample Results Output</h3>
-                        <img src={demo} style={{width: 500}} />
+                        <img src={demo} style={{width: 500}} alt=""/>
                         <div style={{height:10}}/>
-                        <img src={demo} style={{width: 500}} />
+                        <img src={demo} style={{width: 500}} alt=""/>
                         <div style={{height:10}}/>
-                        <img src={demo} style={{width: 500}} />
+                        <img src={demo} style={{width: 500}} alt=""/>
                         <div style={{height:10}}/>
                         <h3>Results from API</h3>
                         <MacroResults />
