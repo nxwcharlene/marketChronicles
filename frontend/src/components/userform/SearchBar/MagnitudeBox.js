@@ -39,16 +39,16 @@ const BootstrapInput = withStyles(theme => ({
 }))(InputBase);
 
 export default function MagnitudeBox() {
-    const [magnitude, setMagnitude] = React.useState('');
-    const handleChange = event => {
-    setMagnitude(event.target.value);
-  };
+    // const [magnitude, setMagnitude] = React.useState('');
+    // const handleChange = event => {
+    // setMagnitude(event.target.value);
+  
     return (
         <NativeSelect
-          id="demo-customized-select-native"
-          value={magnitude}
-          input={<BootstrapInput />}
-          onChange={handleChange}
+          id="magnitude"
+          // value={magnitude}
+          // input={<BootstrapInput />}
+          // onChange={handleChange}
           style = {{width: 200}}
         >
           <option value="" />

@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'react-axios';
+import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -28,33 +30,52 @@ const useStyles = makeStyles(theme => ({
 
 function MacroForm(){
     const classes = useStyles();
+    const [input, setInput] = useState({ security: '', indicator: '', direction: '', magnitude: 0 });
+    const [showLoading, setShowLoading] = useState(false);
+    const apiUrl = "http://127.0.0.1:8000//macro/";
+
+    const saveInput = (e) => {
+      setShowLoading(true);
+      e.preventDefault();
+      const data = { security: input.security, indicator: input.indicator, direction: input.direction, magnitude: input.magnitude };
+      axios.post(apiUrl, data)
+        .then((result) => {
+          setShowLoading(false);
+          //props.history.push('/show/' + result.data._id)
+        }).catch((error) => setShowLoading(false));
+    };
+  
+    const onChange = (e) => {
+      e.persist();
+      setInput({...input, [e.target.name]: e.target.value});
+    }
 
         return (
             <React.Fragment>
-                <form>
+                <form onsubmit={saveInput}>
                     <InputLabel>&emsp; Name of Security</InputLabel>
                     <FormControl className={classes.margin}>
-                    <SecurityBox name="SecurityBox"/>
+                    <SecurityBox name="security" value={input.security} onChange={onChange}/>
                     </FormControl>
 
                     <div style={{height:10}}/>
 
                     <FormControl className={classes.margin}>
-                     <IndicatorBox />
+                     <IndicatorBox name="indicator" value={input.indicator} onChange={onChange}/>
                      <FormHelperText>Economic Indicator </FormHelperText>
                     </FormControl>
 
                     <FormControl className={classes.margin}>
-                    <DirectionBox />
+                    <DirectionBox name="direction" value={input.direction} onChange={onChange}/>
                     <FormHelperText>Surprise Direction </FormHelperText>
                     </FormControl>
 
                     <FormControl className={classes.margin}>
-                    <MagnitudeBox />
+                    <MagnitudeBox name="magnitude" value={input.magnitude} onChange={onChange}/>
                     <FormHelperText>Surprise Magnitude </FormHelperText>
                     </FormControl>
 
-                    <Button className={classes.gobutton} size="medium" variant="contained" color="primary">
+                    <Button className={classes.gobutton} size="medium" variant="contained" color="primary" type="submit">
                         SEARCH
                     </Button>
                 </form>
@@ -62,4 +83,4 @@ function MacroForm(){
         );
 }
 
-export default MacroForm;
+export default withRouter(MacroForm);

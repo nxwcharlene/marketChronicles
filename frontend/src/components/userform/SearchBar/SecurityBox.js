@@ -5,7 +5,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 export default function SecurityBox() {
   return (
     <Autocomplete
-        id="size-small-outlined"
+        id="indicator"
         size="small"
         options={securitylist}
         getOptionLabel={option => option.name}

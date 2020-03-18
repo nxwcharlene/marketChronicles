@@ -5,7 +5,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 export default function IndicatorBox() {
   return (
     <Autocomplete
-      id="size-small-outlined"
+      id="indicator"
       size="small"
       options={indicatorlist}
       getOptionLabel={option => option.name}
