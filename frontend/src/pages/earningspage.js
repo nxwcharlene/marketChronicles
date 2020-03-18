@@ -4,8 +4,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 //import { makeStyles } from '@material-ui/core/styles';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 // for the user input form
-import EarnAppBar from '../components/structure/navbar/EarnAppBar.js'
-import Form from '../components/userform/formtest.js'
+import EarnAppBar from '../components/structure/navbar/EarnAppBar.js';
+import Form from '../components/userform/formtest.js';
+import EarnForm from '../components/userform/EarnForm.js';
 
 
 //const useStyles = makeStyles(theme => ({
@@ -52,6 +53,12 @@ function EarningsPage() {
 
                 <Container maxWidth="xl">
                     <h3>Search for past earnings surprises</h3>
+
+                    <EarnForm />
+
+                    <hr></hr>
+                    <h3>Sample Results Output</h3>
+
                     <form>
                         <label>
                             Company:
