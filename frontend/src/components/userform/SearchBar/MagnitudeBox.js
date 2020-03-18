@@ -46,8 +46,8 @@ export default function MagnitudeBox() {
     return (
         <NativeSelect
           id="magnitude"
-          // value={magnitude}
-          // input={<BootstrapInput />}
+          //value={input.magnitude}
+          input={<BootstrapInput />}
           // onChange={handleChange}
           style = {{width: 200}}
         >

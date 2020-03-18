@@ -41,7 +41,7 @@ const BootstrapInput = withStyles(theme => ({
 export default function DirectionBox() {
     // const [direction, setDirection] = React.useState('');
     // const handleChange = event => {
-    setDirection(event.target.value);
+    //setDirection(event.target.value);
   
     return (
         <NativeSelect

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'react-axios';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -52,7 +52,7 @@ function MacroForm(){
 
         return (
             <React.Fragment>
-                <form onsubmit={saveInput}>
+                <form onSubmit={saveInput}>
                     <InputLabel>&emsp; Name of Security</InputLabel>
                     <FormControl className={classes.margin}>
                     <SecurityBox name="security" value={input.security} onChange={onChange}/>
