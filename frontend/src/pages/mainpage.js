@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import background from '../images/background_image.jpg';
 import MainAppBar from '../components/structure/navbar/MainAppBar.js';
+import footer from '../components/structure/footer/footer.js';
 
 
 function Copyright() {
@@ -179,11 +180,7 @@ export default function MainPage() {
           </body>
 
           {/* Footer */}
-          <Container maxWidth="xl" component="footer" className={classes.footer}>
-            <Box mt={0}>
-              <Copyright />
-            </Box>
-          </Container>
+              <footer />
           {/* End footer */}
         </React.Fragment>
     );
