@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^7.1.2",
     "d3": "^5.15.0",
     "react": "^16.13.0",
+    "react-axios": "^2.0.3",
     "react-backdrop-filter": "^2.1.0",
     "react-datepicker": "^2.14.0",
     "react-dom": "^16.13.0",
