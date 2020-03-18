@@ -23,6 +23,7 @@ function MacroPage(){
 
                         <div>
                             <MacroForm />
+                            <div style={{height:10}}/>
                         </div>
 
                         <hr></hr>

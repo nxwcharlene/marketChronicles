@@ -52,10 +52,11 @@ function EarningsPage() {
                 <div style={{height:5, backgroundColor: "#cccecf"}}/>
 
                 <Container maxWidth="xl">
-                    <h3>Search for past earnings surprises</h3>
+                    <div style={{height:5}}/>
+                    <h3>&emsp;&emsp;Search for Past Earnings Surprises</h3>
 
                     <EarnForm />
-
+                    <div style={{height:10}}/>
                     <hr></hr>
                     <h3>Sample Results Output</h3>
 
