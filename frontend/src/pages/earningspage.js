@@ -1,40 +1,14 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core/styles';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
-import Box from '@material-ui/core/Box';
-import Link from '@material-ui/core/Link';
 // for the user input form
 import EarnAppBar from '../components/structure/navbar/EarnAppBar.js';
 import Form from '../components/userform/formtest.js';
 import EarnForm from '../components/userform/EarnForm.js';
-
-function Copyright() {
-  return (
-    <div variant="body2" style={{ color:"grey" }} align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="/">
-        Market Chronicles
-      </Link>{' '}
-      {new Date().getFullYear()}
-    </div>
-  );
-}
-
-const useStyles = makeStyles(theme => ({
-  footer: {
-    backgroundSize: 'cover',
-    backgroundColor: theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[900],
-    borderTop: `0px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(0),
-    paddingTop: theme.spacing(1.5),
-    paddingBottom: theme.spacing(1.5),
-  },
-}));
+import Footer from '../components/structure/footer/Footer.js';
 
 function EarningsPage() {
-  const classes = useStyles();
   return (
     <React.Fragment>
         <CssBaseline />
@@ -77,13 +51,7 @@ function EarningsPage() {
                 <div style={{height:30}}/>
                 </Container>
 
-                  {/* Footer */}
-                      <Container maxWidth="xl" component="footer" className={classes.footer}>
-                        <Box mt={0}>
-                          <Copyright />
-                        </Box>
-                      </Container>
-                  {/* End footer */}
+                <Footer />
 
             </div>
     </React.Fragment>

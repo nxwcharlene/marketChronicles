@@ -9,7 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 import PriceForm from '../components/userform/PriceForm.js';
-
+import Footer from '../components/structure/footer/Footer.js';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -80,7 +80,7 @@ function PriceMovementPage() {
                     <div style={{height:10}}/>
                     <hr></hr>
                     <h3>Sample Results Output</h3>
-                    <div style={{height:500}}/>
+                    <div style={{height:300}}/>
                     <form>
                         <label>
                             Company:
@@ -100,6 +100,9 @@ function PriceMovementPage() {
                     </form>
 
                 </Container>
+                <div style={{height:30}}/>
+
+                <Footer />
 
             </div>
         </React.Fragment>

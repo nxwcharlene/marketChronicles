@@ -7,25 +7,11 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
 import background from '../images/background_image.jpg';
 import MainAppBar from '../components/structure/navbar/MainAppBar.js';
-
-
-function Copyright() {
-  return (
-    <div variant="body2" style={{ color:"grey" }} align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="/">
-        Market Chronicles
-      </Link>{' '}
-      {new Date().getFullYear()}
-    </div>
-  );
-}
+import Footer from '../components/structure/footer/Footer.js';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -67,18 +53,6 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'baseline',
     marginBottom: theme.spacing(2),
-  },
-  footer: {
-    backgroundSize: 'cover',
-    backgroundColor: theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[900],
-    borderTop: `0px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(0),
-    paddingTop: theme.spacing(1.5),
-    paddingBottom: theme.spacing(1.5),
-//    [theme.breakpoints.up('sm')]: {
-//      paddingTop: theme.spacing(0),
-//      paddingBottom: theme.spacing(0),
-//    },
   },
 }));
 
@@ -178,13 +152,8 @@ export default function MainPage() {
               </Container>
           </body>
 
-          {/* Footer */}
-              <Container maxWidth="xl" component="footer" className={classes.footer}>
-                <Box mt={0}>
-                  <Copyright />
-                </Box>
-              </Container>
-          {/* End footer */}
+          <Footer />
+
         </React.Fragment>
     );
 }
