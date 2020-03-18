@@ -34,7 +34,7 @@ function MacroForm(){
                 <form>
                     <InputLabel>&emsp; Name of Security</InputLabel>
                     <FormControl className={classes.margin}>
-                    <SecurityBox />
+                    <SecurityBox name="SecurityBox"/>
                     </FormControl>
 
                     <div style={{height:10}}/>
