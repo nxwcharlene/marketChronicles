@@ -32,7 +32,7 @@ function MacroForm(){
     const classes = useStyles();
     const [input, setInput] = useState({ security: '', indicator: '', direction: '', magnitude: 0 });
     const [showLoading, setShowLoading] = useState(false);
-    const apiUrl = "http://127.0.0.1:8000//macro/";
+    const apiUrl = "http://127.0.0.1:8000/macro/";
 
     const saveInput = (e) => {
       setShowLoading(true);
