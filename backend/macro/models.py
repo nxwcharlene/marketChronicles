@@ -119,7 +119,7 @@ class Earnings(models.Model):
 
 
 class Macro(models.Model):
-    id = models.FloatField(primary_key=True)
+    id = models.IntegerField(primary_key=True)
     date = models.DateField(db_column='Date')  # Field name made lowercase.
     time = models.TimeField(db_column='Time', blank=True, null=True)  # Field name made lowercase.
     event = models.CharField(db_column='Event', max_length=100, blank=True, null=True)  # Field name made lowercase.

@@ -1,14 +1,14 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
+// import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { useTable, useGroupBy, useFilters, useSortBy, useExpanded, usePagination } from 'react-table';
+// import { useTable, useGroupBy, useFilters, useSortBy, useExpanded, usePagination } from 'react-table';
 
 
 const useStyles = makeStyles(theme => ({
@@ -49,7 +49,7 @@ export default function ResultsCard() {
             <Grid container spacing={12} alignItems="flex-end">
               {tiers.map(tier => (
                 // Enterprise card is full width at sm breakpoint
-                <Grid item key={tier.title} xs={12} xl={tier.title === 'Enterprise' ? 12 : 6} xl={0}>
+                <Grid item key={tier.title} xs={12} xl={tier.title === 'Enterprise' ? 12 : 6}>
                   <Card>
                     <CardHeader
                       title={tier.title}

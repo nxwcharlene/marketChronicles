@@ -12,6 +12,7 @@ import Container from '@material-ui/core/Container';
 import background from '../images/background_image.jpg';
 import MainAppBar from '../components/structure/navbar/MainAppBar.js';
 import Footer from '../components/structure/footer/Footer.js';
+import MacroResult from '../components/results/macroresults.js'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -96,13 +97,14 @@ export default function MainPage() {
   const classes = useStyles();
     return(
         <React.Fragment>
+          <MacroResult />
           <CssBaseline />
           <MainAppBar />
 
           {/* Hero unit */}
-          <body className={classes.body}>
+          <div className={classes.body}>
               <Container maxWidth="sm" component="main" className={classes.heroContent}>
-                    <h1 component="h3" variant="h3" align="center" style={{color:"white"}} gutterBottom>
+                    <h1 component="h3" variant="h3" align="center" style={{color:"white"}} gutterbottom="true">
                       MARKET CHRONICLES
                     </h1>
                     <h3 variant="h6" align="center" style={{color:"white"}} component="p">
@@ -150,7 +152,7 @@ export default function MainPage() {
                   ))}
                 </Grid>
               </Container>
-          </body>
+          </div>
 
           <Footer />
 

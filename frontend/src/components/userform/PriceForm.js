@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'react-axios';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import InputLabel from '@material-ui/core/InputLabel';
+// import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,7 +37,7 @@ function PriceForm(){
     const input = {}
     const [showLoading, setShowLoading] = useState(false);
     const apiUrl = "http://127.0.0.1:8000/price";
-
+    console.log(showLoading)
     const saveInput = (e) => {
       setShowLoading(true);
       e.preventDefault();

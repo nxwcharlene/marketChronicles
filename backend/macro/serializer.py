@@ -3,7 +3,7 @@ from macro.models import Macro
 
 class MacroSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = '__ALL__'
+        fields = "__all__"
         model = Macro
         #read_only_fields = ( ‘ owner ‘ ,)
 

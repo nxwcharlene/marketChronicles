@@ -12,7 +12,7 @@ import PriceForm from '../components/userform/PriceForm.js';
 import ResultsCard from '../components/results/ResultsCard.js';
 import Footer from '../components/structure/footer/Footer.js';
 
-const apiUrl = "http://127.0.0.1:8000/macro/macro-get";
+// const apiUrl = "http://127.0.0.1:8000/macro/macro-get";
 
 const useStyles = makeStyles(theme => ({
   '@global': {

@@ -27,7 +27,7 @@ class MacroResults extends React.Component {
      */
     componentDidMount() {
 
-        fetch('http://127.0.0.1:8000/macro/macro-get')
+        fetch('http://localhost:8000/macro/macro-get')
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -50,13 +50,32 @@ class MacroResults extends React.Component {
 
         return (
             <div>
-                <ul>
-                    {items.map(item => (
-                        <li key={item.id}>
-                            Name: {item.name} | Email: {item.email}
-                        </li>
-                    ))}
-                </ul>
+                
+                    <ul>
+                        {items.map(item => (
+                            <div key={item.id} style={{border:'1px solid'}}>
+                            <li>
+                                <span>{item.id}</span>
+                            </li>
+                            <li >
+                                <span>Ticker: {item.ticker}</span>
+                            </li>
+                            <li >
+                                <span>Date: {item.date}</span>
+                            </li>
+                            <li >
+                                <span>Event: {item.event}</span>
+                            </li>
+                            <li >
+                                <span>Surprise Sign : {item.surprise_sign}</span>
+                            </li>
+                            <li >
+                                <span>Surprise Magnitude: {item.surprise_magnitude}</span>
+                            </li>
+                            </div>
+                            
+                        ))}
+                    </ul>
             </div>
         );
 
