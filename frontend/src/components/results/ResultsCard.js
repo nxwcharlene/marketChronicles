@@ -35,8 +35,8 @@ const useStyles = makeStyles(theme => ({
 
 const tiers = [
   {
-    title: '01/01/2020',
-    description: ['Find out how a stock', 'reacted to a macroeconomic', 'release in the past',],
+    title: 'Date: 01/01/2020',
+    description: ['Stock: Apple Inc.', 'Price change: 5.0%', 'Period: 1 Day'],
   },
 ];
 

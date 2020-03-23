@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'earnings',
     'pricemovement',
     'corsheaders',
-    'rest_framework'
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
