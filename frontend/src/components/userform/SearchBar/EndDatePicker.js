@@ -31,7 +31,7 @@ import moment from 'moment';
 //}
 
 
-function StartDatePicker(props) {
+function EndDatePicker(props) {
 //  const [startDate, setStartDate] = React.useState(new Date("2014/02/08"));
 //  const [endDate, setEndDate] = React.useState(new Date("2014/02/10"));
 //    let now = moment();
@@ -44,7 +44,7 @@ function StartDatePicker(props) {
         autoOk
         variant="inline"
         inputVariant="outlined"
-//        label="Start Date"
+//        label="End Date"
         format="MM/DD/YYYY"
         value={selectedDate}
         InputAdornmentProps={{ position: "start" }}
@@ -55,4 +55,4 @@ function StartDatePicker(props) {
 );
 }
 
-export default StartDatePicker;
+export default EndDatePicker;
