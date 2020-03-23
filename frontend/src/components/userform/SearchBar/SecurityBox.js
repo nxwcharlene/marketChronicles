@@ -5,11 +5,11 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 const SecurityBox = (props) => {
   return (
     <Autocomplete
-        id="indicator"
+        id="Security"
         size="small"
         options={securitylist}
         onChange={(event, value) => {
-          props.onChange('security', value.name)
+          props.onChange('Security', value.name)
         }}
         getOptionLabel={option => option.name}
         renderInput={params => (
