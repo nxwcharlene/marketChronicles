@@ -10,6 +10,8 @@ quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
+
+from .serializer import MacroSerializer
 # CREATE YOUR VIEWS HERE:
 
 @api_view(['GET'])
@@ -18,7 +20,6 @@ def apiOverview(request):
         'Macro':'/macro-get/',
         }
     return Response(api_urls)
-
 
 @api_view(['GET', 'POST'])
 def get_macro(request):
@@ -61,6 +62,42 @@ def get_macro(request):
         df_results=df[df['surprise_sign'].str.contains(john.surprise_sign_input)]
 
     list_of_results = df_results['date']
-    jsonized_df=list_of_results.to_json(date_format='iso',orient="index")
-    return HttpResponse(jsonized_df)
+    df['data'] = list_of_results
+    jsonized_df=df.to_json(date_format='iso',orient="index")
+
+    # ticker = request.GET.get('ticker', 1)
+
+    # macro = Macro.objects.filter(id=1)
+    
+    # serialized_class = MacroSerializer
+
+    # return HttpResponse(content=macro[0].date, content_type="application/json")
+    # context = {
+    #     "data" : [{
+    #         'date': '2019-01-01',
+    #         'ticker' : 'AAPL',
+    #         'price_change' : '+3%',
+    #         'actual' : 65.0,
+    #         'estimate' : 57.0
+    #     },
+    #     {
+    #         'date': '2019-01-01',
+    #         'ticker' : 'AAPL',
+    #         'price_change' : '+3%',
+    #         'actual' : 65.0,
+    #         'estimate' : 57.0
+    #     },
+    #     {
+    #         'date': '2019-01-01',
+    #         'ticker' : 'AAPL',
+    #         'price_change' : '+3%',
+    #         'actual' : 65.0,
+    #         'estimate' : 57.0
+    #     },
+    #     {
+    #         'data' : serialized_class
+    #     }
+    #     ]
+    # }
+    return JsonResponse(data=context)
 
