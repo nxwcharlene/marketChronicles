@@ -1,8 +1,10 @@
 from rest_framework import serializers
-from macro.models import Instrument
+from macro.models import Macro
 
-class InstrumentSerializer(serializers.ModelSerializer):
+class MacroSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Instrument
-        fields = ('date' , 'open' , 'high', 'low', 'close')
+        fields = '__ALL__'
+        model = Macro
         #read_only_fields = ( ‘ owner ‘ ,)
+
+        
