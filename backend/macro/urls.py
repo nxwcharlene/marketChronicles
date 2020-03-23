@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
-from . views import index
+from . views import get_macro
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('macro-get/', views.get_macro, name='get_macros'),
 ]
