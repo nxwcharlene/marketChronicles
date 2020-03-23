@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'react-axios';
+import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -30,24 +30,31 @@ const useStyles = makeStyles(theme => ({
 
 function MacroForm(){
     const classes = useStyles();
-    const [input, setInput] = useState({ security: '', indicator: '', direction: '', magnitude: 0 });
+    // const [input, setInput] = useState({ security: '', indicator: '', direction: '', magnitude: 0 });
+    const input = {}
     const [showLoading, setShowLoading] = useState(false);
-    const apiUrl = "http://127.0.0.1:8000/macro/";
+    const apiUrl = "http://127.0.0.1:8000/";
 
     const saveInput = (e) => {
       setShowLoading(true);
       e.preventDefault();
-      const data = { security: input.security, indicator: input.indicator, direction: input.direction, magnitude: input.magnitude };
-      axios.post(apiUrl, data)
+      console.log(apiUrl)
+      return axios.post(apiUrl, {input})
         .then((result) => {
+          console.log(input)
           setShowLoading(false);
           //props.history.push('/show/' + result.data._id)
-        }).catch((error) => setShowLoading(false));
+        }).catch((error) => {
+          console.log('error')
+          setShowLoading(false)});
     };
   
-    const onChange = (e) => {
-      e.persist();
-      setInput({...input, [e.target.name]: e.target.value});
+    const onChange = (item, response) => {
+      // e.persist();
+      console.log(response)
+      input[item] = response
+      console.log(input)
+      // setInput({ item: response.name, indicator: '', direction: '', magnitude: 0 })
     }
 
         return (
@@ -55,23 +62,23 @@ function MacroForm(){
                 <form onSubmit={saveInput}>
                     <InputLabel>&emsp; Name of Security</InputLabel>
                     <FormControl className={classes.margin}>
-                    <SecurityBox name="security" value={input.security} onChange={onChange}/>
+                    <SecurityBox onChange={onChange}/>
                     </FormControl>
 
                     <div style={{height:10}}/>
 
                     <FormControl className={classes.margin}>
-                     <IndicatorBox name="indicator" value={input.indicator} onChange={onChange}/>
+                     <IndicatorBox  onChange={onChange}/>
                      <FormHelperText>Economic Indicator </FormHelperText>
                     </FormControl>
 
                     <FormControl className={classes.margin}>
-                    <DirectionBox name="direction" value={input.direction} onChange={onChange}/>
+                    <DirectionBox  onChange={onChange}/>
                     <FormHelperText>Surprise Direction </FormHelperText>
                     </FormControl>
 
                     <FormControl className={classes.margin}>
-                    <MagnitudeBox name="magnitude" value={input.magnitude} onChange={onChange}/>
+                    <MagnitudeBox  onChange={onChange}/>
                     <FormHelperText>Surprise Magnitude </FormHelperText>
                     </FormControl>
 

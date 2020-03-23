@@ -25,7 +25,7 @@ SECRET_KEY = '09z=flz0$y1n-md7)%u56v2ed#jmap&3^x1wk$-h$68fjd(g=)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '172.22.143.201:3000','http://localhost:3000/'] # this is to allow frontend to call the backend
+ALLOWED_HOSTS = [] # this is to allow frontend to call the backend
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'earnings',
     'pricemovement',
     'corsheaders',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -133,10 +134,4 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
-CORS_ORIGIN_REGEX_WHITELIST = [
-    'http://localhost:3000',
-]
 

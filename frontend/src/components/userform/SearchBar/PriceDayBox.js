@@ -38,17 +38,17 @@ const BootstrapInput = withStyles(theme => ({
   },
 }))(InputBase);
 
-export default function PriceDayBox() {
-    const [direction, setDirection] = React.useState('');
-    const handleChange = event => {
-    setDirection(event.target.value);
-  };
+const PriceDayBox = (props) => {
+    // const [direction, setDirection] = React.useState('');
+    // const handleChange = event => {
+    // setDirection(event.target.value);
     return (
         <NativeSelect
           id="demo-customized-select-native"
-          value={direction}
           input={<BootstrapInput />}
-          onChange={handleChange}
+          onChange={(event) => {
+            props.onChange('Day', event.target.value)
+          }}
           style = {{width: 200}}
         >
           <option value="" />
@@ -63,3 +63,5 @@ export default function PriceDayBox() {
         </NativeSelect>
         );
 }
+
+export default PriceDayBox

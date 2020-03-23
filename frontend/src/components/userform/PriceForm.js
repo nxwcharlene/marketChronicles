@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'react-axios';
+import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -27,10 +29,35 @@ const useStyles = makeStyles(theme => ({
 
 function PriceForm(){
     const classes = useStyles();
+    const input = {}
+    const [showLoading, setShowLoading] = useState(false);
+    const apiUrl = "http://127.0.0.1:8000/earnings";
+
+    const saveInput = (e) => {
+      setShowLoading(true);
+      e.preventDefault();
+      console.log(apiUrl)
+      return axios.post(apiUrl, input)
+        .then((result) => {
+          console.log(input)
+          setShowLoading(false);
+          //props.history.push('/show/' + result.data._id)
+        }).catch((error) => {
+          console.log('error')
+          setShowLoading(false)});
+    };
+  
+    const onChange = (item, response) => {
+      // e.persist();
+      console.log(response)
+      input[item] = response
+      console.log(input)
+      // setInput({ item: response.name, indicator: '', direction: '', magnitude: 0 })
+    }
 
         return (
             <React.Fragment>
-                <form>
+                <form onSubmit={saveInput}>
                     <InputLabel>&emsp; Name of Security</InputLabel>
                     <FormControl className={classes.margin}>
                     <SecurityBox />
@@ -56,4 +83,4 @@ function PriceForm(){
         );
 }
 
-export default PriceForm;
+export default withRouter (PriceForm);
