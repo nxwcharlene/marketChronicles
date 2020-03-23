@@ -5,9 +5,13 @@ import MacroPage from './pages/macropage';
 import EarningsPage from './pages/earningspage';
 import PriceMovementPage from './pages/pricemovementpage';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+
 class App extends Component{
     render() {
         return(
+        <MuiPickersUtilsProvider utils={MomentUtils}>
             <Router>
                 <Switch>
                     <Route exact path ="/" component={MainPage} />
@@ -16,6 +20,7 @@ class App extends Component{
                     <Route path ="/price_movement" component={PriceMovementPage} />
                 </Switch>
             </Router>
+        </MuiPickersUtilsProvider>
         );
     }
 }

@@ -45,7 +45,7 @@ export default function DirectionBox() {
   
     return (
         <NativeSelect
-          id="demo-customized-select-native"
+          id="direction"
           // value={direction}
           input={<BootstrapInput />}
           // onChange={handleChange}
