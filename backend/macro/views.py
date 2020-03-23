@@ -19,7 +19,7 @@ def apiOverview(request):
         }
     return Response(api_urls)
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def get_macro(request):
     macro=Macro.objects.filter(ticker='NAPMPMI Index') #replace with indicatorname
     df=pd.DataFrame(list(macro.values())) #convert model data to dataframe
