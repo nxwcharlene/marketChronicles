@@ -11,6 +11,10 @@ import MagnitudeBox from './SearchBar/MagnitudeBox.js';
 import DirectionBox from './SearchBar/DirectionBox.js';
 import SecurityBox from './SearchBar/SecurityBox.js';
 
+import StartDatePicker from './SearchBar/StartDatePicker.js';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+
 const useStyles = makeStyles(theme => ({
   '@global': {
     ul: {
@@ -52,13 +56,12 @@ function MacroForm(){
 
         return (
             <React.Fragment>
+             <MuiPickersUtilsProvider utils={MomentUtils}>
                 <form onSubmit={saveInput}>
-                    <InputLabel>&emsp; Name of Security</InputLabel>
                     <FormControl className={classes.margin}>
                     <SecurityBox name="security" value={input.security} onChange={onChange}/>
+                    <FormHelperText>Name of Security </FormHelperText>
                     </FormControl>
-
-                    <div style={{height:10}}/>
 
                     <FormControl className={classes.margin}>
                      <IndicatorBox name="indicator" value={input.indicator} onChange={onChange}/>
@@ -75,10 +78,14 @@ function MacroForm(){
                     <FormHelperText>Surprise Magnitude </FormHelperText>
                     </FormControl>
 
+                    <div style={{height:30}}/>
+                    <StartDatePicker className={classes.margin} utils={MomentUtils} />
+
                     <Button className={classes.gobutton} size="medium" variant="contained" color="primary" type="submit">
                         SEARCH
                     </Button>
                 </form>
+             </MuiPickersUtilsProvider>
             </React.Fragment>
         );
 }

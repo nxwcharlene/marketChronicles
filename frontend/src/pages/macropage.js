@@ -6,17 +6,13 @@ import MacroResults from '../components/results/macroresults.js';
 import EconAppBar from '../components/structure/navbar/EconAppBar.js';
 import demo from '../images/demo_results.jpeg';
 import MacroForm from '../components/userform/MacroForm.js';
-import InlineDatePicker from '../components/userform/SearchBar/InlineDatePicker.js';
 import Footer from '../components/structure/footer/Footer.js';
 
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
 
 function MacroPage(){
       return (
         <React.Fragment>
             <CssBaseline />
-            <MuiPickersUtilsProvider utils={MomentUtils}>
                 <div>
                     <EconAppBar />
 
@@ -30,7 +26,6 @@ function MacroPage(){
                         <div>
                             <MacroForm />
                             <div style={{height:10}}/>
-                            <InlineDatePicker utils={MomentUtils} />
                         </div>
 
                         <hr></hr>
@@ -50,7 +45,6 @@ function MacroPage(){
                     <Footer />
 
                 </div>
-            </MuiPickersUtilsProvider>
         </React.Fragment>
       );
 }
