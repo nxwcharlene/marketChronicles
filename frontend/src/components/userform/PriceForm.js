@@ -31,7 +31,7 @@ function PriceForm(){
     const classes = useStyles();
     const input = {}
     const [showLoading, setShowLoading] = useState(false);
-    const apiUrl = "http://127.0.0.1:8000/earnings";
+    const apiUrl = "http://127.0.0.1:8000/price";
 
     const saveInput = (e) => {
       setShowLoading(true);
@@ -60,18 +60,18 @@ function PriceForm(){
                 <form onSubmit={saveInput}>
                     <InputLabel>&emsp; Name of Security</InputLabel>
                     <FormControl className={classes.margin}>
-                    <SecurityBox />
+                    <SecurityBox onChange={onChange} />
                     </FormControl>
 
                     <div style={{height:10}}/>
 
                     <FormControl className={classes.margin}>
-                     <PriceBox />
+                     <PriceBox onChange={onChange}/>
                      <FormHelperText>% change in stock price</FormHelperText>
                     </FormControl>
 
                     <FormControl className={classes.margin}>
-                    <PriceDayBox />
+                    <PriceDayBox onChange={onChange}/>
                     <FormHelperText>Within a period of </FormHelperText>
                     </FormControl>
 
