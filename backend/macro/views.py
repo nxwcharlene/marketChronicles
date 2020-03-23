@@ -100,4 +100,3 @@ def get_macro(request):
     #     ]
     # }
     return JsonResponse(data=context)
-
