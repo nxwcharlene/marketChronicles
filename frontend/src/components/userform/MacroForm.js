@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
   },
   gobutton: {
-    margin: theme.spacing(4),
+    margin: theme.spacing(3),
   },
 }));
 
@@ -68,6 +68,7 @@ function MacroForm(){
                 <form onSubmit={saveInput}>
                     <FormControl className={classes.margin}>
                     <SecurityBox onChange={onChange}/>
+                    <FormHelperText>Name of Security </FormHelperText>
                     </FormControl>
 
                     <FormControl className={classes.margin}>
@@ -97,7 +98,7 @@ function MacroForm(){
                     <FormHelperText>End Date </FormHelperText>
                     </FormControl>
 
-                    <Button className={classes.gobutton} size="medium" variant="contained" color="primary" type="submit">
+                    <Button className={classes.gobutton} size="large" variant="contained" color="primary" type="submit">
                         SEARCH
                     </Button>
                 </form>

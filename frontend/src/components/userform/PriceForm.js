@@ -10,6 +10,11 @@ import PriceBox from './SearchBar/PriceBox.js';
 import PriceDayBox from './SearchBar/PriceDayBox.js';
 import SecurityBox from './SearchBar/SecurityBox.js';
 
+import StartDatePicker from './SearchBar/StartDatePicker.js';
+import EndDatePicker from './SearchBar/EndDatePicker.js';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+
 const useStyles = makeStyles(theme => ({
   '@global': {
     ul: {
@@ -22,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
   },
   gobutton: {
-    margin: theme.spacing(1.5),
+    margin: theme.spacing(3),
   },
 }));
 
@@ -57,13 +62,12 @@ function PriceForm(){
 
         return (
             <React.Fragment>
+              <MuiPickersUtilsProvider utils={MomentUtils}>
                 <form onSubmit={saveInput}>
-                    <InputLabel>&emsp; Name of Security</InputLabel>
                     <FormControl className={classes.margin}>
                     <SecurityBox onChange={onChange} />
+                    <FormHelperText>Name of Security</FormHelperText>
                     </FormControl>
-
-                    <div style={{height:10}}/>
 
                     <FormControl className={classes.margin}>
                      <PriceBox onChange={onChange}/>
@@ -75,10 +79,25 @@ function PriceForm(){
                     <FormHelperText>Within a period of </FormHelperText>
                     </FormControl>
 
+                    <div style={{height:5}}/>
+
+                    <FormControl className={classes.margin}>
+                    <div style={{height:5}}/>
+                    <StartDatePicker utils={MomentUtils} />
+                    <FormHelperText>Start Date </FormHelperText>
+                    </FormControl>
+
+                    <FormControl className={classes.margin}>
+                    <div style={{height:5}}/>
+                    <EndDatePicker utils={MomentUtils} />
+                    <FormHelperText>End Date </FormHelperText>
+                    </FormControl>
+
                     <Button className={classes.gobutton} size="medium" variant="contained" color="primary">
                         SEARCH
                     </Button>
                 </form>
+              </MuiPickersUtilsProvider>
             </React.Fragment>
         );
 }
