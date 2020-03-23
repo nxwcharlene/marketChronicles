@@ -87,13 +87,13 @@ function MacroForm(){
 
                     <FormControl className={classes.margin}>
                     <div style={{height:5}}/>
-                    <StartDatePicker className={classes.margin} utils={MomentUtils} />
+                    <StartDatePicker utils={MomentUtils} />
                     <FormHelperText>Start Date </FormHelperText>
                     </FormControl>
 
                     <FormControl className={classes.margin}>
                     <div style={{height:5}}/>
-                    <EndDatePicker className={classes.margin} utils={MomentUtils} />
+                    <EndDatePicker utils={MomentUtils} />
                     <FormHelperText>End Date </FormHelperText>
                     </FormControl>
 

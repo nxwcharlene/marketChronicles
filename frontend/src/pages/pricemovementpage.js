@@ -9,7 +9,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 import PriceForm from '../components/userform/PriceForm.js';
+import ResultsCard from '../components/results/ResultsCard.js';
 import Footer from '../components/structure/footer/Footer.js';
+
+const apiUrl = "http://127.0.0.1:8000/macro/macro-get";
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -40,6 +43,8 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1, 1.5),
   },
 }));
+
+
 
 
 function PriceMovementPage() {
@@ -80,24 +85,13 @@ function PriceMovementPage() {
                     <div style={{height:10}}/>
                     <hr></hr>
                     <h3>Sample Results Output</h3>
-                    <div style={{height:300}}/>
-                    <form>
-                        <label>
-                            Company:
-                            <input type="text" name="name" />
-                        </label>
-                        <input type="submit" value="Submit" />
-                        <div style={{height:10}}/>
-                        <label>
-                            Select a company:
-                                <select>
-                                <option value="AAPL">AAPL</option>
-                                <option value="MSFT">MSFT</option>
-                                <option value="GOOGL">GOOGL</option>
-                                </select>
-                        </label>
-                        <input type="submit" value="Submit" />
-                    </form>
+                    <div style={{height:10}}/>
+
+                    <ResultsCard />
+
+                    <ResultsCard />
+
+                    <ResultsCard />
 
                 </Container>
                 <div style={{height:30}}/>
