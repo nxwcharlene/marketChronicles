@@ -60,6 +60,6 @@ def get_macro(request):
         df_results=df[df['surprise_sign'].str.contains(john.surprise_sign_input)]
 
     list_of_results = df_results['date']
-    jsonized_df=list_of_results.to_json(date_format='iso',orient='records')
-    data_to_frontend=json.dumps(jsonized_df)
-    return Response(data_to_frontend)
+    jsonized_df=list_of_results.to_json(date_format='iso',orient="index")
+    return HttpResponse(jsonized_df)
+
