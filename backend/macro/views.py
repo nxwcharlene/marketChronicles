@@ -1,9 +1,65 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-
-
+from django.http import HttpResponse, JsonResponse
+from macro.models import Macro, Stockprice, StockId
+import pandas as pd
+# from macro.serializer import MacroSerializer
+from rest_framework import generics
+from django_pandas.io import read_frame
+import quandl
+quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+import json
 # CREATE YOUR VIEWS HERE:
 
-# 1: create an index function that will take in a request and return an HTTP response
-def index(request):
-    return HttpResponse("Hello World! This is the macro views index.", content_type="application/json")
+@api_view(['GET'])
+def apiOverview(request):
+    api_urls={
+        'Macro':'/macro-get/',
+        }
+    return Response(api_urls)
+
+@api_view(['GET'])
+def get_macro(request):
+    macro=Macro.objects.filter(ticker='NAPMPMI Index') #replace with indicatorname
+    df=pd.DataFrame(list(macro.values())) #convert model data to dataframe
+    df['date'] = pd.to_datetime(df['date'], format='%Y/%m/%d')
+
+    class user_input: #pending user input from frontend
+        def __init__(self, instrument, indicator, surprise_sign_input, surprise_magnitude):
+            self.instrument = instrument  # to link to drop down
+            self.indicator = indicator  # to link to autofill
+            self.surprise_sign_input = surprise_sign_input  # to link to drop down (exceed, meet, below expections)
+            self.surprise_magnitude = surprise_magnitude  # to link to drop down (large, medium, small), if user chooses 'meet', cannot choose magnitude
+    john=user_input("Apple","ISM Manufacturing","Exceed","Small")
+
+    def surprise_sign_calc(row):
+      if float(row['actual'])-float(row['survm'])>0:
+          return('Exceed')
+      elif float(row['actual'])-float(row['survm'])<0:
+          return('Below')
+      else:
+          return('Meet')
+
+    df['surprise_sign'] = df.apply(surprise_sign_calc, axis=1)  # create new column for surprise sign
+
+    def surprise_magnitude_calc(row):
+      if abs((float(row['actual'])-float(row['survm']))/float(row['stddev']))>2:
+          return('Large')
+      elif abs((float(row['actual'])-float(row['survm']))/float(row['stddev']))<1:
+          return('Small')
+      else:
+          return('Medium')
+
+    df['surprise_magnitude'] = df.apply(surprise_magnitude_calc, axis=1)  # creates new column for surprise magnitude
+
+    if john.surprise_sign_input != "Meet": #replace with input
+        df_results=df[df['surprise_sign'].str.contains(john.surprise_sign_input)&
+                  df['surprise_magnitude'].str.contains(john.surprise_magnitude)]
+    else:
+        df_results=df[df['surprise_sign'].str.contains(john.surprise_sign_input)]
+
+    list_of_results = df_results['date']
+    jsonized_df=list_of_results.to_json(date_format='iso',orient='records')
+    data_to_frontend=json.dumps(jsonized_df)
+    return Response(data_to_frontend)
