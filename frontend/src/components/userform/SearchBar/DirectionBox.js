@@ -45,7 +45,7 @@ const DirectionBox = (props) => {
   
     return (
         <NativeSelect
-          id="demo-customized-select-native"
+          id="direction"
           // value={direction}
           input={<BootstrapInput />}
           onChange={(event) => {

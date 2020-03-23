@@ -6,8 +6,8 @@ import MacroResults from '../components/results/macroresults.js';
 import EconAppBar from '../components/structure/navbar/EconAppBar.js';
 import demo from '../images/demo_results.jpeg';
 import MacroForm from '../components/userform/MacroForm.js';
-import SelectDate from '../components/userform/SearchBar/SelectDate.js';
 import Footer from '../components/structure/footer/Footer.js';
+
 
 function MacroPage(){
       return (
@@ -26,7 +26,6 @@ function MacroPage(){
                         <div>
                             <MacroForm />
                             <div style={{height:10}}/>
-                            <SelectDate/>
                         </div>
 
                         <hr></hr>
