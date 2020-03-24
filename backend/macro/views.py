@@ -17,10 +17,11 @@ import pandas as pd
 #models & serializers
 from macro.models import Macro, Stockprice, StockId
 from .serializer import MacroSerializer
-# CREATE YOUR VIEWS HERE:
 
 #constants
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
+
+# CREATE YOUR VIEWS HERE:
 
 @api_view(['GET'])
 def apiOverview(request):
