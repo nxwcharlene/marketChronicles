@@ -12,7 +12,6 @@ import Container from '@material-ui/core/Container';
 import background from '../images/background_image.jpg';
 import MainAppBar from '../components/structure/navbar/MainAppBar.js';
 import Footer from '../components/structure/footer/Footer.js';
-import MacroResult from '../components/results/macroresults.js'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -97,7 +96,6 @@ export default function MainPage() {
   const classes = useStyles();
     return(
         <React.Fragment>
-          <MacroResult />
           <CssBaseline />
           <MainAppBar />
 

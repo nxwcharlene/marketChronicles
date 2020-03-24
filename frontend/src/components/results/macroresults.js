@@ -13,7 +13,7 @@ class MacroResults extends React.Component {
         }
     }
     componentDidMount() {
-        fetch('http://localhost:8000/macro/macro-get')
+        fetch('http://localhost:8000/macro')
             .then(res => res.json())
             .then(json => {
                 this.setState({

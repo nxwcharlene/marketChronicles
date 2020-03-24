@@ -18,7 +18,6 @@ import pandas as pd
 
 #models & serializers
 from macro.models import Macro, Stockprice, StockId
-from .serializer import MacroSerializer
 
 #constants
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
@@ -34,7 +33,7 @@ def apiOverview(request):
 
 
 @api_view(['GET', 'POST'])
-def get_macro(request):
+def get_earnings(request):
     # macro=Macro.objects.filter(ticker='NAPMPMI Index') #replace with indicatorname
     # df=pd.DataFrame(list(macro.values())) #convert model data to dataframe
     # df['date'] = pd.to_datetime(df['date'], format='%Y/%m/%d')
