@@ -7,6 +7,7 @@ from django_pandas.io import read_frame
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework import status
 # from django.core import serializers
 
 #python dependencies
@@ -56,19 +57,31 @@ def get_macro(request):
             context.append(item)
 
         return Response(data=context)
-    else:
-        # form=MacroInput(request.POST)
-        Security=request.POST.get('Security')
-        Indicator = request.POST.get('Indicator')
-        Direction = request.POST.get('Direction')
-        Magnitude = request.POST.get('Magnitude')
+    elif request.method=='POST':
+        print(request.body)
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)
+        # print(list(Macro.objects.filter(event=body['Indicator']).values()))
+        return HttpResponse("Submitted")
+        # serializer=MacroSerializer(data=body)
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response(serializer.data,status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
-        MacroInput.objects.create(
-            Security=Security,
-            Indicator=Indicator,
-            Direction=Direction,
-            Magnitude=Magnitude
-        )
+        # form=MacroInput(request.POST)
+        # Security=request.POST.get('Security')
+        # Indicator = request.POST.get('Indicator')
+        # Direction = request.POST.get('Direction')
+        # Magnitude = request.POST.get('Magnitude')
+        #
+        # MacroInput.objects.create(
+        #     Security=Security,
+        #     Indicator=Indicator,
+        #     Direction=Direction,
+        #     Magnitude=Magnitude
+        # )
     
 def calculate_surprise_sign(actual, survm):
     
