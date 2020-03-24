@@ -13,7 +13,7 @@ class EarningsResults extends React.Component {
         }
     }
     componentDidMount() {
-        fetch('http://localhost:8000/earnings/earnings-get')
+        fetch('http://localhost:8000/earnings')
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -69,4 +69,4 @@ class EarningsResults extends React.Component {
 
 }
 
-export default MacroResults;
+export default EarningsResults;

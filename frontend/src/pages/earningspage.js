@@ -5,6 +5,8 @@ import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 // for the user input form
 import EarnAppBar from '../components/structure/navbar/EarnAppBar.js';
 import EarnForm from '../components/userform/EarnForm.js';
+import EarningsResults from '../components/results/earningsresults.js';
+import ResultsCard from '../components/results/ResultsCard_Earnings.js';
 import Footer from '../components/structure/footer/Footer.js';
 
 function EarningsPage() {
@@ -25,6 +27,7 @@ function EarningsPage() {
                     <div style={{height:10}}/>
                     <hr></hr>
                     <h3>Sample Results Output</h3>
+                    <EarningsResults />
 
                     <div style={{height:400}}/>
 

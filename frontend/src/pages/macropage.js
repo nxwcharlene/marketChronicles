@@ -8,7 +8,6 @@ import MacroForm from '../components/userform/MacroForm.js';
 import MacroResults from '../components/results/macroresults.js';
 import Footer from '../components/structure/footer/Footer.js';
 
-
 function MacroPage(){
       return (
         <React.Fragment>
