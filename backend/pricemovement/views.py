@@ -26,3 +26,7 @@ def get_news(request):
     stockprice=Stockprice.objects.all()
     df_stockid = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
     df_stockprice = pd.DataFrame(list(stockprice.values()))
+
+def get_price(request):
+    random_string = "Hi, just testing."
+    return random_string

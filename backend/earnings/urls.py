@@ -9,4 +9,5 @@ from . views import get_earnings
 
 urlpatterns = [
     path('earnings-get/', views.get_earnings, name='get_earnings'),
+    path('', views.get_earnings, name='earnings'),
 ]
