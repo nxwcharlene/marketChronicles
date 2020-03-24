@@ -1,16 +1,9 @@
-//get output from backend via API
-// display JSON, have to convert to Bokeh
+//get output from backend via API, display JSON, have to convert to Bokeh
 
 import React from 'react';
 
-//API_URL created on django side
-//const API_URL = 'http://localhost:8000';
+// React js fetch: Use componentDidMount to fetch json array of objects from given url and update state
 
-/**
- * App
- *
- * Simple react js fetch example
- */
 class MacroResults extends React.Component {
     constructor(props) {
         super(props);
@@ -19,14 +12,7 @@ class MacroResults extends React.Component {
             isLoaded: false
         }
     }
-
-    /**
-     * componentDidMount
-     *
-     * Fetch json array of objects from given url and update state.
-     */
     componentDidMount() {
-
         fetch('http://localhost:8000/macro/macro-get')
             .then(res => res.json())
             .then(json => {
