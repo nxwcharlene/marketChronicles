@@ -38,7 +38,7 @@ function MacroForm(){
     // const [input, setInput] = useState({ security: '', indicator: '', direction: '', magnitude: 0 });
     const input = {}
     const [showLoading, setShowLoading] = useState(false);
-    const apiUrl = "http://127.0.0.1:8000/macro/macro-get";
+    const apiUrl = "http://localhost:8000/macro/macro-get";
     console.log(showLoading)
     const saveInput = (e) => {
       setShowLoading(true);
