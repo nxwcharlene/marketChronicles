@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import demo from '../../images/demo_results.jpeg';
 // import { useTable, useGroupBy, useFilters, useSortBy, useExpanded, usePagination } from 'react-table';
 
 // React js fetch: Use componentDidMount to fetch json array of objects from given url and update state
@@ -32,7 +33,6 @@ class MacroResults extends React.Component {
             }).catch((err) => {
                 console.log(err);
             });
-
     }
 
 //render UI
@@ -46,8 +46,8 @@ class MacroResults extends React.Component {
         return (
             <div>
                 {items.map(item => (
-                  <div style={{height:200}}>
-                      <Card>
+//                  <div style={{height:210}}>
+                      <Card style={{marginBottom:15}}>
                         <CardHeader
                             title={item.date}
                             titleTypographyProps={{ align: 'left', variant:'body1'}}
@@ -55,30 +55,64 @@ class MacroResults extends React.Component {
                             backgroundColor: 'grey',
                             height: 20}}
                         />
-                        <CardContent>
-                          <ul>
-                                <div key={item.id} style={{border:'0px solid'}}>
-                                <li >
-                                    <span>Ticker: {item.ticker}</span>
-                                </li>
-                                <li >
-                                    <span>Date: {item.date}</span>
-                                </li>
-                                <li >
-                                    <span>Event: {item.event}</span>
-                                </li>
-                                <li >
-                                    <span>Surprise Sign : {item.surprise_sign}</span>
-                                </li>
-                                <li >
-                                    <span>Surprise Magnitude: {item.surprise_magnitude}</span>
-                                </li>
-                                </div>
 
-                          </ul>
+                        <CardContent>
+                            <Grid container spacing={0} alignItems="flex-end">
+                                <Grid item key={item.id} xs={3} md={3} style ={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                                  <ul>
+                                        <div style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                                        <li >
+                                            <b><span>Economic Release </span></b>
+                                        </li>
+                                        <li >
+                                            <span>Ticker: {item.ticker}</span>
+                                        </li>
+                                        <li >
+                                            <span>Indicator: {item.event}</span>
+                                        </li>
+                                        <li >
+                                            <span>Actual: {item.actual}</span>
+                                        </li>
+                                        <li >
+                                            <span>Estimate: {item.survm}</span>
+                                        </li>
+                                        <li >
+                                            <span>Surprise: {item.surprise}</span>
+                                        </li>
+                                        </div>
+                                  </ul>
+                                </Grid>
+
+                                <Grid item key={item.id} xs={3} md={3}>
+                                    <ul>
+                                        <li >
+                                            <b><span>Post-release returns </span></b>
+                                        </li>
+                                        <li >
+                                            <span> 1 Day: {item.ticker}</span>
+                                        </li>
+                                        <li >
+                                            <span> 1 Week: {item.event}</span>
+                                        </li>
+                                        <li >
+                                            <span> 1 Month: {item.surprise_sign}</span>
+                                        </li>
+                                        <li >
+                                            <span> 3 Months: {item.surprise_magnitude}</span>
+                                        </li>
+                                        <li >
+                                            <span> 6 Months: {item.surprise_magnitude}</span>
+                                        </li>
+                                    </ul>
+                                </Grid>
+
+                                <Grid item key={item.id} xs={6} md={3}>
+                                    <img src={demo} style={{height: 120}} alt=""/>
+                                </Grid>
+                            </Grid>
                         </CardContent>
                       </Card>
-                  </div>
+//                  </div>
 
                 ))}
             </div>
