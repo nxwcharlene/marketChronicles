@@ -22,5 +22,5 @@ urlpatterns = [
     path('', include('macro.urls')),
     path('macro/', include('macro.urls')),
     path('earnings/',include('earnings.urls')),
-    path('price/', include('pricemovement.urls')),
+    path('pricemovement/', include('pricemovement.urls')),
 ]
