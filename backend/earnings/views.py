@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-from .models import stockprice, stock_id, macro
+# from .models import stockprice, stock_id, macro
 
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource, NumeralTickFormatter
@@ -16,7 +16,7 @@ from bokeh.embed import components
 # Create your views here.
 
 # Sample function taught by jeffrey:
-def trading_volume(request):
+def get_earnings(request):
     ticker = request.Get.get('ticker', '') # AAPL # ticker must be the same name as the name of the input from frontend form
     time_range = request.Get.get('time_range', '')
     time_range_options = ['Daily', 'Weekly', 'Monthly']
@@ -30,4 +30,3 @@ def trading_volume(request):
 
     if ticker is None or time_range is None:
         return render (request=request, context=context) # template_name='trading_volume.html' if you have templates
-

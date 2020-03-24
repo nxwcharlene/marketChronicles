@@ -1,6 +1,6 @@
 //get output from backend via API, display JSON, have to convert to Bokeh
 
-import React from 'react';
+import React, {component} from 'react';
 
 // React js fetch: Use componentDidMount to fetch json array of objects from given url and update state
 
