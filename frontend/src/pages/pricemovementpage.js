@@ -9,7 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 import PriceForm from '../components/userform/PriceForm.js';
-import ResultsCard from '../components/results/ResultsCard.js';
+import ResultsCard from '../components/results/PriceMovementResultsCard.js';
 import Footer from '../components/structure/footer/Footer.js';
 
 // const apiUrl = "http://127.0.0.1:8000/macro/macro-get";
