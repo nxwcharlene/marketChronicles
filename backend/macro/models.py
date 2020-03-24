@@ -138,6 +138,11 @@ class Macro(models.Model):
         managed = False
         db_table = 'macro'
 
+class MacroInput(models.Model):
+    Security=models.CharField(max_length=100)
+    Indicator=models.CharField(max_length=100)
+    Direction=models.CharField(max_length=100)
+    Magnitude=models.CharField(max_length=100)
 
 class StockId(models.Model):
     stock_id = models.IntegerField(blank=True, null=True)
