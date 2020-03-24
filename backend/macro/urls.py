@@ -4,5 +4,5 @@ from . views import get_macro
 
 urlpatterns = [
     path('', views.get_macro, name='macros'),
-    path('')
+    path('macro-get/', views.get_macro, name='macros'),
 ]
