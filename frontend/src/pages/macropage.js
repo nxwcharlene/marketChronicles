@@ -3,7 +3,6 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 import EconAppBar from '../components/structure/navbar/EconAppBar.js';
-import demo from '../images/demo_results.jpeg';
 import MacroForm from '../components/userform/MacroForm.js';
 import MacroResults from '../components/results/macroresults.js';
 //import ResultsCard from '../components/results/ResultsCard_Macro.js';
@@ -31,8 +30,6 @@ function MacroPage(){
                         <hr></hr>
                         <h3>Sample Results Output</h3>
                         <MacroResults />
-                        <div style={{height:10}}/>
-                        <img src={demo} style={{width: 500}} alt=""/>
                         <div style={{height:100}}/>
 
                     </Container>
