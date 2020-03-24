@@ -119,9 +119,9 @@ def calculate_surprise_sign(actual, survm):
         return('Meet')
 
 def calculate_surprise_magnitude(actual, survm, stddev):
-      if actual - (survm / stddev) > 2:
+      if abs(((actual - survm) / stddev)) > 2:
           return('Large')
-      elif actual - (survm / stddev) < 1:
+      elif abs(((actual - survm) / stddev)) < 1:
           return('Small')
       else:
           return('Medium')
