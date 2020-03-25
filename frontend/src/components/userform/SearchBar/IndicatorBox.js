@@ -26,7 +26,6 @@ const indicatorlist = [
   { name: 'Initial Jobless Claims'},
   { name: 'Unemployment Rate'},
   { name: 'CPI MoM'},
-  { name: 'NAHB Housing Market Index'},
   { name: 'FOMC Rate Decision (Upper Bound)'},
  ];
 
