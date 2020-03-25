@@ -19,9 +19,9 @@ const IndicatorBox = (props) => {
 
 const indicatorlist = [
   { name: 'Non-Farm Payroll'},
-  { name: 'ISM Manufacturing PMI'},
-  { name: 'ISM Non-Manufacturing PMI'},
-  { name: 'GDP Growth Rate'},
+  { name: 'ISM Manufacturing'},
+  { name: 'ISM Non-Manufacturing'},
+  { name: 'GDP Annualized QoQ'},
   { name: 'Retail Sales MoM'},
   { name: 'Initial Jobless Claims'},
   { name: 'Unemployment Rate'},
