@@ -78,7 +78,7 @@ class ReactFilterView(generics.ListAPIView):
     serializer_class = MacroSerializer
 
     def get_queryset(self):
-        results = filter(self.request)
+        results = get_macro(self.request)
         return results
 
         # serializer=MacroSerializer(data=body)
