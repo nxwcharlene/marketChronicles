@@ -38,13 +38,13 @@ function MacroForm(){
     // const [input, setInput] = useState({ security: '', indicator: '', direction: '', magnitude: 0 });
     const input = {}
     const [showLoading, setShowLoading] = useState(false);
-    const apiUrl = "http://localhost:8000/macro/macro-get";
+    const apiUrl = "http://localhost:8000/macro/macro-get/";
     console.log(showLoading)
     const saveInput = (e) => {
       setShowLoading(true);
       e.preventDefault();
       console.log(apiUrl)
-      return axios.post(apiUrl, {input})
+      return axios.post(apiUrl, input)
         .then((result) => {
           console.log(input)
           setShowLoading(false);

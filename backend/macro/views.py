@@ -24,21 +24,24 @@ quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 
 # CREATE YOUR VIEWS HERE:
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def apiOverview(request):
     api_urls={
         'Macro':'/macro-get/',
         }
     return Response(api_urls)
 
-@api_view(['GET', 'POST'])
+@api_view(['GET','POST'])
 def get_macro(request):
-    if request.method=='GET':
-        macro = Macro.objects.all().order_by('-id')[:10] #I just get random 10 set from the database, you can modify based on your needs
-
+    if request.method=='POST':
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)
+        macro = Macro.objects.filter(event='ISM Manufacturing') #change to all later
+        print(pd.DataFrame(list(macro.values())))
         context = []
         for item in macro.values():
-
+            #cleaning up database
             actual = float(item['actual'].replace('%', ''))
             survm = item['survm'].replace('%', '')
             stddev = item['stddev'].replace('%', '')
@@ -51,19 +54,27 @@ def get_macro(request):
                 stddev = 1 # standard deviation cannot divide by 0.
             else:
                 stddev = float(stddev)
-
+            event=item['event']
+            if event == "Change in Nonfarm Payrolls":
+                event=item['event'].replace('Change in Nonfarm Payrolls','Non-Farm Payroll')
+            elif event == "Retail Sales Less Autos":
+                event=item['event'].replace('Retail Sales Less Autos','Retail Sales MoM')
+            #create 2 new field
             item['surprise_sign'] = calculate_surprise_sign(actual, survm)
             item['surprise_magnitude'] = calculate_surprise_magnitude(actual, survm, stddev)
-            context.append(item)
-
+            #filter with user input
+            if item['event']==body['Indicator']:
+                if item['surprise_sign']==body['Direction']:
+                    if item['surprise_magnitude']==body['Magnitude']:
+                        context.append(item)
+        print(context)
         return Response(data=context)
-    elif request.method=='POST':
-        print(request.body)
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        print(body)
-        # print(list(Macro.objects.filter(event=body['Indicator']).values()))
-        return HttpResponse("Submitted")
+    elif request.method == 'GET':
+        return Response("Hello")
+        #how to get input from post?
+
+
+
         # serializer=MacroSerializer(data=body)
         # if serializer.is_valid():
         #     serializer.save()
