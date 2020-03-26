@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from macro.models import MacroInput
+from macro.models import MacroInput, Stockprice
 
 class MacroSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,7 +8,6 @@ class MacroSerializer(serializers.ModelSerializer):
         #read_only_fields = ( ‘ owner ‘ ,)
 
 class StockPriceSerializer(serializers.ModelSerializer):
-    stockname = StringSerializer(many=False)
     class Meta:
         model = Stockprice
         fields = ['stock_id','date','price']

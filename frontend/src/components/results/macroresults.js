@@ -56,8 +56,8 @@ const MacroResults = () => {
   
     //output as list first, haven't format as card yet
     const data = () => {
-      return result.map(item => (
-        <li key={item.id}>{item.name}</li>
+      return result.map({ context } => (
+        <li key={context.id}>{context.date}</li>
       ))
     }
   }

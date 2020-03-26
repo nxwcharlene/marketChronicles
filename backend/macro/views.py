@@ -69,11 +69,17 @@ def get_macro(request):
                         context.append(item)
         print(context)
         return Response(data=context)
-    elif request.method == 'GET':
-        return Response("Hello")
+
+    # elif request.method == 'GET':
+    #     return Response("Hello")
         #how to get input from post?
 
+class ReactFilterView(generics.ListAPIView):
+    serializer_class = MacroSerializer
 
+    def get_queryset(self):
+        results = filter(self.request)
+        return results
 
         # serializer=MacroSerializer(data=body)
         # if serializer.is_valid():
