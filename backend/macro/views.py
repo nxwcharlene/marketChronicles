@@ -17,7 +17,7 @@ import pandas as pd
 
 #models & serializers
 from macro.models import Macro, Stockprice, StockId, MacroInput
-from .serializer import MacroSerializer
+from .serializer import MacroSerializer, StockPriceSerializer
 
 #constants
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'

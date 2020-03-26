@@ -7,4 +7,10 @@ class MacroSerializer(serializers.ModelSerializer):
         model = MacroInput
         #read_only_fields = ( ‘ owner ‘ ,)
 
+class StockPriceSerializer(serializers.ModelSerializer):
+    stockname = StringSerializer(many=False)
+    class Meta:
+        model = Stockprice
+        fields = ['stock_id','date','price']
+
         
