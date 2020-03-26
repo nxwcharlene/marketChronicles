@@ -8,6 +8,7 @@ import EarnForm from '../components/userform/EarnForm.js';
 import EarningsResults from '../components/results/earningsresults.js';
 import ResultsCard from '../components/results/ResultsCard_Earnings.js';
 import Footer from '../components/structure/footer/Footer.js';
+import ResultChart from '../components/results/ResultChart';
 
 function EarningsPage() {
   return (
@@ -28,6 +29,7 @@ function EarningsPage() {
                     <hr></hr>
                     <h3>Sample Results Output</h3>
                     <EarningsResults />
+                    <ResultChart />
 
                     <div style={{height:400}}/>
 
