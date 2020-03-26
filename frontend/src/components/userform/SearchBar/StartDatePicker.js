@@ -32,9 +32,9 @@ import moment from 'moment';
 
 
 function StartDatePicker(props) {
-//  const [startDate, setStartDate] = React.useState(new Date("2014/02/08"));
-//  const [endDate, setEndDate] = React.useState(new Date("2014/02/10"));
-//    let now = moment();
+const [startDate, setStartDate] = React.useState(new Date("2014/02/08"));
+const [endDate, setEndDate] = React.useState(new Date("2014/02/10"));
+   let now = moment();
     const [selectedDate, handleDateChange] = useState(new Date());
 
   return (
@@ -46,9 +46,10 @@ function StartDatePicker(props) {
         inputVariant="outlined"
 //        label="Start Date"
         format="MM/DD/YYYY"
-        value={selectedDate}
+        value={startDate}
         InputAdornmentProps={{ position: "start" }}
-        onChange={date => handleDateChange(date)}
+        onChange={(event) => props.onChange('Start Date', startDate)}
+        
       />
     </MuiPickersUtilsProvider>
    </Fragment>

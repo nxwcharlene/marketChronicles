@@ -33,7 +33,7 @@ import moment from 'moment';
 
 function EndDatePicker(props) {
 //  const [startDate, setStartDate] = React.useState(new Date("2014/02/08"));
-//  const [endDate, setEndDate] = React.useState(new Date("2014/02/10"));
+const [endDate, setEndDate] = React.useState(new Date("2014/02/10"));
 //    let now = moment();
     const [selectedDate, handleDateChange] = useState(new Date());
 
@@ -46,9 +46,9 @@ function EndDatePicker(props) {
         inputVariant="outlined"
 //        label="End Date"
         format="MM/DD/YYYY"
-        value={selectedDate}
+        value={endDate}
         InputAdornmentProps={{ position: "start" }}
-        onChange={date => handleDateChange(date)}
+        onChange={(event) => props.onChange('End Date', endDate)}
       />
     </MuiPickersUtilsProvider>
    </Fragment>
