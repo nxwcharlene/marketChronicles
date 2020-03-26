@@ -29,7 +29,7 @@ function MacroPage(){
 
                         <hr></hr>
                         <h3>Sample Results Output</h3>
-                        <MacroResults />
+                        {/* <MacroResults /> */}
                         <div style={{height:100}}/>
 
                     </Container>
