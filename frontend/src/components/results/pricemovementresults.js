@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import demo from '../../images/demo_results.jpeg';
 import ResultChart from './ResultChart.js';
+import Skeleton from '@material-ui/lab/Skeleton';
 // import { useTable, useGroupBy, useFilters, useSortBy, useExpanded, usePagination } from 'react-table';
 
 const newsapi = 'http://newsapi.org/v2/everything?domains=wsj.com&apiKey=cb96aea22e024b5090f23187cec75f76'
@@ -27,7 +28,7 @@ class PriceMovementResults extends React.Component {
      }
  }
  componentDidMount() {
-     fetch("127.0.0.1:8000/pricemovement/get_date")
+     fetch("http://127.0.0.1:8000/pricemovement/get_date")
          .then(res => res.json())
          .then(json => {
              this.setState({
@@ -39,18 +40,24 @@ class PriceMovementResults extends React.Component {
          });
  }
 
+
      render() {
-         const { isLoaded, items } = this.state;
+         const { items, isLoaded } = this.state;
+         console.log(this.state.items)
 
          if (!isLoaded)
-             return <div>Loading...</div>;
+             return (
+             <div>
+      <Skeleton animation="wave" variant="rect" width={"100%"} height={200} />
+    </div>
+    )
 
          return (
              <div>
                  {items.map(item => (
-                       <Card style={{marginBottom:20}}>
+                       <Card style={{marginBottom:20}} key={item.date}>
                          <CardHeader
-                             title={item.ticker}
+                             title={item.date}
                              titleTypographyProps={{ align: 'left', variant:'body1'}}
                              style={{
                              backgroundColor: 'grey',
@@ -66,10 +73,10 @@ class PriceMovementResults extends React.Component {
                                              <b><span>Price Movement </span></b>
                                          </li>
                                          <li >
-                                             <span>Ticker: {item.data[2]}</span>
+                                             <span>Ticker: {item.ticker}</span>
                                          </li>
                                          <li >
-                                             <span>Price change (%): {item.data[4]}</span>
+                                             <span>Price change (%): {item.daily_returns}</span>
                                          </li>
                                          <li >
                                              <span>Period: {item.period}</span>

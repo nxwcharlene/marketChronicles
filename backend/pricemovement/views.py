@@ -173,5 +173,3 @@ def get_date(request):
 
     elif request.method == 'POST':
         return Response("Hello")
-
-    
