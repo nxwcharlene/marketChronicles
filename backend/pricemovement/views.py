@@ -22,22 +22,9 @@ def apiOverview(request):
     return Response(api_urls)
 
 @api_view(['GET', 'POST'])
-def get_news(request):
-    stockid = StockId.objects.all()
-    stockprice=Stockprice.objects.all()
-    df_stockid = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
-    df_stockprice = pd.DataFrame(list(stockprice.values()))
-
-
-@api_view(['GET', 'POST'])
 def get_price(request):
     if request.method == 'GET':
-        stockid = StockId.objects.all()
-        stockprice=Stockprice.objects.all()
-        stock_id = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
-        stock_price = pd.DataFrame(list(stockprice.values()))
-
-
+        
         user_input = {
             'Name of Security': 'AAPL',
             '% Change in stock price':'5%',
@@ -54,11 +41,90 @@ def get_price(request):
         time_period = loaded_input['Time period']
         start_date = loaded_input['Start Date']
         end_date = loaded_input['End Date']
-
-
+        
+        stockid = StockId.objects.all()        
+        stock_id = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
         stock_number = stock_id[stock_id.loc[:,'ticker']==sec_tic].iloc[0].loc['stock_id']
-        security =stock_id[stock_id.loc[:,'stock_id']==stock_number].iloc[0].loc['security'].split(" ")[0]
-        price_table = stock_price[stock_price.loc[:,'stock_id']==stock_number]
+
+        stockprice=Stockprice.objects.filter(stock_id=stock_number)
+        price_table = pd.DataFrame(list(stockprice.values()))    
+        price_table.loc[:,'daily_returns']= price_table['price'].pct_change()
+        price_table['date'] = pd.to_datetime(price_table['date'])
+        price_table=price_table.set_index('date')
+        huge_daily_move = price_table[price_table.loc[:,'daily_returns']>criteria]
+        huge_daily_move= huge_daily_move.loc[start_date:end_date]
+        
+        week_open= price_table.price.resample('W-SUN').last().shift(1, freq='D')
+        week_open.rename("open_price",inplace=True)
+        week_close =price_table.price.resample('W-FRI').last().shift(-4, freq='D')
+        week_close.rename("close_price",inplace=True)
+        weekly_data = pd.concat([week_open, week_close], axis=1)
+        weekly_data['weekly_returns']=(weekly_data['close_price']-weekly_data['open_price'])/weekly_data['open_price']
+        huge_weekly_move= weekly_data[weekly_data.loc[:,'weekly_returns']>criteria]
+        huge_weekly_move=huge_weekly_move.loc[start_date:end_date]
+        
+        context=[]
+        
+        if time_period == '1 Day':
+            date_list = huge_daily_move.index.tolist()
+            for i in range(0,len(date_list)):
+                price_range = price_table.loc[date_list[i]:].iloc[:65]
+                price_range = price_range.drop(columns=['daily_returns','stock_id'])
+                price_index=price_range.index.strftime("%Y-%m-%d")
+                price_range=price_range.set_index(price_index)
+                price_data= price_range.to_json(orient='split')
+                loaded_price = json.loads(price_data)
+                context.append(loaded_price)
+            return Response(data=context)
+        elif time_period == '1 Week':
+            date_list = huge_weekly_move.index.tolist()
+            for i in range(0,len(date_list)):
+                price_range = price_table.loc[date_list[i]:].iloc[:260]
+                price_range = price_range.drop(columns=['daily_returns','stock_id'])
+                price_index=price_range.index.strftime("%Y-%m-%d")
+                price_range=price_range.set_index(price_index)
+                price_data= price_range.to_json(orient='split')
+                loaded_price = json.loads(price_data)
+                context.append(loaded_price)
+            return Response(data=context)
+
+    elif request.method == 'POST':
+        return Response("Hello")
+
+
+@api_view(['GET', 'POST'])
+def get_date(request):
+    if request.method == 'GET':
+        
+        user_input = {
+            'Name of Security': 'AAPL',
+            '% Change in stock price':'5%',
+            'Time period':'1 Day',
+            'Start Date' :'1/1/2018',
+            'End Date':'1/1/2019'
+        }
+
+        user_input = json.dumps(user_input)
+        loaded_input = json.loads(user_input)
+
+        sec_tic =  loaded_input['Name of Security']
+        criteria = float(loaded_input['% Change in stock price'].strip('%'))/100
+        time_period = loaded_input['Time period']
+        start_date = loaded_input['Start Date']
+        end_date = loaded_input['End Date']
+        
+        
+        stockid = StockId.objects.all()        
+        stock_id = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
+        stock_number = stock_id[stock_id.loc[:,'ticker']==sec_tic].iloc[0].loc['stock_id']
+
+
+        stockprice=Stockprice.objects.filter(stock_id=stock_number)
+        price_table = pd.DataFrame(list(stockprice.values()))
+        # price_table = stock_price[stock_price.loc[:,'stock_id']==stock_number]         
+        
+        #security =stock_id[stock_id.loc[:,'stock_id']==stock_number].iloc[0].loc['security'].split(" ")[0]
+        
         price_table['ticker']=sec_tic
         price_table['period']=time_period
         price_table.loc[:,'daily_returns']= price_table['price'].pct_change()
