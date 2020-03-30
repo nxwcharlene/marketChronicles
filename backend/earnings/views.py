@@ -4,18 +4,19 @@ from django.shortcuts import render
 #Look at the macro code. Call earnings instead of macro
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from earnings_surprises.models import Earnings, Macro, Stockprice, StockId
+from earnings.models import Earnings, Macro, Stockprice, StockId
 import pandas as pd
-# from macro.serializer import MacroSerializer
+from macro.serializer import MacroSerializer
 from rest_framework import generics
-from django_pandas.io import read_frame
+# from django_pandas.io import read_frame
 import quandl
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
+from datetime import timedelta
 
-from .serializer import MacroSerializer
+from .serializer import EarningsSerializer
 # CREATE YOUR VIEWS HERE:
 
 @api_view(['GET'])
@@ -28,9 +29,9 @@ def apiOverview(request):
 @api_view(['GET', 'POST'])
 #Call the earnings thingy. Like call the other DF and then play with it
 def get_id(request):
+    return()
 
-
-def get_macro(request):
+def get_earnings(request):
     idframe=StockId.objects.filter(ticker='NAPMPMI Index') #replace with stock_id
     df=pd.DataFrame(list(idframe.values())) #convert model data to dataframe
     stockidval=df.at[0,"stock_id"]
@@ -75,17 +76,17 @@ def get_macro(request):
         df_results=df[df['surprise_sign'].str.contains(john.surprise_sign_input)]
     def drift_calc(df):
         for i in df.index:
-        if df.loc[i]["surprise_sign"]==john.surprise_sign_input and df.loc[i]["surprise_magnitude"]==john.surprise_magnitude:
-            try:
-                print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n The 20 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=20)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n And the 100 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=100)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n")
-            except KeyError:
+            if df.loc[i]["surprise_sign"]==john.surprise_sign_input and df.loc[i]["surprise_magnitude"]==john.surprise_magnitude:
                 try:
-                    print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n And the 20 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=50)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n")
+                    print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n The 20 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=20)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n And the 100 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=100)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n")
                 except KeyError:
                     try:
-                        print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n")
+                        print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n And the 20 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=50)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n")
                     except KeyError:
-                        continue
+                        try:
+                            print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n")
+                        except KeyError:
+                            continue
 
     list_of_results = df_results['date']
     df['data'] = list_of_results

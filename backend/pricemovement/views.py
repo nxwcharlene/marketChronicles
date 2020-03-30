@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from pricemovement.models import StockId,Stockprice
+from pricemovement.models import StockId, Stockprice
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import pandas as pd
 # from macro.serializer import MacroSerializer
 from rest_framework import generics
-from django_pandas.io import read_frame
+# from django_pandas.io import read_frame
 import quandl
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 from rest_framework.decorators import api_view
