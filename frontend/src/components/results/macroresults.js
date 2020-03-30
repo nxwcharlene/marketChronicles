@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import demo from '../../images/demo_results.jpeg';
 import macroresultsAPI from './macroresultsAPI';
+import ResultChart from './ResultChart.js';
 // import { useTable, useGroupBy, useFilters, useSortBy, useExpanded, usePagination } from 'react-table';
 
 // React js fetch: Use componentDidMount to fetch json array of objects from given url and update state
@@ -106,8 +107,8 @@ class MacroResults extends React.Component {
                                      </ul>
                                  </Grid>
 
-                                 <Grid item key={item.id} xs={6} md={3}>
-                                     <img src={demo} style={{height: 120}} alt=""/>
+                                 <Grid item key={item.id} xs={6} md={6}>
+                                     <ResultChart style={{height: 10}}/>
                                  </Grid>
                              </Grid>
                          </CardContent>
