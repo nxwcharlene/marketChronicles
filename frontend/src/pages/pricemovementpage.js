@@ -27,11 +27,11 @@ function PriceMovementPage() {
                     <div style={{height:10}}/>
                     <PriceMovementResults />
                 </Container>
-
                 <div style={{height:30}}/>
-
-                <Footer />
             </div>
+
+            <Footer />
+
         </React.Fragment>
   );
 }
