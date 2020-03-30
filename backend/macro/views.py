@@ -19,6 +19,9 @@ import pandas as pd
 from macro.models import Macro, Stockprice, StockId, MacroInput
 from .serializer import MacroSerializer, StockPriceSerializer
 
+from datetime import datetime
+import json
+
 #constants
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 
@@ -40,38 +43,41 @@ def get_macro(request):
         macro = Macro.objects.filter(event='ISM Manufacturing') #change to all later
         # print(pd.DataFrame(list(macro.values())))
         context = []
-    for item in macro.values():
-        #cleaning up database
-        actual = float(item['actual'].replace('%', ''))
-        survm = item['survm'].replace('%', '')
-        stddev = item['stddev'].replace('%', '')
-        if survm == "":
-            survm = 0.0
-        else:
-            survm = float(survm)
+        for item in macro.values():
+            #cleaning up database
+            actual = float(item['actual'].replace('%', ''))
+            survm = item['survm'].replace('%', '')
+            stddev = item['stddev'].replace('%', '')
+            item['date']= item['date'].strftime('%Y-%m-%d')
+            item['time']= item['time'].strftime('%H:%M:%S')
+            if survm == "":
+                survm = 0.0
+            else:
+                survm = float(survm)
 
-        if stddev == "":
-            stddev = 1 # standard deviation cannot divide by 0.
-        else:
-            stddev = float(stddev)
-        event=item['event']
-        if event == "Change in Nonfarm Payrolls":
-            event=item['event'].replace('Change in Nonfarm Payrolls','Non-Farm Payroll')
-        elif event == "Retail Sales Less Autos":
-            event=item['event'].replace('Retail Sales Less Autos','Retail Sales MoM')
-        #create 2 new field
-        item['surprise_sign'] = calculate_surprise_sign(actual, survm)
-        item['surprise_magnitude'] = calculate_surprise_magnitude(actual, survm, stddev)
-        #filter with user input
-        if item['event']==body['Indicator']:
-            if item['surprise_sign']==body['Direction']:
-                if item['surprise_magnitude']==body['Magnitude']:
-                    context.append(item)
-    print(context)
-    return Response(data=context)
+            if stddev == "":
+                stddev = 1 # standard deviation cannot divide by 0.
+            else:
+                stddev = float(stddev)
+            event=item['event']
+            if event == "Change in Nonfarm Payrolls":
+                event=item['event'].replace('Change in Nonfarm Payrolls','Non-Farm Payroll')
+            elif event == "Retail Sales Less Autos":
+                event=item['event'].replace('Retail Sales Less Autos','Retail Sales MoM')
+            #create 2 new field
+            item['surprise_sign'] = calculate_surprise_sign(actual, survm)
+            item['surprise_magnitude'] = calculate_surprise_magnitude(actual, survm, stddev)
+            #filter with user input
+            if item['event']==body['Indicator']:
+                if item['surprise_sign']==body['Direction']:
+                    if item['surprise_magnitude']==body['Magnitude']:
+                        context.append(item)
+        json_context = json.dumps(context)
+        print(json_context)
+        return Response(data=json_context)
 
-    elif request.method == 'GET':
-        return Response("Hello")
+    # elif request.method == 'GET':
+    #     return Response("Hello")
 
 class ReactFilterView(generics.ListAPIView):
     serializer_class = MacroSerializer
