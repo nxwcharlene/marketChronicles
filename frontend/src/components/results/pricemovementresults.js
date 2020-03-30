@@ -73,7 +73,7 @@ class PriceMovementResults extends React.Component {
                                              <span>Price change (%): {item.daily_returns}</span>
                                          </li>
                                          <li >
-                                             <span>Period: {item.author}</span>
+                                             <span>Period: {item.period}</span>
                                          </li>
                                          </div>
                                    </ul>

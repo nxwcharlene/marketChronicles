@@ -68,7 +68,7 @@ def get_price(request):
         huge_daily_move= huge_daily_move.loc[start_date:end_date]
         date_index=huge_daily_move.index.strftime("%Y-%m-%d")
         huge_daily_move=huge_daily_move.set_index(date_index)
-        #huge_daily_move= huge_daily_move.to_json(orient='split')
+        huge_daily_move= huge_daily_move.to_json(orient='split')
 
         week_open= price_table.price.resample('W-SUN').last().shift(1, freq='D')
         week_open.rename("open_price",inplace=True)
@@ -82,22 +82,22 @@ def get_price(request):
         huge_weekly_move=huge_weekly_move.loc[start_date:end_date]
         date_index=huge_weekly_move.index.strftime("%Y-%m-%d")
         huge_weekly_move=huge_weekly_move.set_index(date_index)
-        #huge_weekly_move= huge_weekly_move.to_json(orient='split')
+        huge_weekly_move= huge_weekly_move.to_json(orient='split')
 
         context=[]
         # return Response(data=context)
 
         if time_period == '1 Day':
-            output=huge_daily_move.to_dict()
-            context.append(output)
-            #loaded_data=json.loads(huge_daily_move)
-            #context.append(loaded_data)
+            # output=huge_daily_move.to_dict()
+            # context.append(output)
+            loaded_data=json.loads(huge_daily_move)
+            context.append(loaded_data)
             return Response(data=context)
         elif time_period == '1 Week':
-            output=huge_weekly_move.to_dict()
-            context.append(output)
-            #loaded_data=json.loads(huge_weekly_move)
-            #context.append(loaded_data)
+            # output=huge_weekly_move.to_dict()
+            # context.append(output)
+            loaded_data=json.loads(huge_weekly_move)
+            context.append(loaded_data)
             return Response(data=context)
 
     elif request.method == 'POST':
