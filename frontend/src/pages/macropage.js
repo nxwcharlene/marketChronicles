@@ -12,12 +12,11 @@ function MacroPage(){
       return (
         <React.Fragment>
             <CssBaseline />
+                <EconAppBar />
+                <div style={{height:20, backgroundColor: "#375259"}}/>
+                <div style={{height:5, backgroundColor: "#cccecf"}}/>
+
                 <div>
-                    <EconAppBar />
-
-                    <div style={{height:20, backgroundColor: "#375259"}}/>
-                    <div style={{height:5, backgroundColor: "#cccecf"}}/>
-
                     <Container maxWidth="xl">
                         <div style={{height:5}}/>
                         <h3>&emsp;&emsp;Search for Past Economic Surprises</h3>
@@ -33,10 +32,8 @@ function MacroPage(){
                         <div style={{height:100}}/>
 
                     </Container>
-
-                    <Footer />
-
                 </div>
+                <Footer />
         </React.Fragment>
       );
 }

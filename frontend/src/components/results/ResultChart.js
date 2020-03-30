@@ -71,9 +71,9 @@ class ResultChart extends Component {
 		</div>
         );
     }
-    componentDidMount() {
-
-    }
+//    componentDidMount() {
+//
+//    }
 }
 
-export default ResultChart
+export default ResultChart;
