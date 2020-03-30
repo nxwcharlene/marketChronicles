@@ -10,6 +10,7 @@ class ResultChart extends Component {
 			theme: "light2", // "light1", "dark1", "dark2"
 			animationEnabled: true,
 			zoomEnabled: true,
+			height: 150,
 			title: {
 				text: "Stock Price of BMW - March 2018" // to change
 			},
