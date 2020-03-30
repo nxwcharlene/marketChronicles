@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
@@ -8,6 +8,10 @@ import MacroResults from '../components/results/macroresults.js';
 import Footer from '../components/structure/footer/Footer.js';
 
 function MacroPage(){
+    const [isLoading, setIsLoading] = useState(true);
+    const [results, setResults] = useState([]);
+
+
       return (
         <React.Fragment>
             <CssBaseline />
@@ -21,13 +25,13 @@ function MacroPage(){
                         <h3>&emsp;&emsp;Search for Past Economic Surprises</h3>
 
                         <div>
-                            <MacroForm />
+                            <MacroForm setIsLoading={setIsLoading} setResults={setResults} />
                             <div style={{height:10}}/>
                         </div>
 
                         <hr></hr>
                         <h3>Sample Results Output</h3>
-                        <MacroResults />
+                        <MacroResults isLoading={isLoading} results={results}/>
                         {/* <MacroResults /> */}
                         <div style={{height:100}}/>
 

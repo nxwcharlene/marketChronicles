@@ -33,26 +33,39 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function MacroForm(){
+function MacroForm(props){
     const classes = useStyles();
     // const [input, setInput] = useState({ security: '', indicator: '', direction: '', magnitude: 0 });
     const input = {}
-    const [showLoading, setShowLoading] = useState(false);
+    const [load, setLoad] = useState(true);
     const apiUrl = "http://localhost:8000/macro/macro-get/";
-    console.log(showLoading)
+//    console.log(showLoading)
     const saveInput = (e) => {
-      setShowLoading(true);
+if (load){
       e.preventDefault();
       console.log(apiUrl)
       return axios.post(apiUrl, input)
         .then((result) => {
-          console.log(input)
-          setShowLoading(false);
+          console.log(input);
+          console.log(result);
+          console.log(result.data);
+          console.log(load)
+          props.setResults(result);
+          props.setIsLoading(false);
+          setLoad(false)
+//          setShowLoading(false);
           //props.history.push('/show/' + result.data._id)
         }).catch((error) => {
-          console.log('error')
-          setShowLoading(false)});
+          console.log('error')});
+
+}
     };
+
+//    const data = () => {
+//        return result.data.map(item => (
+//        <li key = {result.data.id}>{result.data.date}</li>
+//        ))
+//    }
   
     const onChange = (item, response) => {
       // e.persist();
