@@ -33,12 +33,12 @@ def apiOverview(request):
 
 @api_view(['GET','POST'])
 def get_macro(request):
-    if request.method=='POST':
+    if request.method=='GET':
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body)
         macro = Macro.objects.filter(event='ISM Manufacturing') #change to all later
-        print(pd.DataFrame(list(macro.values())))
+        # print(pd.DataFrame(list(macro.values())))
         context = []
     for item in macro.values():
         #cleaning up database
@@ -70,16 +70,14 @@ def get_macro(request):
     print(context)
     return Response(data=context)
 
-    # elif request.method == 'GET':
-    #     return Response("Hello")
-        #how to get input from post?
+    elif request.method == 'POST':
+        return Response("Hello")
 
 class ReactFilterView(generics.ListAPIView):
     serializer_class = MacroSerializer
 
     def get_queryset(self):
-        results = get_macro(self.request)
-        return results
+        return (get_macro(self.request))
 
         # serializer=MacroSerializer(data=body)
         # if serializer.is_valid():
