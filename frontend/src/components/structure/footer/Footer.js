@@ -3,6 +3,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
+//import StickyFooter from 'react-sticky-footer';
 
 function Copyright() {
   return (
@@ -24,6 +25,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(0),
     paddingTop: theme.spacing(1.5),
     paddingBottom: theme.spacing(1.5),
+    position: "fixed",
+    bottom: 0,
   },
 }));
 

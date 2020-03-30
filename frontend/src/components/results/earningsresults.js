@@ -1,8 +1,7 @@
 //get output from backend via API, display JSON, have to convert to Bokeh
-
-import React from 'react';
-
 // React js fetch: Use componentDidMount to fetch json array of objects from given url and update state
+import React from 'react';
+import Grid from '@material-ui/core/Grid';
 
 class EarningsResults extends React.Component {
     constructor(props) {
@@ -23,20 +22,17 @@ class EarningsResults extends React.Component {
             }).catch((err) => {
                 console.log(err);
             });
-
     }
 
 //render UI
     render() {
-
         const { isLoaded, items } = this.state;
 
         if (!isLoaded)
             return <div>Loading...</div>;
 
         return (
-            <div>
-
+            <Grid container spacing={2} justify= "space-evenly" alignItems="center">
                     <ul>
                         {items.map(item => (
                             <div key={item.id} style={{border:'1px solid'}}>
@@ -62,7 +58,7 @@ class EarningsResults extends React.Component {
 
                         ))}
                     </ul>
-            </div>
+            </Grid>
         );
 
     }
