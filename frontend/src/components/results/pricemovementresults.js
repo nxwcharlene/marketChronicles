@@ -27,7 +27,7 @@ class PriceMovementResults extends React.Component {
      }
  }
  componentDidMount() {
-     fetch("127.0.0.1:8000/pricemovement/")
+     fetch("127.0.0.1:8000/pricemovement/get_date")
          .then(res => res.json())
          .then(json => {
              this.setState({
@@ -66,10 +66,10 @@ class PriceMovementResults extends React.Component {
                                              <b><span>Price Movement </span></b>
                                          </li>
                                          <li >
-                                             <span>Ticker: {item.ticker}</span>
+                                             <span>Ticker: {item.data[2]}</span>
                                          </li>
                                          <li >
-                                             <span>Price change (%): {item.price}</span>
+                                             <span>Price change (%): {item.data[4]}</span>
                                          </li>
                                          <li >
                                              <span>Period: {item.period}</span>

@@ -72,7 +72,7 @@ def get_price(request):
                 price_range = price_range.drop(columns=['daily_returns','stock_id'])
                 price_index=price_range.index.strftime("%Y-%m-%d")
                 price_range=price_range.set_index(price_index)
-                price_data= price_range.to_json(orient='split')
+                price_data= price_range.to_json(orient='index')
                 loaded_price = json.loads(price_data)
                 context.append(loaded_price)
             return Response(data=context)
@@ -83,7 +83,7 @@ def get_price(request):
                 price_range = price_range.drop(columns=['daily_returns','stock_id'])
                 price_index=price_range.index.strftime("%Y-%m-%d")
                 price_range=price_range.set_index(price_index)
-                price_data= price_range.to_json(orient='split')
+                price_data= price_range.to_json(orient='index')
                 loaded_price = json.loads(price_data)
                 context.append(loaded_price)
             return Response(data=context)
@@ -134,7 +134,7 @@ def get_date(request):
         huge_daily_move= huge_daily_move.loc[start_date:end_date]
         date_index=huge_daily_move.index.strftime("%Y-%m-%d")
         huge_daily_move=huge_daily_move.set_index(date_index)
-        huge_daily_move= huge_daily_move.to_json(orient='split')
+        huge_daily_move= huge_daily_move.to_json(orient='index')
 
         week_open= price_table.price.resample('W-SUN').last().shift(1, freq='D')
         week_open.rename("open_price",inplace=True)
@@ -148,7 +148,7 @@ def get_date(request):
         huge_weekly_move=huge_weekly_move.loc[start_date:end_date]
         date_index=huge_weekly_move.index.strftime("%Y-%m-%d")
         huge_weekly_move=huge_weekly_move.set_index(date_index)
-        huge_weekly_move= huge_weekly_move.to_json(orient='split')
+        huge_weekly_move= huge_weekly_move.to_json(orient='index')
 
         context=[]
         # return Response(data=context)
