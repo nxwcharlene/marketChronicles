@@ -134,7 +134,9 @@ def get_date(request):
         huge_daily_move= huge_daily_move.loc[start_date:end_date]
         date_index=huge_daily_move.index.strftime("%Y-%m-%d")
         huge_daily_move=huge_daily_move.set_index(date_index)
+        huge_daily_move['date'] = huge_daily_move.index
         huge_daily_move= huge_daily_move.to_json(orient='index')
+
 
         week_open= price_table.price.resample('W-SUN').last().shift(1, freq='D')
         week_open.rename("open_price",inplace=True)
@@ -148,6 +150,7 @@ def get_date(request):
         huge_weekly_move=huge_weekly_move.loc[start_date:end_date]
         date_index=huge_weekly_move.index.strftime("%Y-%m-%d")
         huge_weekly_move=huge_weekly_move.set_index(date_index)
+        huge_weekly_move['date'] = huge_weekly_move.index
         huge_weekly_move= huge_weekly_move.to_json(orient='index')
 
         context=[]
