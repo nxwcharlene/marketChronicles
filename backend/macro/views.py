@@ -33,7 +33,7 @@ def apiOverview(request):
 
 @api_view(['GET','POST'])
 def get_macro(request):
-    if request.method=='GET':
+    if request.method=='POST':
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body)
@@ -70,12 +70,11 @@ def get_macro(request):
     print(context)
     return Response(data=context)
 
-    elif request.method == 'POST':
+    elif request.method == 'GET':
         return Response("Hello")
 
 class ReactFilterView(generics.ListAPIView):
     serializer_class = MacroSerializer
-
     def get_queryset(self):
         return (get_macro(self.request))
 
