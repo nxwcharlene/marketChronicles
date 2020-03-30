@@ -1,18 +1,13 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
+import PriceAppBar from '../components/structure/navbar/PriceAppBar.js';
 import PriceForm from '../components/userform/PriceForm.js';
 import PriceMovementResults from  '../components/results/pricemovementresults.js';
 import Footer from '../components/structure/footer/Footer.js';
-
-// const apiUrl = "http://127.0.0.1:8000/macro/macro-get";
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -50,32 +45,11 @@ function PriceMovementPage() {
     return (
         <React.Fragment>
             <CssBaseline />
-                <div>
-                <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-                    <Toolbar className={classes.toolbar}>
-                        <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-                            Stock Price Movement
-                        </Typography>
-                        <nav>
-                            <Link variant="button" color="textPrimary" href="/" className={classes.link}>
-                                HOME
-                            </Link>
-                            <Link variant="button" color="textPrimary" href="/economic" className={classes.link}>
-                                ECONOMIC SURPRISE
-                            </Link>
-                            <Link variant="button" color="textPrimary" href="/earnings" className={classes.link}>
-                                EARNINGS SURPRISE
-                            </Link>
-                        </nav>
-                        <Button href="#" color="primary" variant="outlined" className={classes.link}>
-                            Login
-                        </Button>
-                    </Toolbar>
-                </AppBar>
-
+            <PriceAppBar />
                 <div style={{height:20, backgroundColor: "#375259"}}/>
                 <div style={{height:5, backgroundColor: "#cccecf"}}/>
 
+            <div>
                 <Container maxWidth="xl">
                     <div style={{height:5}}/>
                     <h3>&emsp;&emsp;Search for large historical stock price movement</h3>
@@ -85,13 +59,11 @@ function PriceMovementPage() {
                     <h3>Sample Results Output</h3>
                     <div style={{height:10}}/>
                     <PriceMovementResults />
-
-
                 </Container>
+
                 <div style={{height:30}}/>
 
                 <Footer />
-
             </div>
         </React.Fragment>
   );

@@ -97,7 +97,7 @@ export default function MainPage() {
     return(
         <React.Fragment>
           <CssBaseline />
-          <MainAppBar />
+            <MainAppBar />
 
           {/* Hero unit */}
           <div className={classes.body}>

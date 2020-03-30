@@ -60,9 +60,7 @@ class EarningsResults extends React.Component {
                     </ul>
             </Grid>
         );
-
     }
-
 }
 
 export default EarningsResults;
