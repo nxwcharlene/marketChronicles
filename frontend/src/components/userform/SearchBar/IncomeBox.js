@@ -7,8 +7,8 @@ const IncomeBox = (props) => {
     <Autocomplete
       id="size-small-outlined"
       size="small"
-      onChange={(event, value) => {
-        props.onChange('Income', value.name)
+      onInputChange={(event, value, reason) => {
+        (reason === 'clear') ? props.onChange('Income', '') : props.onChange('Income', value)
       }}
       options={income_items_list}
       getOptionLabel={option => option.name}

@@ -7,8 +7,8 @@ const PriceBox = (props) => {
     <Autocomplete
       id="size-small-outlined"
       size="small"
-      onChange={(event, value) => {
-        props.onChange('Price Change', value.name)
+      onInputChange={(event, value, reason) => {
+        (reason === 'clear') ? props.onChange('Price Change', '') : props.onChange('Price Change', value)
       }}
       options={pricechange_list}
       getOptionLabel={option => option.name}
