@@ -19,6 +19,9 @@ import pandas as pd
 from macro.models import Macro, Stockprice, StockId, MacroInput
 from .serializer import MacroSerializer, StockPriceSerializer
 
+from datetime import datetime
+import json
+
 #constants
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 
@@ -45,6 +48,8 @@ def get_macro(request):
             actual = float(item['actual'].replace('%', ''))
             survm = item['survm'].replace('%', '')
             stddev = item['stddev'].replace('%', '')
+            item['date']= item['date'].strftime('%Y-%m-%d')
+            item['time']= item['time'].strftime('%H:%M:%S')
             if survm == "":
                 survm = 0.0
             else:
@@ -67,8 +72,9 @@ def get_macro(request):
                 if item['surprise_sign']==body['Direction']:
                     if item['surprise_magnitude']==body['Magnitude']:
                         context.append(item)
-        print(context)
-        return Response(data=context)
+        json_context = json.dumps(context)
+        print(json_context)
+        return Response(data=json_context)
 
     # elif request.method == 'GET':
     #     return Response("Hello")
