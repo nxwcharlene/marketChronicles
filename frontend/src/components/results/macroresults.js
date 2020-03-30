@@ -17,31 +17,15 @@ import ResultChart from './ResultChart.js';
 
 // Using class components
 class MacroResults extends React.Component {
- constructor(props) {
-     super(props);
-     this.state = {
-         items: [],
-         isLoaded: false
-     }
- }
- componentDidMount() {
-     fetch('https://jsonplaceholder.typicode.com/users')
-         .then(res => res.json())
-         .then(json => {
-             this.setState({
-                 items: json,
-                 isLoaded: true,
-             })
-         }).catch((err) => {
-             console.log(err);
-         });
- }
+
 
      render() {
+         const isLoading = this.props.isLoading
+         const items = this.props.results.data
 
-         const { isLoaded, items } = this.state;
+    console.log(items)
 
-         if (!isLoaded)
+         if (isLoading)
              return <div>Loading...</div>;
 
          return (
