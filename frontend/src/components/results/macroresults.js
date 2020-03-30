@@ -50,7 +50,7 @@ class MacroResults extends React.Component {
  //                  <div style={{height:210}}>
                        <Card style={{marginBottom:15}}>
                          <CardHeader
-                             title={item.date}
+                             title={item.id}
                              titleTypographyProps={{ align: 'left', variant:'body1'}}
                              style={{
                              backgroundColor: 'grey',
@@ -66,10 +66,10 @@ class MacroResults extends React.Component {
                                              <b><span>Economic Release </span></b>
                                          </li>
                                          <li >
-                                             <span>Ticker: {item.ticker}</span>
+                                             <span>Ticker: {item.name}</span>
                                          </li>
                                          <li >
-                                             <span>Indicator: {item.event}</span>
+                                             <span>Indicator: {item.username}</span>
                                          </li>
                                          <li >
                                              <span>Actual: {item.actual}</span>

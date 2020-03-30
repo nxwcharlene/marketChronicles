@@ -40,7 +40,6 @@ class PriceMovementResults extends React.Component {
  }
 
      render() {
-
          const { isLoaded, items } = this.state;
 
          if (!isLoaded)
@@ -51,7 +50,7 @@ class PriceMovementResults extends React.Component {
                  {items.map(item => (
                        <Card style={{marginBottom:20}}>
                          <CardHeader
-                             title={item.title}
+                             title={item.index}
                              titleTypographyProps={{ align: 'left', variant:'body1'}}
                              style={{
                              backgroundColor: 'grey',
@@ -67,10 +66,10 @@ class PriceMovementResults extends React.Component {
                                              <b><span>Price Movement </span></b>
                                          </li>
                                          <li >
-                                             <span>Ticker: {item.ticker}</span>
+                                             <span>Ticker: {item.data}</span>
                                          </li>
                                          <li >
-                                             <span>Price change (%): {item.daily_returns}</span>
+                                             <span>Price change (%): {item.title}</span>
                                          </li>
                                          <li >
                                              <span>Period: {item.author}</span>
