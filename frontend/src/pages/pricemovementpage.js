@@ -9,6 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 import PriceForm from '../components/userform/PriceForm.js';
+import PriceMovementResults from  '../components/results/pricemovementresults.js';
 import Footer from '../components/structure/footer/Footer.js';
 
 // const apiUrl = "http://127.0.0.1:8000/macro/macro-get";
@@ -83,6 +84,7 @@ function PriceMovementPage() {
                     <hr></hr>
                     <h3>Sample Results Output</h3>
                     <div style={{height:10}}/>
+                    <PriceMovementResults />
 
 
                 </Container>

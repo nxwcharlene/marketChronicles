@@ -9,7 +9,11 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import demo from '../../images/demo_results.jpeg';
+import ResultChart from './ResultChart.js';
 // import { useTable, useGroupBy, useFilters, useSortBy, useExpanded, usePagination } from 'react-table';
+
+const newsapi = 'http://newsapi.org/v2/everything?domains=wsj.com&apiKey=cb96aea22e024b5090f23187cec75f76'
+
 
 // React js fetch: Use componentDidMount to fetch json array of objects from given url and update state
 
@@ -23,7 +27,7 @@ class PriceMovementResults extends React.Component {
      }
  }
  componentDidMount() {
-     fetch('https://jsonplaceholder.typicode.com/users')
+     fetch("https://jsonplaceholder.typicode.com/users")
          .then(res => res.json())
          .then(json => {
              this.setState({
@@ -45,10 +49,9 @@ class PriceMovementResults extends React.Component {
          return (
              <div>
                  {items.map(item => (
- //                  <div style={{height:210}}>
-                       <Card style={{marginBottom:15}}>
+                       <Card style={{marginBottom:20}}>
                          <CardHeader
-                             title={item.date}
+                             title={item.title}
                              titleTypographyProps={{ align: 'left', variant:'body1'}}
                              style={{
                              backgroundColor: 'grey',
@@ -57,26 +60,20 @@ class PriceMovementResults extends React.Component {
 
                          <CardContent>
                              <Grid container spacing={0} alignItems="flex-end">
-                                 <Grid item key={item.id} xs={3} md={3} style ={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                                 <Grid item key={item.id} xs={3} md={3} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
                                    <ul>
                                          <div style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
                                          <li >
-                                             <b><span>Economic Release </span></b>
+                                             <b><span>Price Movement </span></b>
                                          </li>
                                          <li >
-                                             <span>Ticker: {item.ticker}</span>
+                                             <span>Ticker: {item.title}</span>
                                          </li>
                                          <li >
-                                             <span>Indicator: {item.event}</span>
+                                             <span>Price change (%): {item.title}</span>
                                          </li>
                                          <li >
-                                             <span>Actual: {item.actual}</span>
-                                         </li>
-                                         <li >
-                                             <span>Estimate: {item.survm}</span>
-                                         </li>
-                                         <li >
-                                             <span>Surprise: {item.surprise}</span>
+                                             <span>Period: {item.author}</span>
                                          </li>
                                          </div>
                                    </ul>
@@ -85,35 +82,31 @@ class PriceMovementResults extends React.Component {
                                  <Grid item key={item.id} xs={3} md={3}>
                                      <ul>
                                          <li >
-                                             <b><span>Post-release returns </span></b>
+                                             <b><span>Returns following large price movement </span></b>
                                          </li>
                                          <li >
-                                             <span> 1 Day: {item.ticker}</span>
+                                             <span> 1 Day: {item.author}</span>
                                          </li>
                                          <li >
-                                             <span> 1 Week: {item.event}</span>
+                                             <span> 1 Week: {item.author}</span>
                                          </li>
                                          <li >
-                                             <span> 1 Month: {item.surprise_sign}</span>
+                                             <span> 1 Month: {item.author}</span>
                                          </li>
                                          <li >
-                                             <span> 3 Months: {item.surprise_magnitude}</span>
-                                         </li>
-                                         <li >
-                                             <span> 6 Months: {item.surprise_magnitude}</span>
+                                             <span> 3 Months: {item.title}</span>
                                          </li>
                                      </ul>
                                  </Grid>
 
                                  <Grid item key={item.id} xs={6} md={3}>
-                                     <img src={demo} style={{height: 120}} alt=""/>
+                                     <ResultChart />
                                  </Grid>
                              </Grid>
                          </CardContent>
                        </Card>
- //                  </div>
-
                  ))}
+                 <div style={{height:50}}/>
              </div>
          );
      }
