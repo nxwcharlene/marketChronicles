@@ -135,7 +135,7 @@ def get_date(request):
         date_index=huge_daily_move.index.strftime("%Y-%m-%d")
         huge_daily_move=huge_daily_move.set_index(date_index)
         huge_daily_move['date'] = huge_daily_move.index
-        huge_daily_move= huge_daily_move.to_json(orient='index')
+        huge_daily_move= huge_daily_move.to_json(orient='records')
 
 
         week_open= price_table.price.resample('W-SUN').last().shift(1, freq='D')
@@ -151,7 +151,7 @@ def get_date(request):
         date_index=huge_weekly_move.index.strftime("%Y-%m-%d")
         huge_weekly_move=huge_weekly_move.set_index(date_index)
         huge_weekly_move['date'] = huge_weekly_move.index
-        huge_weekly_move= huge_weekly_move.to_json(orient='index')
+        huge_weekly_move= huge_weekly_move.to_json(orient='records')
 
         context=[]
         # return Response(data=context)
@@ -161,12 +161,14 @@ def get_date(request):
             # context.append(output)
             loaded_data=json.loads(huge_daily_move)
             context.append(loaded_data)
+            context=context[0]
             return Response(data=context)
         elif time_period == '1 Week':
             # output=huge_weekly_move.to_dict()
             # context.append(output)
             loaded_data=json.loads(huge_weekly_move)
             context.append(loaded_data)
+            context=context[0]
             return Response(data=context)
 
     elif request.method == 'POST':
