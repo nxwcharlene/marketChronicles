@@ -22,7 +22,7 @@ def apiOverview(request):
     return Response(api_urls)
 
 @api_view(['GET', 'POST'])
-def get_price(request):
+def get_news(request):
     stockid = StockId.objects.all()
     stockprice=Stockprice.objects.all()
     df_stockid = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
@@ -30,12 +30,13 @@ def get_price(request):
 
 
 @api_view(['GET', 'POST'])
-def get_news(request):
+def get_price(request):
     if request.method == 'GET':
         stockid = StockId.objects.all()
         stockprice=Stockprice.objects.all()
         stock_id = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
         stock_price = pd.DataFrame(list(stockprice.values()))
+
 
         user_input = {
             'Name of Security': 'AAPL',
@@ -54,37 +55,52 @@ def get_news(request):
         start_date = loaded_input['Start Date']
         end_date = loaded_input['End Date']
 
+
         stock_number = stock_id[stock_id.loc[:,'ticker']==sec_tic].iloc[0].loc['stock_id']
         security =stock_id[stock_id.loc[:,'stock_id']==stock_number].iloc[0].loc['security'].split(" ")[0]
         price_table = stock_price[stock_price.loc[:,'stock_id']==stock_number]
+        price_table['ticker']=sec_tic
+        price_table['period']=time_period
         price_table.loc[:,'daily_returns']= price_table['price'].pct_change()
         price_table['date'] = pd.to_datetime(price_table['date'])
         price_table=price_table.set_index('date')
         huge_daily_move = price_table[price_table.loc[:,'daily_returns']>criteria]
         huge_daily_move= huge_daily_move.loc[start_date:end_date]
-        huge_daily_move= huge_daily_move.to_json(orient='split')
+        date_index=huge_daily_move.index.strftime("%Y-%m-%d")
+        huge_daily_move=huge_daily_move.set_index(date_index)
+        #huge_daily_move= huge_daily_move.to_json(orient='split')
 
         week_open= price_table.price.resample('W-SUN').last().shift(1, freq='D')
         week_open.rename("open_price",inplace=True)
         week_close =price_table.price.resample('W-FRI').last().shift(-4, freq='D')
         week_close.rename("close_price",inplace=True)
         weekly_data = pd.concat([week_open, week_close], axis=1)
+        weekly_data['ticker']=sec_tic
+        weekly_data['period']=time_period
         weekly_data['weekly_returns']=(weekly_data['close_price']-weekly_data['open_price'])/weekly_data['open_price']
         huge_weekly_move= weekly_data[weekly_data.loc[:,'weekly_returns']>criteria]
         huge_weekly_move=huge_weekly_move.loc[start_date:end_date]
-        huge_weekly_move= huge_weekly_move.to_json(orient='split')
+        date_index=huge_weekly_move.index.strftime("%Y-%m-%d")
+        huge_weekly_move=huge_weekly_move.set_index(date_index)
+        #huge_weekly_move= huge_weekly_move.to_json(orient='split')
 
         context=[]
         # return Response(data=context)
 
         if time_period == '1 Day':
-            loaded_data=json.loads(huge_daily_move)
-            context.append(loaded_data)
+            output=huge_daily_move.to_dict()
+            context.append(output)
+            #loaded_data=json.loads(huge_daily_move)
+            #context.append(loaded_data)
             return Response(data=context)
         elif time_period == '1 Week':
-            loaded_data=json.loads(huge_weekly_move)
-            context.append(loaded_data)
+            output=huge_weekly_move.to_dict()
+            context.append(output)
+            #loaded_data=json.loads(huge_weekly_move)
+            #context.append(loaded_data)
             return Response(data=context)
 
     elif request.method == 'POST':
         return Response("Hello")
+
+    

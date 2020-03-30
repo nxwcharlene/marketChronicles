@@ -27,7 +27,7 @@ class PriceMovementResults extends React.Component {
      }
  }
  componentDidMount() {
-     fetch("https://jsonplaceholder.typicode.com/users")
+     fetch("http://127.0.0.1:8000/pricemovement/")
          .then(res => res.json())
          .then(json => {
              this.setState({
@@ -40,6 +40,7 @@ class PriceMovementResults extends React.Component {
  }
 
      render() {
+
          const { isLoaded, items } = this.state;
 
          if (!isLoaded)
@@ -66,10 +67,10 @@ class PriceMovementResults extends React.Component {
                                              <b><span>Price Movement </span></b>
                                          </li>
                                          <li >
-                                             <span>Ticker: {item.title}</span>
+                                             <span>Ticker: {item.ticker}</span>
                                          </li>
                                          <li >
-                                             <span>Price change (%): {item.title}</span>
+                                             <span>Price change (%): {item.daily_returns}</span>
                                          </li>
                                          <li >
                                              <span>Period: {item.author}</span>
