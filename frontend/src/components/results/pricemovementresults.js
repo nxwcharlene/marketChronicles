@@ -27,7 +27,7 @@ class PriceMovementResults extends React.Component {
      }
  }
  componentDidMount() {
-     fetch("http://127.0.0.1:8000/pricemovement/")
+     fetch("127.0.0.1:8000/pricemovement/")
          .then(res => res.json())
          .then(json => {
              this.setState({
@@ -50,7 +50,7 @@ class PriceMovementResults extends React.Component {
                  {items.map(item => (
                        <Card style={{marginBottom:20}}>
                          <CardHeader
-                             title={item.index}
+                             title={item.ticker}
                              titleTypographyProps={{ align: 'left', variant:'body1'}}
                              style={{
                              backgroundColor: 'grey',
@@ -66,10 +66,10 @@ class PriceMovementResults extends React.Component {
                                              <b><span>Price Movement </span></b>
                                          </li>
                                          <li >
-                                             <span>Ticker: {item.data}</span>
+                                             <span>Ticker: {item.ticker}</span>
                                          </li>
                                          <li >
-                                             <span>Price change (%): {item.title}</span>
+                                             <span>Price change (%): {item.price}</span>
                                          </li>
                                          <li >
                                              <span>Period: {item.author}</span>
