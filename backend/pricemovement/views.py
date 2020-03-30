@@ -22,7 +22,7 @@ def apiOverview(request):
     return Response(api_urls)
 
 @api_view(['GET', 'POST'])
-def get_news(request):
+def get_price(request):
     stockid = StockId.objects.all()
     stockprice=Stockprice.objects.all()
     df_stockid = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
@@ -30,13 +30,12 @@ def get_news(request):
 
 
 @api_view(['GET', 'POST'])
-def get_price(request):
+def get_news(request):
     if request.method == 'GET':
         stockid = StockId.objects.all()
         stockprice=Stockprice.objects.all()
         stock_id = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
         stock_price = pd.DataFrame(list(stockprice.values()))
-
 
         user_input = {
             'Name of Security': 'AAPL',
@@ -54,7 +53,6 @@ def get_price(request):
         time_period = loaded_input['Time period']
         start_date = loaded_input['Start Date']
         end_date = loaded_input['End Date']
-
 
         stock_number = stock_id[stock_id.loc[:,'ticker']==sec_tic].iloc[0].loc['stock_id']
         security =stock_id[stock_id.loc[:,'stock_id']==stock_number].iloc[0].loc['security'].split(" ")[0]
@@ -90,5 +88,3 @@ def get_price(request):
 
     elif request.method == 'POST':
         return Response("Hello")
-
-    
