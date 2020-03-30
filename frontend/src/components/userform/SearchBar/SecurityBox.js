@@ -9,7 +9,7 @@ const SecurityBox = (props) => {
         size="small"
         options={securitylist}
         onInputChange={(event, value, reason) => {
-        (reason === 'clear') ? props.onChange('Security', '') : props.onChange('Security', value)
+        (reason === 'clear') ? props.onChange('security', '') : props.onChange('security', value)
         }}
         getOptionLabel={option => option.name}
         renderInput={params => (

@@ -7,8 +7,8 @@ const IndicatorBox = (props) => {
     <Autocomplete
       id="indicator"
       size="small"
-      onChange={(event, value) => {
-        props.onChange('Indicator', value.name)
+      onInputChange={(event, value, reason) => {
+        (reason === 'clear') ? props.onChange('Indicator', '') : props.onChange('Indicator', value)
       }}
       options={indicatorlist}
       getOptionLabel={option => option.name}
