@@ -8,8 +8,8 @@ const SecurityBox = (props) => {
         id="Security"
         size="small"
         options={securitylist}
-        onChange={(event, value) => {
-          props.onChange('Security', value.name)
+        onInputChange={(event, value, reason) => {
+        (reason === 'clear') ? props.onChange('Security', '') : props.onChange('Security', value)
         }}
         getOptionLabel={option => option.name}
         renderInput={params => (
