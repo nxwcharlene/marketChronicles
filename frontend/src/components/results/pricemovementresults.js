@@ -13,9 +13,6 @@ import ResultChart from './ResultChart.js';
 import Skeleton from '@material-ui/lab/Skeleton';
 // import { useTable, useGroupBy, useFilters, useSortBy, useExpanded, usePagination } from 'react-table';
 
-const newsapi = 'http://newsapi.org/v2/everything?domains=wsj.com&apiKey=cb96aea22e024b5090f23187cec75f76'
-
-
 // React js fetch: Use componentDidMount to fetch json array of objects from given url and update state
 
 // Using class components
