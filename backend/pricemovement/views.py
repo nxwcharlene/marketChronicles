@@ -129,10 +129,10 @@ def get_date(request):
         
         price_table['ticker']=sec_tic
         price_table['period']=time_period
-        price_table.loc[:,'daily_returns']=round (price_table['price'].pct_change()*100,2)
+        price_table.loc[:,'returns']=round (price_table['price'].pct_change()*100,2)
         price_table['date'] = pd.to_datetime(price_table['date'])
         price_table=price_table.set_index('date')
-        huge_daily_move = price_table[price_table.loc[:,'daily_returns']>criteria]
+        huge_daily_move = price_table[price_table.loc[:,'returns']>criteria]
         huge_daily_move= huge_daily_move.loc[start_date:end_date]
         date_index=huge_daily_move.index.strftime("%Y-%m-%d")
         huge_daily_move=huge_daily_move.set_index(date_index)
@@ -147,8 +147,8 @@ def get_date(request):
         weekly_data = pd.concat([week_open, week_close], axis=1)
         weekly_data['ticker']=sec_tic
         weekly_data['period']=time_period
-        weekly_data['weekly_returns']=round(((weekly_data['close_price']-weekly_data['open_price'])/weekly_data['open_price'])*100,2)
-        huge_weekly_move= weekly_data[weekly_data.loc[:,'weekly_returns']>criteria]
+        weekly_data['returns']=round(((weekly_data['close_price']-weekly_data['open_price'])/weekly_data['open_price'])*100,2)
+        huge_weekly_move= weekly_data[weekly_data.loc[:,'returns']>criteria]
         huge_weekly_move=huge_weekly_move.loc[start_date:end_date]
         date_index=huge_weekly_move.index.strftime("%Y-%m-%d")
         huge_weekly_move=huge_weekly_move.set_index(date_index)
