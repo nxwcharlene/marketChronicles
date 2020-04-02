@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'pricemovement',
     'corsheaders',
     'rest_framework',
-    'api',
+    'securitybox',
 ]
 
 MIDDLEWARE = [
@@ -96,8 +96,15 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'sharedpassword',
         'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'PORT':'3306'
     }
+    # 'default': {
+    #     'NAME': 'bf3210_database',
+    #     'USER': 'root', # or cheklin
+    #     'PASSWORD': 'sharedpassword',
+    #     'HOST': '127.0.0.1', # or '172.22.143.201'
+    #     'PORT': '3306',
+    # }
 }
 
 CORS_ORIGIN_ALLOW_ALL=True
