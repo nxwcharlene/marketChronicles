@@ -84,14 +84,30 @@ def get_macro(request):
                 stock_id = item['stock_id']
                 print(stock_id)
 
-        stockprice_table = Stockprice.objects.filter(stock_id=stock_id,date='2014-04-16')
-        stockprice_t7 = Stockprice.objects.filter(stock_id=stock_id, date='2014-04-16')
-        stockprice_t30 = Stockprice.objects.filter(stock_id=stock_id, date='2014-04-16')
+        #get list of dates from context to be used as filter
+        result_dates = [ item['date'] for item in context ]
+        stockprice_table = Stockprice.objects.filter(stock_id=stock_id,date=result_dates)
+        
+        #convert dates to datetime format to add the number of days using timedelta
+        drift_dates = []
+        for base_date in result_dates.values(): #dk if need to refer as item['date']
+            base_date = datetime.strptime(base_date, '%Y-%m-%d').date()
+            for count in range(0,30): #include the base date
+                drift_dates.append(base_date + datetime.timedelta(days=count))
+        
+        #get all the stock price of all possible dates we need
+        stockprice_table_incl_driftdates = Stockprice.objects.filter(stock_id=stock_id,date=drift_dates)
+        
+        #stockprice_t7 = Stockprice.objects.filter(stock_id=stock_id, date='2014-04-16')
+        #stockprice_t30 = Stockprice.objects.filter(stock_id=stock_id, date='2014-04-16')
         #price_today=stockprice_table.values['price']
+
+        #convert datetime format back to string
         stockprice_list=list(stockprice_table.values())
-        for item in stockprice_list:
+        #combined_stockprice_list=list(stockprice_table_incl_driftdates.values())
+        for item in stockprice_list: #or combined_stockprice_list
             item['date']=item['date'].strftime('%Y-%m-%d')
-        print(stockprice_list)
+        print(stockprice_list) #combined_stockprice_list
 
         for item in stockprice_table.values():
             item['date'] = item['date'].strftime('%Y-%m-%d')
