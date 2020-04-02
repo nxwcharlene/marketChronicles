@@ -53,7 +53,7 @@ class MacroResults extends React.Component {
                                              <span>Ticker: {item.name}</span>
                                          </li>
                                          <li >
-                                             <span>Indicator: {item.username}</span>
+                                             <span>Indicator: {item.indicator}</span>
                                          </li>
                                          <li >
                                              <span>Actual: {item.actual}</span>

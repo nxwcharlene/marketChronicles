@@ -82,22 +82,37 @@ WSGI_APPLICATION = 'marketChronicles.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bf3210_database',
-        'USER': 'root', # or cheklin
-        'PASSWORD': 'sharedpassword',
-        'HOST': '127.0.0.1', # or '172.22.143.201'
-        'PORT': '3306',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'bf3210_database',
+    #     'USER': 'cheklin',
+    #     'PASSWORD': 'sharedpassword',
+    #     'HOST': '172.22.143.201',
+    #     'PORT': '3306',
+    # }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'newschema',
+    #     'USER': 'root',
+    #     'PASSWORD': 'sharedpassword',
+    #     'HOST': '127.0.0.1',
+    #     'PORT':'3306'
+    # }
+    # 'default': {
+    #     'NAME': 'bf3210_database',
+    #     'USER': 'root', # or cheklin
+    #     'PASSWORD': 'sharedpassword',
+    #     'HOST': '127.0.0.1', # or '172.22.143.201'
+    #     'PORT': '3306',
+    # }
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'bf3210_database',
+#         'NAME': 'new_schema',
 #         'USER': 'root',
-#         'PASSWORD': '1234qwer',
+#         'PASSWORD': 'test',
 #         'HOST': '127.0.0.1',
-#         'PORT': '3306',
-#     }
+#         'PORT': '3306'
+# }
 }
 
 CORS_ORIGIN_ALLOW_ALL=True
