@@ -43,7 +43,6 @@ def get_macro(request):
         print(body)
         macro = Macro.objects.filter(event='ISM Manufacturing') #change to all later
         stock_id_table = StockId.objects.all()
-        stockprice_table = Stockprice.objects.all()
         #print(pd.DataFrame(list(stock_id_table.values())))
         context = []
         for item in macro.values():
@@ -84,20 +83,35 @@ def get_macro(request):
             if item['ticker'] == body['security']:
                 stock_id = item['stock_id']
                 print(stock_id)
-        
+
+        stockprice_table = Stockprice.objects.filter(stock_id=stock_id,date='2014-04-16')
+        stockprice_t7 = Stockprice.objects.filter(stock_id=stock_id, date='2014-04-16')
+        stockprice_t30 = Stockprice.objects.filter(stock_id=stock_id, date='2014-04-16')
+        #price_today=stockprice_table.values['price']
+        stockprice_list=list(stockprice_table.values())
+        for item in stockprice_list:
+            item['date']=item['date'].strftime('%Y-%m-%d')
+        print(stockprice_list)
+
         for item in stockprice_table.values():
-             if item['stock_id'] == stock_id:
-                 # if item['date'] == context['date']:
-                 price_today = item['Price']
-                 print(price_today)
+            item['date'] = item['date'].strftime('%Y-%m-%d')
+            # if item['date'] == '2014-04-16':
+            #     price_today = item['price']
+            #     id_today=float(item['id'])
+            #     print(id_today)
+            #
+            #
+            # if item['id'] == id_today+7:
+            #     price_t7=item['price']
 
         json_context = json.dumps(context)
-        print(json_context)
+        # print(json_context)
         return Response(data=json_context)
 
     # elif request.method == 'GET':
     #     return Response("Hello")
-
+def filter_date():
+    return date =='2014-04-16'
 class ReactFilterView(generics.ListAPIView):
     serializer_class = MacroSerializer
     def get_queryset(self):
