@@ -23,25 +23,21 @@ const SecurityBox = (props) => {
 
   return (
    <div>
-    {result.map((data) => (
-        <div key={data.stock_id}>
+    {result.map((data, i) => (
             <Autocomplete
+                key={i}
                 id="Security"
                 size="small"
                 options={data}
-//                items = {
-//                    [{options:data.tick_and_name,
-//                      values:data.stock_id}]
-//                }
+                values={option => option.stock_id}
                 getOptionLabel={option => option.tick_and_name}
-                onInputChange={(event, value, reason, option) => {
+                onInputChange={(event, value, reason) => {
                 (reason === 'clear') ? props.onChange('security', '') : props.onChange('security', value)
                 }}
                 renderInput={params => (
                   <TextField {...params} style={{width:500}} id="Security" variant="outlined" placeholder="Security" />
                 )}>
             </Autocomplete>
-        </div>
     ))}
    </div>
    )

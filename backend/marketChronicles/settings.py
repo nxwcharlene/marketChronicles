@@ -98,13 +98,14 @@ DATABASES = {
     #     'HOST': '127.0.0.1',
     #     'PORT':'3306'
     # }
-    # 'default': {
-    #     'NAME': 'bf3210_database',
-    #     'USER': 'root', # or cheklin
-    #     'PASSWORD': 'sharedpassword',
-    #     'HOST': '127.0.0.1', # or '172.22.143.201'
-    #     'PORT': '3306',
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bf3210_database',
+        'USER': 'root', # or cheklin
+        'PASSWORD': 'sharedpassword',
+        'HOST': '127.0.0.1', # or '172.22.143.201'
+        'PORT': '3306',
+    }
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'new_schema',
