@@ -23,14 +23,19 @@ const SecurityBox = (props) => {
 
   return (
    <div>
-    {result.map((data, i) => (
+    {result.map((items, i) => (
             <Autocomplete
                 key={i}
                 id="Security"
                 size="small"
-                options={data}
-                values={option => option.stock_id}
-                getOptionLabel={option => option.tick_and_name}
+                options={items}
+                autoHighlight
+                getOptionLabel={(option) => option.tick_and_name}
+                renderOption={(option) => (
+                    <React.Fragment>
+                      {option.ticker}: {option.security}
+                    </React.Fragment>
+                )}
                 onInputChange={(event, value, reason) => {
                 (reason === 'clear') ? props.onChange('security', '') : props.onChange('security', value)
                 }}
