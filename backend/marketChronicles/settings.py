@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'pricemovement',
     'corsheaders',
     'rest_framework',
-    'api',
+    'securitybox',
 ]
 
 MIDDLEWARE = [
@@ -85,9 +85,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bf3210_database',
-        'USER': 'cheklin',
+        'USER': 'root',
         'PASSWORD': 'sharedpassword',
-        'HOST': '172.22.143.201',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 #     'default': {
