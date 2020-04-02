@@ -1,23 +1,24 @@
 from django.shortcuts import render
-from pricemovement.models import StockId, Stockprice
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-import pandas as pd
+from pricemovement.models import StockId, Stockprice
 # from macro.serializer import MacroSerializer
-from rest_framework import generics
 # from django_pandas.io import read_frame
-import quandl
-quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
+from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import pandas as pd
 import json
+import quandl
+quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
+
 
 # Create your views here.
 
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
-        'news': '/news-get/',
+        'stock_price_for_plotting': '/get_price/',
+        'date_and_records': '/get_date',
         }
     return Response(api_urls)
 
@@ -175,3 +176,12 @@ def get_date(request):
 
     elif request.method == 'POST':
         return Response("Hello")
+
+
+
+@api_view(['GET', 'POST'])
+def get_bokehchart(request):
+    if request.method == 'GET':
+        return Response("Hello, this is the GET request")
+    elif request.method == 'POST':
+        return Response("Hello, this is the POST request")
