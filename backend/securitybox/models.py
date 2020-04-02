@@ -145,7 +145,7 @@ class MacroInput(models.Model):
     Magnitude=models.CharField(max_length=100)
 
 class StockId(models.Model):
-    stock_id = models.IntegerField(blank=True, null=True)
+    stock_id = models.IntegerField(primary_key=True, blank=True)
     ticker = models.CharField(max_length=10)
     security = models.CharField(max_length=200)
     gics_sector = models.CharField(max_length=100, blank=True, null=True)

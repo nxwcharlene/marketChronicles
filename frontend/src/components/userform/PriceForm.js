@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PriceBox from './SearchBar/PriceBox.js';
 import PriceDayBox from './SearchBar/PriceDayBox.js';
 import SecurityBox from './SearchBar/SecurityBox.js';
+import SecurityBoxAPI from './SearchBar/api_SecurityBox.js';
 
 import StartDatePicker from './SearchBar/StartDatePicker.js';
 import EndDatePicker from './SearchBar/EndDatePicker.js';
