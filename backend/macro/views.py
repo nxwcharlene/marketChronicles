@@ -14,6 +14,7 @@ from rest_framework import status
 import json
 import quandl
 import pandas as pd
+import re
 
 #models & serializers
 from macro.models import Macro, Stockprice, StockId, MacroInput
@@ -41,11 +42,17 @@ def get_macro(request):
         body = json.loads(body_unicode)
         print(body)
         macro = Macro.objects.filter(event='ISM Manufacturing') #change to all later
-        # print(pd.DataFrame(list(macro.values())))
+        stock_id_table = StockId.objects.all()
+        stockprice_table = Stockprice.objects.all()
+        #print(pd.DataFrame(list(stock_id_table.values())))
         context = []
         for item in macro.values():
             #cleaning up database
+            actual = item['actual'].replace('','0')
+            actual = item['actual'].replace("−", "-")
             actual = float(item['actual'].replace('%', ''))
+            survm = item['actual'].replace('','0')
+            survm = item['actual'].replace("−", "-")
             survm = item['survm'].replace('%', '')
             stddev = item['stddev'].replace('%', '')
             item['date']= item['date'].strftime('%Y-%m-%d')
@@ -55,7 +62,7 @@ def get_macro(request):
             else:
                 survm = float(survm)
 
-            if stddev == "":
+            if stddev == "" or '0' or '0.00':
                 stddev = 1 # standard deviation cannot divide by 0.
             else:
                 stddev = float(stddev)
@@ -72,6 +79,18 @@ def get_macro(request):
                 if item['surprise_sign']==body['Direction']:
                     if item['surprise_magnitude']==body['Magnitude']:
                         context.append(item)
+
+        for item in stock_id_table.values():
+            if item['ticker'] == body['security']:
+                stock_id = item['stock_id']
+                print(stock_id)
+        
+        for item in stockprice_table.values():
+             if item['stock_id'] == stock_id:
+                 # if item['date'] == context['date']:
+                 price_today = item['Price']
+                 print(price_today)
+
         json_context = json.dumps(context)
         print(json_context)
         return Response(data=json_context)

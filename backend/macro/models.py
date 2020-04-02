@@ -4,12 +4,12 @@ from django.db import models
     #ALTER TABLE `` ADD `id` INT NOT NULL AUTO_INCREMENT UNIQUE FIRST
 
 
-class AuthGroup(models.Model):
-    name = models.CharField(unique=True, max_length=80)
+# class AuthGroup(models.Model):
+#     name = models.CharField(unique=True, max_length=80)
 
-    class Meta:
-        managed = False
-        db_table = 'auth_group'
+#     class Meta:
+#         managed = False
+#         db_table = 'auth_group'
 
 
 class AuthPermission(models.Model):
@@ -40,14 +40,14 @@ class AuthUser(models.Model):
         db_table = 'auth_user'
 
 
-class AuthUserGroups(models.Model):
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+# class AuthUserGroups(models.Model):
+#     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+#     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
 
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
+#     class Meta:
+#         managed = False
+#         db_table = 'auth_user_groups'
+#         unique_together = (('user', 'group'),)
 
 
 class AuthUserUserPermissions(models.Model):
@@ -145,7 +145,7 @@ class MacroInput(models.Model):
     Magnitude=models.CharField(max_length=100)
 
 class StockId(models.Model):
-    stock_id = models.IntegerField(blank=True, null=True)
+    stock_id = models.IntegerField(primary_key=True)
     ticker = models.CharField(max_length=10)
     security = models.CharField(max_length=200)
     gics_sector = models.CharField(max_length=100, blank=True, null=True)
@@ -157,6 +157,7 @@ class StockId(models.Model):
 
 
 class Stockprice(models.Model):
+    id = models.IntegerField(primary_key=True)
     stock_id = models.IntegerField(blank=True, null=True)
     date = models.DateField(db_column='Date', blank=True, null=True)  # Field name made lowercase.
     price = models.FloatField(db_column='Price', blank=True, null=True)  # Field name made lowercase.
