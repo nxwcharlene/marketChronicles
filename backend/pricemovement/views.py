@@ -175,24 +175,3 @@ def get_date(request):
 
     elif request.method == 'POST':
         return Response("Hello")
-
-@api_view(['GET', 'POST'])
-def get_ticker(request):
-    if request.method == 'GET':
-                
-        stockid = StockId.objects.all()        
-        stock_id = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
-        ticker_name = stock_id.loc[:,['ticker','security']]
-        ticker_name.set_index("ticker", drop=True, inplace=True)
-        ticker_name= ticker_name.to_json(orient='columns')
-        context=[]
-       
-        loaded_data=json.loads(ticker_name)
-        loaded_data = loaded_data['security']
-        context.append(loaded_data)
-        
-        return Response(data=context)
-       
-
-    elif request.method == 'POST':
-        return Response("Hello")
