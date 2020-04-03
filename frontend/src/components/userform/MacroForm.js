@@ -41,7 +41,7 @@ function MacroForm(props){
     const apiUrl = "http://localhost:8000/macro/macro-get/";
 //    console.log(showLoading)
     const saveInput = (e) => {
-if (load){
+if (load) {
       e.preventDefault();
       console.log(apiUrl)
       return axios.post(apiUrl, input)
@@ -49,15 +49,12 @@ if (load){
           console.log(input);
           console.log(result);
           console.log(result.data);
-          console.log(load)
+          console.log(load);
           props.setResults(result);
           props.setIsLoading(false);
           setLoad(false)
-//          setShowLoading(false);
-          //props.history.push('/show/' + result.data._id)
         }).catch((error) => {
-          console.log('error')});
-
+          console.log('2nd time')});
 }
     };
 
