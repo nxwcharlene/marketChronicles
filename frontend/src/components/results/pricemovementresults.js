@@ -25,6 +25,11 @@ class PriceMovementResults extends React.Component {
      }
  }
  componentDidMount() {
+     const requestOptions ={
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: 'POST Request Example'})
+     };
      fetch("http://127.0.0.1:8000/pricemovement/get_date")
          .then(res => res.json())
          .then(json => {
@@ -37,17 +42,16 @@ class PriceMovementResults extends React.Component {
          });
  }
 
-
      render() {
          const { items, isLoaded } = this.state;
          console.log(this.state.items)
 
          if (!isLoaded)
              return (
-             <div>
-      <Skeleton animation="wave" variant="rect" width={"100%"} height={200} />
-    </div>
-    )
+                 <div>
+                    <Skeleton animation="wave" variant="rect" width={"100%"} height={200} />
+                 </div>
+             )
 
          return (
              <div>
@@ -63,7 +67,7 @@ class PriceMovementResults extends React.Component {
 
                          <CardContent>
                              <Grid container spacing={0} alignItems="flex-end">
-                                 <Grid item key={item.id} xs={3} md={3} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                                 <Grid item key={item.ticker} xs={3} md={3} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
                                    <ul>
                                          <div style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
                                          <li >
@@ -73,10 +77,10 @@ class PriceMovementResults extends React.Component {
                                              <span>Ticker: {item.ticker}</span>
                                          </li>
                                          <li >
-                                             <span>Price change (%): {item.returns}</span>
+                                             <span>Price change (%): {item.ticker}</span>
                                          </li>
                                          <li >
-                                             <span>Period: {item.period}</span>
+                                             <span>Period: {item.ticker}</span>
                                          </li>
                                          </div>
                                    </ul>

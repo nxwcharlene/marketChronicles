@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'react-axios';
+import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 // import InputLabel from '@material-ui/core/InputLabel';
@@ -31,24 +31,27 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function PriceForm(){
+function PriceForm(props){
     const classes = useStyles();
     const input = {security: "", pricechange: "1-3", period: "1D", startdate: "2020-01-01", enddate: "2020-04-18"} // default values, must match each box.js
-    const [showLoading, setShowLoading] = useState(false);
+
+    const [results, setResults] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false)
+
     const apiUrl = "http://127.0.0.1:8000/pricemovement/get_date/";
-    console.log(showLoading)
+
     const saveInput = (e) => {
-      setShowLoading(true);
+      setIsLoaded(true);
       e.preventDefault();
       console.log(apiUrl)
       return axios.post(apiUrl, input)
-        .then((result) => {
-          console.log(input)
-          setShowLoading(false);
-          //props.history.push('/show/' + result.data._id)
-        }).catch((error) => {
-          console.log('error')
-          setShowLoading(false)});
+          .then((response) => {
+            setResults(response.data);
+            setIsLoaded(true);
+            console.log(response)
+          }).catch((error) => {
+            console.log(error)
+          });
     };
   
     const onChange = (item, response) => {
@@ -57,7 +60,8 @@ function PriceForm(){
       input[item] = response
       console.log(input)
       // setInput({ item: response.name, indicator: '', direction: '', magnitude: 0 })
-    }
+    };
+
 
         return (
             <React.Fragment>
@@ -92,13 +96,14 @@ function PriceForm(){
                     <FormHelperText>End Date YYYY-MM-DD</FormHelperText>
                     </FormControl>
 
-                    <Button className={classes.gobutton} size="medium" variant="contained" color="primary">
+                    <Button className={classes.gobutton} size="medium" variant="contained" color="primary" type="submit">
                         SEARCH
                     </Button>
                 </form>
+
               </MuiPickersUtilsProvider>
             </React.Fragment>
         );
 }
 
-export default withRouter (PriceForm);
+export default withRouter(PriceForm);

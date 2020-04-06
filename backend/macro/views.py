@@ -20,7 +20,7 @@ import re
 from macro.models import Macro, Stockprice, StockId, MacroInput
 from .serializer import MacroSerializer, StockPriceSerializer
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 
 #constants
@@ -57,7 +57,14 @@ def get_macro(request):
         # return Response(data=data)
 
         macro = Macro.objects.filter(event='ISM Manufacturing') #change to all later
+
         stock_id_table = StockId.objects.all()
+        for item in stock_id_table.values():
+            if item['ticker'] == body['security']:
+                stock_id = item['stock_id']
+                print(stock_id)
+
+        macro = Macro.objects.filter(event='ISM Manufacturing') #change to all later
         #print(pd.DataFrame(list(stock_id_table.values())))
         context = []
         for item in macro.values():
@@ -69,6 +76,11 @@ def get_macro(request):
             survm = item['actual'].replace("−", "-")
             survm = item['survm'].replace('%', '')
             stddev = item['stddev'].replace('%', '')
+            item['date0']=item['date'].strftime('%Y-%m-%d')
+            item['date7']=item['date'] + timedelta(days=7)
+            item['date7'] = item['date7'].strftime('%Y-%m-%d')
+            item['date30'] = item['date'] + timedelta(days=30)
+            item['date30'] = item['date30'].strftime('%Y-%m-%d')
             item['date']= item['date'].strftime('%Y-%m-%d')
             item['time']= item['time'].strftime('%H:%M:%S')
             if survm == "":
@@ -94,13 +106,21 @@ def get_macro(request):
                 if item['surprise_sign']==body['direction']:
                     if item['surprise_magnitude']==body['magnitude']:
                         context.append(item)
-
-            print(context)
+        for each in context:
+            each['price_t0'] = get_stockprice(stock_id,each['date0'])
+            each['price_t7'] = get_stockprice(stock_id,each['date7'])
+            each['price_t30'] =get_stockprice(stock_id,each['date30'])
+            each['drift_t7']=(float(each['price_t7'])-float(each['price_t0']))/float(each['price_t0'])
+            each['drift_t30'] = (float(each['price_t30']) - float(each['price_t0'])) / float(each['price_t0'])
+        print(context)
 
         for item in stock_id_table.values():
             if item['ticker'] == body['security']:
                 stock_id = item['stock_id']
                 print(stock_id)
+                
+        json_context = json.dumps(context)
+        return Response(data=json_context)
 
         #get list of dates from context to be used as filter
         # result_dates = [ item['date'] for item in context ]
@@ -137,19 +157,61 @@ def get_macro(request):
             #
             # if item['id'] == id_today+7:
             #     price_t7=item['price']
+        
+def get_stockprice(stock_id,searchdate):
+    stockprice_table = Stockprice.objects.filter(stock_id=stock_id,date=searchdate)
+    for each in stockprice_table.values():
+        price=each['price']
+        return price
 
+<<<<<<< HEAD
         json_context = json.dumps(context)
         print(json_context)
         return Response(data=json_context)
 
     # elif request.method == 'GET':
     #     return Response("Hello")
+=======
+>>>>>>> 1070ff33118ebd151cc3c7001f0addb695559fa6
 def filter_date():
     return date =='2014-04-16'
 class ReactFilterView(generics.ListAPIView):
     serializer_class = MacroSerializer
     def get_queryset(self):
         return (get_macro(self.request))
+
+        # for item in stock_id_table.values():
+        #     if item['ticker'] == body['security']:
+        #         stock_id = item['stock_id']
+        #         print(stock_id)
+        #
+        # # get list of dates from context to be used as filter
+        # result_dates = [item['date'] for item in context]
+        # stockprice_table = Stockprice.objects.filter(stock_id=stock_id, date=result_dates)
+        #
+        # # convert dates to datetime format to add the number of days using timedelta
+        # drift_dates = []
+        # for base_date in result_dates.values():  # dk if need to refer as item['date']
+        #     base_date = datetime.strptime(base_date, '%Y-%m-%d').date()
+        #     for count in range(0, 30):  # include the base date
+        #         drift_dates.append(base_date + datetime.timedelta(days=count))
+        #
+        # # get all the stock price of all possible dates we need
+        # stockprice_table_incl_driftdates = Stockprice.objects.filter(stock_id=stock_id, date=drift_dates)
+        #
+        # # stockprice_t7 = Stockprice.objects.filter(stock_id=stock_id, date='2014-04-16')
+        # # stockprice_t30 = Stockprice.objects.filter(stock_id=stock_id, date='2014-04-16')
+        # # price_today=stockprice_table.values['price']
+        #
+        # # convert datetime format back to string
+        # stockprice_list = list(stockprice_table.values())
+        # # combined_stockprice_list=list(stockprice_table_incl_driftdates.values())
+        # for item in stockprice_list:  # or combined_stockprice_list
+        #     item['date'] = item['date'].strftime('%Y-%m-%d')
+        # print(stockprice_list)  # combined_stockprice_list
+        #
+        # for item in stockprice_table.values():
+        #     item['date'] = item['date'].strftime('%Y-%m-%d')
 
         # serializer=MacroSerializer(data=body)
         # if serializer.is_valid():

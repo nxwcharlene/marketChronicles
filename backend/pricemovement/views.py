@@ -175,7 +175,8 @@ def get_date(request):
             return Response(data=context)
 
     elif request.method == 'POST':
-        return Response("Hello")
+        print("Hello this is a POST request")
+        return Response("Hello this is a POST request")
 
 
 
