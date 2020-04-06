@@ -28,6 +28,7 @@ function EarningsPage() {
                     <hr></hr>
                     <h3>Sample Results Output</h3>
                     <EarningsResults />
+                    <ResultChart />
 
                     <div style={{height:400}}/>
 
