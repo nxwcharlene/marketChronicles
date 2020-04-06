@@ -159,7 +159,7 @@ class StockId(models.Model):
 class Stockprice(models.Model):
     id = models.IntegerField(primary_key=True)
     stock_id = models.IntegerField(blank=True, null=True)
-    date = models.DateField(db_column='Date', blank=True, null=True)  # Field name made lowercase.
+    date = models.CharField(db_column='Date', max_length=100)  # Field name made lowercase.
     price = models.FloatField(db_column='Price', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
