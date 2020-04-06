@@ -47,11 +47,10 @@ function StartDatePicker(props) {
     //        label="Start Date"
             format="MM/DD/YYYY"
             style={{width:200}}
-            name={'Start Date'}
             value={selectedDate}
             InputAdornmentProps={{ position: "end" }}
             onChange={(event, value) => {
-                props.onChange('Start Date',value)
+                props.onChange('startdate',value)
                 handleDateChange(value)
                 }}
           />
