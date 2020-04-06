@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -13,6 +13,7 @@ import StartDatePicker from './SearchBar/StartDatePicker.js';
 import EndDatePicker from './SearchBar/EndDatePicker.js';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
+import PriceMovementResults from '../results/pricemovementresults.js';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -31,29 +32,28 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function PriceForm(props){
+function PriceForm() {
     const classes = useStyles();
     const input = {security: "", pricechange: "1-3", period: "1D", startdate: "2020-01-01", enddate: "2020-04-18"} // default values, must match each box.js
 
     const [results, setResults] = useState([]);
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const apiUrl = "http://127.0.0.1:8000/pricemovement/get_date/";
-
     const saveInput = (e) => {
       setIsLoaded(true);
       e.preventDefault();
-      console.log(apiUrl)
+      console.log(input)
       return axios.post(apiUrl, input)
           .then((response) => {
             setResults(response.data);
             setIsLoaded(true);
-            console.log(response)
+            console.log(response.data);
           }).catch((error) => {
             console.log(error)
           });
     };
-  
+
     const onChange = (item, response) => {
       // e.persist();
       console.log(response)

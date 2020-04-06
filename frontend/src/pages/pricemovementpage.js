@@ -25,7 +25,6 @@ function PriceMovementPage() {
                     <div style={{height:10}}/>
                     <hr></hr>
                     <h3>Sample Results Output</h3>
-                    <BokehChart />
                     <div style={{height:10}}/>
                     <PriceMovementResults />
                 </Container>

@@ -1,6 +1,7 @@
 //get output from backend via API, display JSON, have to convert to Bokeh
 
 import React, {component, useState, useEffect} from 'react';
+import axios from 'axios';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -10,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import demo from '../../images/demo_results.jpeg';
 import ResultChart from './ResultChart.js';
+import pricemovementresultsAPI from './pricemovementresultsAPI';
 import Skeleton from '@material-ui/lab/Skeleton';
 // import { useTable, useGroupBy, useFilters, useSortBy, useExpanded, usePagination } from 'react-table';
 
@@ -45,6 +47,7 @@ class PriceMovementResults extends React.Component {
      render() {
          const { items, isLoaded } = this.state;
          console.log(this.state.items)
+//         const items = this.props.results
 
          if (!isLoaded)
              return (
@@ -86,7 +89,7 @@ class PriceMovementResults extends React.Component {
                                    </ul>
                                  </Grid>
 
-                                 <Grid item key={item.id} xs={3} md={3}>
+                                 <Grid item key={item.stock_id} xs={3} md={3}>
                                      <ul>
                                          <li >
                                              <b><span>Returns following large price movement </span></b>
