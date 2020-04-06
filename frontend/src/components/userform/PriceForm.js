@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 function PriceForm(){
     const classes = useStyles();
-    const input = {}
+    const input = {security: "", pricechange: "1-3", period: "1D", startdate: "2020-01-01", enddate: "2020-04-18"} // default values, must match each box.js
     const [showLoading, setShowLoading] = useState(false);
     const apiUrl = "http://127.0.0.1:8000/pricemovement/get_date/";
     console.log(showLoading)
@@ -83,13 +83,13 @@ function PriceForm(){
                     <FormControl className={classes.margin}>
                     <div style={{height:5}}/>
                     <StartDatePicker utils={MomentUtils} onChange={onChange}/>
-                    <FormHelperText>Start Date MM/DD/YYYY</FormHelperText>
+                    <FormHelperText>Start Date YYYY-MM-DD</FormHelperText>
                     </FormControl>
 
                     <FormControl className={classes.margin}>
                     <div style={{height:5}}/>
                     <EndDatePicker utils={MomentUtils} onChange={onChange}/>
-                    <FormHelperText>End Date MM/DD/YYYY</FormHelperText>
+                    <FormHelperText>End Date YYYY-MM-DD</FormHelperText>
                     </FormControl>
 
                     <Button className={classes.gobutton} size="medium" variant="contained" color="primary">

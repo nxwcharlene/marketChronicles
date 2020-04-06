@@ -35,7 +35,7 @@ function StartDatePicker(props) {
 //    const [startDate, setStartDate] = React.useState(new Date("2020/01/01"));
 //    const [endDate, setEndDate] = React.useState(new Date("2020/04/06"));
        let now = moment();
-    const [selectedDate, handleDateChange] = React.useState(new Date("2020/01/01"));
+    const [selectedDate, handleDateChange] = React.useState(new Date("2020-01-01"));
 
       return (
        <Fragment>
@@ -45,7 +45,7 @@ function StartDatePicker(props) {
             variant="inline"
             inputVariant="outlined"
     //        label="Start Date"
-            format="MM/DD/YYYY"
+            format="YYYY-MM-DD"
             style={{width:200}}
             value={selectedDate}
             InputAdornmentProps={{ position: "end" }}

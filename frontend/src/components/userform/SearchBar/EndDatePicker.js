@@ -2,7 +2,6 @@ import React from 'react';
 //import DatePicker from 'react-datepicker';
 //import "react-datepicker/dist/react-datepicker.css";
 //import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-
 import { Fragment, useState } from "react";
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { DatePicker, KeyboardDatePicker } from "@material-ui/pickers";
@@ -32,10 +31,10 @@ import moment from 'moment';
 
 
 function EndDatePicker(props) {
-    const [startDate, setStartDate] = React.useState(new Date("2020/04/01"));
-    const [endDate, setEndDate] = React.useState(new Date());
+    const [startDate, setStartDate] = React.useState(new Date("2020-04-01"));
+    const [endDate, setEndDate] = React.useState(new Date("2020-04-18"));
         let now = moment();
-    const [selectedDate, handleDateChange] = React.useState(new Date());
+    const [selectedDate, handleDateChange] = React.useState(new Date("2020-04-18"));
 
       return (
        <Fragment>
@@ -45,7 +44,7 @@ function EndDatePicker(props) {
             variant="inline"
             inputVariant="outlined"
     //        label="End Date"
-            format="MM/DD/YYYY"
+            format="YYYY-MM-DD"
             style={{width:200}}
             value={selectedDate}
             InputAdornmentProps={{ position: "end" }}
