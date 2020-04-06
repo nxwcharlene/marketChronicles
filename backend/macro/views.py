@@ -108,7 +108,10 @@ def get_macro(request):
                         context.append(item)
 
         print(context)
-        
+        json_context = json.dumps(context)
+        return Response(data=json_context)
+
+        #hmm for some reason this section of the code doesn't run
         for each in context:
             each['price_t0'] = get_stockprice(stock_id,each['date0'])
             each['price_t7'] = get_stockprice(stock_id,each['date7'])
@@ -122,14 +125,14 @@ def get_macro(request):
             else:
                 each['drift_t30'] = "No data"
         print(context)
+        #json_context = json.dumps(context)
+        #return Response(data=json_context)
 
         # for item in stock_id_table.values():
         #     if item['ticker'] == body['security']:
         #         stock_id = item['stock_id']
         #         print(stock_id)
         
-        json_context = json.dumps(context)
-        return Response(data=json_context)
 
         #get list of dates from context to be used as filter
         # result_dates = [ item['date'] for item in context ]
