@@ -10,4 +10,4 @@ class StockIdSerializer(serializers.ModelSerializer):
 class StockPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stockprice
-        fields = ['id, ''stock_id','date','price']
+        fields = ['id', 'stock_id','date','price']

@@ -15,7 +15,6 @@ import ResultChart from './ResultChart.js';
 
 class MacroResults extends React.Component {
 
-
   render() {
     const items = this.props.results
     return (
