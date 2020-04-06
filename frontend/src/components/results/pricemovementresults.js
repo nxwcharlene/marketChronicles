@@ -30,7 +30,7 @@ class PriceMovementResults extends React.Component {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: 'POST Request Example'})
      };
-     fetch("http://127.0.0.1:8000/pricemovement/get_date", requestOptions)
+     fetch("http://127.0.0.1:8000/pricemovement/get_date")
          .then(res => res.json())
          .then(json => {
              this.setState({
@@ -56,7 +56,7 @@ class PriceMovementResults extends React.Component {
          return (
              <div>
                  {items.map(item => (
-                       <Card style={{marginBottom:20}} key={item.ticker}>
+                       <Card style={{marginBottom:20}} key={item.date}>
                          <CardHeader
                              title={item.date}
                              titleTypographyProps={{ align: 'left', variant:'body1'}}
@@ -86,7 +86,7 @@ class PriceMovementResults extends React.Component {
                                    </ul>
                                  </Grid>
 
-                                 <Grid item key={item.ticker} xs={3} md={3}>
+                                 <Grid item key={item.id} xs={3} md={3}>
                                      <ul>
                                          <li >
                                              <b><span>Returns following large price movement </span></b>
@@ -106,7 +106,7 @@ class PriceMovementResults extends React.Component {
                                      </ul>
                                  </Grid>
 
-                                 <Grid item key={item.ticker} xs={6} md={3}>
+                                 <Grid item key={item.id} xs={6} md={3}>
                                      <ResultChart />
                                  </Grid>
                              </Grid>
