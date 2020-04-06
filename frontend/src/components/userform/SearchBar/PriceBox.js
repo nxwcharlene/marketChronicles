@@ -46,6 +46,7 @@ const PriceBox = (props) => {
         <NativeSelect
           id="demo-customized-select-native"
           input={<BootstrapInput />}
+          defaultValue={"1-3"}
           onChange={(event) => {
             props.onChange('pricechange', event.target.value)
           }}
