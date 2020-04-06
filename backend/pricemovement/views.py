@@ -1,14 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from pricemovement.models import StockId, Stockprice
-# from macro.serializer import MacroSerializer
+from .serializer import StockIdSerializer, StockPriceSerializer
 # from django_pandas.io import read_frame
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import pandas as pd
+
+#python dependencies
 import json
 import quandl
+import pandas as pd
+from datetime import datetime, timedelta
+import re
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 
 
@@ -175,8 +179,13 @@ def get_date(request):
             return Response(data=context)
 
     elif request.method == 'POST':
-        print("Hello this is a POST request")
-        return Response("Hello this is a POST request")
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body) # returns security, pricechange, period, startdate, and enddate
+        context = []
+
+        context.append({'security': ''})
+        return Response(data=context)
 
 
 
