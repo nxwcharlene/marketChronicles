@@ -40,7 +40,7 @@ const SecurityBox = (props) => {
                 (reason === 'clear') ? props.onChange('security', '') : props.onChange('security', value.split(":")[0])
                 }}
                 renderInput={params => (
-                  <TextField {...params} style={{width:500}} id="Security" variant="outlined" placeholder="Security" />
+                  <TextField {...params} style={{width:400}} id="Security" variant="outlined" placeholder="Security" />
                 )}>
             </Autocomplete>
     ))}

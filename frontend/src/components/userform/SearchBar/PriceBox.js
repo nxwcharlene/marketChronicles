@@ -1,27 +1,63 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { withStyles } from '@material-ui/core/styles';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import InputBase from '@material-ui/core/InputBase';
+
+const BootstrapInput = withStyles(theme => ({
+  root: {
+    'label + &': {
+      marginTop: theme.spacing(3),
+    },
+  },
+  input: {
+    borderRadius: 4,
+    position: 'relative',
+    backgroundColor: theme.palette.background.paper,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    padding: '9px 26px 10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 4,
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+    },
+  },
+}))(InputBase);
 
 const PriceBox = (props) => {
-  return (
-    <Autocomplete
-      id="size-small-outlined"
-      size="small"
-      onInputChange={(event, value, reason) => {
-        (reason === 'clear') ? props.onChange('Price Change', '') : props.onChange('Price Change', value)
-      }}
-      options={pricechange_list}
-      getOptionLabel={option => option.name}
-      renderInput={params => <TextField {...params} style={{width:350}} placeholder="% change in stock price" variant="outlined" />}
-    />
-  );
+    // const [direction, setDirection] = React.useState('');
+    // const handleChange = event => {
+    // setDirection(event.target.value);
+    return (
+        <NativeSelect
+          id="demo-customized-select-native"
+          input={<BootstrapInput />}
+          onChange={(event) => {
+            props.onChange('Price Change', event.target.value)
+          }}
+          style = {{width: 180}}
+        >
+          <option value="" />
+          <option value={"1-3"}>1 - 3%</option>
+          <option value={"3-5"}>3 - 5%</option>
+          <option value={"5-10"}>5 - 10%</option>
+          <option value={">10"}>> 10%</option>
+        </NativeSelect>
+        );
 }
-
-const pricechange_list = [
-  { name: '< 1%'},
-  { name: '1% - 3%'},
-  { name: '3% - 5%'},
-  { name: '> 5%'},
- ];
 
 export default PriceBox

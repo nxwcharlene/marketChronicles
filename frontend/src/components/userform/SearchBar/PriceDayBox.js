@@ -49,17 +49,13 @@ const PriceDayBox = (props) => {
           onChange={(event) => {
             props.onChange('Day', event.target.value)
           }}
-          style = {{width: 200}}
+          style = {{width: 180}}
         >
           <option value="" />
           <option value={"1D"}>1 Day</option>
-          <option value={"3D"}>3 Days</option>
           <option value={"1W"}>1 Week</option>
           <option value={"1M"}>1 Month</option>
-          <option value={"3M"}>3 Months</option>
-          <option value={"6M"}>6 Months</option>
           <option value={"1Y"}>1 Year</option>
-          <option value={"3Y"}>3 Years</option>
         </NativeSelect>
         );
 }

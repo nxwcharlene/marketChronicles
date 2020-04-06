@@ -46,6 +46,7 @@ const [selectedDate, handleDateChange] = useState(new Date());
         inputVariant="outlined"
 //        label="End Date"
         format="DD/MM/YYYY"
+        style={{width:200}}
         value={endDate}
         InputAdornmentProps={{ position: "end" }}
         onChange={(event) => props.onChange('End Date', endDate)}

@@ -46,6 +46,7 @@ const [endDate, setEndDate] = React.useState(new Date("2020/04/06"));
         inputVariant="outlined"
 //        label="Start Date"
         format="DD/MM/YYYY"
+        style={{width:200}}
         value={startDate}
         InputAdornmentProps={{ position: "end" }}
         onChange={(event) => props.onChange('Start Date', startDate)}
