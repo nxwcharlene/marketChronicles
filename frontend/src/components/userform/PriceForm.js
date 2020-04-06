@@ -82,14 +82,14 @@ function PriceForm(){
 
                     <FormControl className={classes.margin}>
                     <div style={{height:5}}/>
-                    <StartDatePicker utils={MomentUtils}/>
-                    <FormHelperText>Start Date </FormHelperText>
+                    <StartDatePicker utils={MomentUtils} onChange={onChange}/>
+                    <FormHelperText>Start Date MM/DD/YYYY</FormHelperText>
                     </FormControl>
 
                     <FormControl className={classes.margin}>
                     <div style={{height:5}}/>
                     <EndDatePicker utils={MomentUtils} />
-                    <FormHelperText>End Date </FormHelperText>
+                    <FormHelperText>End Date MM/DD/YYYY</FormHelperText>
                     </FormControl>
 
                     <Button className={classes.gobutton} size="medium" variant="contained" color="primary">

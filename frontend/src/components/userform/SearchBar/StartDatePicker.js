@@ -32,29 +32,32 @@ import moment from 'moment';
 
 
 function StartDatePicker(props) {
-const [startDate, setStartDate] = React.useState(new Date("2020/04/01"));
-const [endDate, setEndDate] = React.useState(new Date("2020/04/06"));
-   let now = moment();
-    const [selectedDate, handleDateChange] = useState(new Date());
+    const [startDate, setStartDate] = React.useState(new Date("2020/04/01"));
+    const [endDate, setEndDate] = React.useState(new Date("2020/04/06"));
+       let now = moment();
+    const [selectedDate, handleDateChange] = React.useState(new Date());
 
-  return (
-   <Fragment>
-    <MuiPickersUtilsProvider utils={MomentUtils}>
-      <KeyboardDatePicker
-        autoOk
-        variant="inline"
-        inputVariant="outlined"
-//        label="Start Date"
-        format="DD/MM/YYYY"
-        style={{width:200}}
-        value={startDate}
-        InputAdornmentProps={{ position: "end" }}
-        onChange={(event) => props.onChange('Start Date', startDate)}
-        
-      />
-    </MuiPickersUtilsProvider>
-   </Fragment>
-);
+      return (
+       <Fragment>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <KeyboardDatePicker
+            autoOk
+            variant="inline"
+            inputVariant="outlined"
+    //        label="Start Date"
+            format="MM/DD/YYYY"
+            style={{width:200}}
+            name={'Start Date'}
+            value={selectedDate}
+            InputAdornmentProps={{ position: "end" }}
+            onChange={(event, value) => {
+                props.onChange('Start Date',value)
+                handleDateChange(value)
+                }}
+          />
+        </MuiPickersUtilsProvider>
+       </Fragment>
+    );
 }
 
 export default StartDatePicker;
