@@ -17,6 +17,7 @@ class MacroResults extends React.Component {
 
   render() {
     const items = this.props.results
+    console.log(items)
     return (
       <div>
         {items.map(item => (
@@ -32,7 +33,7 @@ class MacroResults extends React.Component {
 
             <CardContent>
               <Grid container spacing={0} alignItems="flex-end">
-                <Grid item key={item.id} xs={3} md={3} style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                <Grid key={item.id} item xs={3} md={3} style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                   <ul>
                     <div style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                       <li >
@@ -57,7 +58,7 @@ class MacroResults extends React.Component {
                   </ul>
                 </Grid>
 
-                <Grid item key={item.id} xs={3} md={3}>
+                <Grid key={item.id} item xs={3} md={3}>
                   <ul>
                     <li >
                       <b><span>Post-release returns </span></b>
@@ -80,7 +81,7 @@ class MacroResults extends React.Component {
                   </ul>
                 </Grid>
 
-                <Grid item key={item.id} xs={6} md={6}>
+                <Grid key={item.id} item xs={6} md={6}>
                   <ResultChart style={{ height: 10 }} />
                 </Grid>
               </Grid>
