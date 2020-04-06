@@ -38,22 +38,23 @@ def apiOverview(request):
 @api_view(['GET','POST'])
 def get_macro(request):
     if request.method=='POST':
-        # body_unicode = request.body.decode('utf-8')
-        # body = json.loads(body_unicode)
-        # print(body)
-        security = request.POST.get('security', '')
-        indicator = request.POST.get('indicator', '')
-        direction = request.POST.get('direction', '')
-        magnitude = request.POST.get('magnitude', '')
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)
+        # security = request.POST.get('security', '')
+        # indicator = request.POST.get('indicator', '')
+        # direction = request.POST.get('direction', '')
+        # magnitude = request.POST.get('magnitude', '')
 
-        data = [{
-            'security' : security,
-            'indicator' : indicator,
-            'rection' : direction,
-            'magnitude' : magnitude,
-        }]
+        # data = [{
+        #     'security' : security,
+        #     'indicator' : indicator,
+        #     'direction' : direction,
+        #     'magnitude' : magnitude,
+        # }]
 
-        return Response(data=data)
+        # print(data)
+        # return Response(data=data)
 
         macro = Macro.objects.filter(event='ISM Manufacturing') #change to all later
         stock_id_table = StockId.objects.all()
@@ -87,11 +88,14 @@ def get_macro(request):
             #create 2 new field
             item['surprise_sign'] = calculate_surprise_sign(actual, survm)
             item['surprise_magnitude'] = calculate_surprise_magnitude(actual, survm, stddev)
+            item['ticker'] = body['security']
             #filter with user input
-            if item['event']==body['Indicator']:
-                if item['surprise_sign']==body['Direction']:
-                    if item['surprise_magnitude']==body['Magnitude']:
+            if item['event']==body['indicator']:
+                if item['surprise_sign']==body['direction']:
+                    if item['surprise_magnitude']==body['magnitude']:
                         context.append(item)
+
+            print(context)
 
         for item in stock_id_table.values():
             if item['ticker'] == body['security']:
@@ -135,7 +139,7 @@ def get_macro(request):
             #     price_t7=item['price']
 
         json_context = json.dumps(context)
-        # print(json_context)
+        print(json_context)
         return Response(data=json_context)
 
     # elif request.method == 'GET':

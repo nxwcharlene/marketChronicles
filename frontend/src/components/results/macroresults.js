@@ -18,13 +18,12 @@ class MacroResults extends React.Component {
 
   render() {
     const items = this.props.results
-
     return (
       <div>
         {items.map(item => (
           <Card style={{ marginBottom: 15 }} key={item.id}>
             <CardHeader
-              title={item.id}
+              title={item.date}
               titleTypographyProps={{ align: 'left', variant: 'body1' }}
               style={{
                 backgroundColor: 'grey',
@@ -34,17 +33,17 @@ class MacroResults extends React.Component {
 
             <CardContent>
               <Grid container spacing={0} alignItems="flex-end">
-                <Grid item xs={3} md={3} style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                <Grid item key={item.id} xs={3} md={3} style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                   <ul>
                     <div style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                       <li >
                         <b><span>Economic Release </span></b>
                       </li>
                       <li >
-                        <span>Ticker: {item.name}</span>
+                        <span>Ticker: {item.ticker}</span>
                       </li>
                       <li >
-                        <span>Indicator: {item.indicator}</span>
+                        <span>Indicator: {item.event}</span>
                       </li>
                       <li >
                         <span>Actual: {item.actual}</span>

@@ -49,6 +49,7 @@ function MacroForm() {
         setResults(response.data);
         setIsLoaded(true);
         console.log(response)
+        console.log(response.data)
       }).catch((error) => {
         console.log(error)
       });
