@@ -106,10 +106,13 @@ def get_macro(request):
                 if item['surprise_sign']==body['direction']:
                     if item['surprise_magnitude']==body['magnitude']:
                         context.append(item)
+
+        print(context)
+        
         for each in context:
             each['price_t0'] = get_stockprice(stock_id,each['date0'])
             each['price_t7'] = get_stockprice(stock_id,each['date7'])
-            each['price_t30'] =get_stockprice(stock_id,each['date30'])
+            each['price_t30']= get_stockprice(stock_id,each['date30'])
             each['drift_t7']=(float(each['price_t7'])-float(each['price_t0']))/float(each['price_t0'])
             each['drift_t30'] = (float(each['price_t30']) - float(each['price_t0'])) / float(each['price_t0'])
         print(context)
@@ -118,7 +121,7 @@ def get_macro(request):
             if item['ticker'] == body['security']:
                 stock_id = item['stock_id']
                 print(stock_id)
-                
+        
         json_context = json.dumps(context)
         return Response(data=json_context)
 
@@ -164,17 +167,13 @@ def get_stockprice(stock_id,searchdate):
         price=each['price']
         return price
 
-<<<<<<< HEAD
-        json_context = json.dumps(context)
-        print(json_context)
-        return Response(data=json_context)
+        # json_context = json.dumps(context)
+        # print(json_context)
+        # return Response(data=json_context)
 
-    # elif request.method == 'GET':
-    #     return Response("Hello")
-=======
->>>>>>> 1070ff33118ebd151cc3c7001f0addb695559fa6
 def filter_date():
     return date =='2014-04-16'
+
 class ReactFilterView(generics.ListAPIView):
     serializer_class = MacroSerializer
     def get_queryset(self):
