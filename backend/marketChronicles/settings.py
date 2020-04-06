@@ -110,9 +110,9 @@ DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.mysql',
     #     'NAME': 'bf3210_database',
-    #     'USER': 'root', # or cheklin
+    #     'USER': 'root',
     #     'PASSWORD': '1234qwer',
-    #     'HOST': '127.0.0.1', # or '172.22.143.201'
+    #     'HOST': '127.0.0.1',
     #     'PORT': '3306',
     # }
     #     'default': {
