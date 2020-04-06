@@ -43,10 +43,12 @@ function PriceForm(){
       console.log(apiUrl)
       return axios.post(apiUrl, input)
         .then((result) => {
-          console.log(input)
+          console.log(result);
+          console.log(result.data);
           setShowLoading(false);
-          //props.history.push('/show/' + result.data._id)
-        }).catch((error) => {
+//          props.history.push('/show/' + result.data._id)
+        })
+        .catch((error) => {
           console.log('error')
           setShowLoading(false)});
     };
@@ -57,7 +59,8 @@ function PriceForm(){
       input[item] = response
       console.log(input)
       // setInput({ item: response.name, indicator: '', direction: '', magnitude: 0 })
-    }
+    };
+
 
         return (
             <React.Fragment>
@@ -92,7 +95,7 @@ function PriceForm(){
                     <FormHelperText>End Date YYYY-MM-DD</FormHelperText>
                     </FormControl>
 
-                    <Button className={classes.gobutton} size="medium" variant="contained" color="primary">
+                    <Button className={classes.gobutton} onChange={saveInput} size="medium" variant="contained" color="primary">
                         SEARCH
                     </Button>
                 </form>

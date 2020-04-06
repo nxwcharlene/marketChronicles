@@ -25,7 +25,12 @@ class PriceMovementResults extends React.Component {
      }
  }
  componentDidMount() {
-     fetch("http://127.0.0.1:8000/pricemovement/get_date")
+     const requestOptions ={
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: 'POST Request Example'})
+     };
+     fetch("http://127.0.0.1:8000/pricemovement/get_date", requestOptions)
          .then(res => res.json())
          .then(json => {
              this.setState({
@@ -37,22 +42,21 @@ class PriceMovementResults extends React.Component {
          });
  }
 
-
      render() {
          const { items, isLoaded } = this.state;
          console.log(this.state.items)
 
          if (!isLoaded)
              return (
-             <div>
-      <Skeleton animation="wave" variant="rect" width={"100%"} height={200} />
-    </div>
-    )
+                 <div>
+                    <Skeleton animation="wave" variant="rect" width={"100%"} height={200} />
+                 </div>
+             )
 
          return (
              <div>
                  {items.map(item => (
-                       <Card style={{marginBottom:20}} key={item.date}>
+                       <Card style={{marginBottom:20}} key={item.ticker}>
                          <CardHeader
                              title={item.date}
                              titleTypographyProps={{ align: 'left', variant:'body1'}}
@@ -63,7 +67,7 @@ class PriceMovementResults extends React.Component {
 
                          <CardContent>
                              <Grid container spacing={0} alignItems="flex-end">
-                                 <Grid item key={item.id} xs={3} md={3} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                                 <Grid item key={item.ticker} xs={3} md={3} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
                                    <ul>
                                          <div style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
                                          <li >
@@ -73,16 +77,16 @@ class PriceMovementResults extends React.Component {
                                              <span>Ticker: {item.ticker}</span>
                                          </li>
                                          <li >
-                                             <span>Price change (%): {item.returns}</span>
+                                             <span>Price change (%): {item.ticker}</span>
                                          </li>
                                          <li >
-                                             <span>Period: {item.period}</span>
+                                             <span>Period: {item.ticker}</span>
                                          </li>
                                          </div>
                                    </ul>
                                  </Grid>
 
-                                 <Grid item key={item.id} xs={3} md={3}>
+                                 <Grid item key={item.ticker} xs={3} md={3}>
                                      <ul>
                                          <li >
                                              <b><span>Returns following large price movement </span></b>
@@ -102,7 +106,7 @@ class PriceMovementResults extends React.Component {
                                      </ul>
                                  </Grid>
 
-                                 <Grid item key={item.id} xs={6} md={3}>
+                                 <Grid item key={item.ticker} xs={6} md={3}>
                                      <ResultChart />
                                  </Grid>
                              </Grid>
