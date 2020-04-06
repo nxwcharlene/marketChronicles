@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from macro.models import MacroInput, Stockprice
+from pricemovement.models import StockId, Stockprice
 
-class MacroSerializer(serializers.ModelSerializer):
+class StockIdSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ['Security','Indicator','Direction','Magnitude']
-        model = MacroInput
+        fields = ['stock_id','ticker','security']
+        model = StockId
         #read_only_fields = ( ‘ owner ‘ ,)
 
 class StockPriceSerializer(serializers.ModelSerializer):
