@@ -32,28 +32,32 @@ import moment from 'moment';
 
 
 function EndDatePicker(props) {
-//  const [startDate, setStartDate] = React.useState(new Date("2020/04/01"));
-const [endDate, setEndDate] = React.useState(new Date("2020/04/06"));
-//    let now = moment();
-const [selectedDate, handleDateChange] = useState(new Date());
+    const [startDate, setStartDate] = React.useState(new Date("2020/04/01"));
+    const [endDate, setEndDate] = React.useState(new Date());
+        let now = moment();
+    const [selectedDate, handleDateChange] = React.useState(new Date());
 
-  return (
-   <Fragment>
-    <MuiPickersUtilsProvider utils={MomentUtils}>
-      <KeyboardDatePicker
-        autoOk
-        variant="inline"
-        inputVariant="outlined"
-//        label="End Date"
-        format="DD/MM/YYYY"
-        style={{width:200}}
-        value={endDate}
-        InputAdornmentProps={{ position: "end" }}
-        onChange={(event) => props.onChange('End Date', endDate)}
-      />
-    </MuiPickersUtilsProvider>
-   </Fragment>
-);
+      return (
+       <Fragment>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <KeyboardDatePicker
+            autoOk
+            variant="inline"
+            inputVariant="outlined"
+    //        label="End Date"
+            format="MM/DD/YYYY"
+            style={{width:200}}
+            value={selectedDate}
+            InputAdornmentProps={{ position: "end" }}
+            onChange={(event, value) => {
+                props.onChange('enddate',value)
+                handleDateChange(value)
+            }}
+
+          />
+        </MuiPickersUtilsProvider>
+       </Fragment>
+    );
 }
 
 export default EndDatePicker;

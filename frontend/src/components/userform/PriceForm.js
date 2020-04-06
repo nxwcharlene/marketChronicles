@@ -88,7 +88,7 @@ function PriceForm(){
 
                     <FormControl className={classes.margin}>
                     <div style={{height:5}}/>
-                    <EndDatePicker utils={MomentUtils} />
+                    <EndDatePicker utils={MomentUtils} onChange={onChange}/>
                     <FormHelperText>End Date MM/DD/YYYY</FormHelperText>
                     </FormControl>
 

@@ -47,7 +47,7 @@ const PriceBox = (props) => {
           id="demo-customized-select-native"
           input={<BootstrapInput />}
           onChange={(event) => {
-            props.onChange('Price Change', event.target.value)
+            props.onChange('pricechange', event.target.value)
           }}
           style = {{width: 180}}
         >

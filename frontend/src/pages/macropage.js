@@ -6,7 +6,6 @@ import EconAppBar from '../components/structure/navbar/EconAppBar.js';
 import MacroForm from '../components/userform/MacroForm.js';
 import MacroResults from '../components/results/macroresults.js';
 import Footer from '../components/structure/footer/Footer.js';
-import API from '../@constants/API';
 
 function MacroPage() {
 
