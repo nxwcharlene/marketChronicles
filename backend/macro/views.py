@@ -38,9 +38,23 @@ def apiOverview(request):
 @api_view(['GET','POST'])
 def get_macro(request):
     if request.method=='POST':
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        print(body)
+        # body_unicode = request.body.decode('utf-8')
+        # body = json.loads(body_unicode)
+        # print(body)
+        security = request.POST.get('security', '')
+        indicator = request.POST.get('indicator', '')
+        direction = request.POST.get('direction', '')
+        magnitude = request.POST.get('magnitude', '')
+
+        data = [{
+            'security' : security,
+            'indicator' : indicator,
+            'rection' : direction,
+            'magnitude' : magnitude,
+        }]
+
+        return Response(data=data)
+
         macro = Macro.objects.filter(event='ISM Manufacturing') #change to all later
         stock_id_table = StockId.objects.all()
         #print(pd.DataFrame(list(stock_id_table.values())))

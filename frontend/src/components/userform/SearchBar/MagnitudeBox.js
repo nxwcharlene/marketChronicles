@@ -50,7 +50,7 @@ const MagnitudeBox = (props) => {
           input={<BootstrapInput />}
           // onChange={handleChange}
           onChange={(event) => {
-            props.onChange('Magnitude', event.target.value)
+            props.onChange('magnitude', event.target.value)
           }}
           style = {{width: 200}}
         >

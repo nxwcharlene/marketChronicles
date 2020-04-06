@@ -49,7 +49,7 @@ const DirectionBox = (props) => {
           // value={direction}
           input={<BootstrapInput />}
           onChange={(event) => {
-            props.onChange('Direction', event.target.value)
+            props.onChange('direction', event.target.value)
           }}
           style = {{width: 200}}
         >

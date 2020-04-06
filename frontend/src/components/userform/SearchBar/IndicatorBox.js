@@ -8,7 +8,7 @@ const IndicatorBox = (props) => {
       id="indicator"
       size="small"
       onInputChange={(event, value, reason) => {
-        (reason === 'clear') ? props.onChange('Indicator', '') : props.onChange('Indicator', value)
+        (reason === 'clear') ? props.onChange('indicator', '') : props.onChange('indicator', value)
       }}
       options={indicatorlist}
       getOptionLabel={option => option.name}
