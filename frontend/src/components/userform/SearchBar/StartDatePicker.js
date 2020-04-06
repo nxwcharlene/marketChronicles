@@ -32,8 +32,8 @@ import moment from 'moment';
 
 
 function StartDatePicker(props) {
-const [startDate, setStartDate] = React.useState(new Date("2014/02/08"));
-const [endDate, setEndDate] = React.useState(new Date("2014/02/10"));
+const [startDate, setStartDate] = React.useState(new Date("2020/04/01"));
+const [endDate, setEndDate] = React.useState(new Date("2020/04/06"));
    let now = moment();
     const [selectedDate, handleDateChange] = useState(new Date());
 
@@ -45,9 +45,9 @@ const [endDate, setEndDate] = React.useState(new Date("2014/02/10"));
         variant="inline"
         inputVariant="outlined"
 //        label="Start Date"
-        format="MM/DD/YYYY"
+        format="DD/MM/YYYY"
         value={startDate}
-        InputAdornmentProps={{ position: "start" }}
+        InputAdornmentProps={{ position: "end" }}
         onChange={(event) => props.onChange('Start Date', startDate)}
         
       />

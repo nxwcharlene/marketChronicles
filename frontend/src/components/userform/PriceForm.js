@@ -35,7 +35,7 @@ function PriceForm(){
     const classes = useStyles();
     const input = {}
     const [showLoading, setShowLoading] = useState(false);
-    const apiUrl = "http://127.0.0.1:8000/price";
+    const apiUrl = "http://127.0.0.1:8000/pricemovement/get_date/";
     console.log(showLoading)
     const saveInput = (e) => {
       setShowLoading(true);
