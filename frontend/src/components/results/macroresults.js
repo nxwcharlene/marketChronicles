@@ -16,10 +16,11 @@ import ResultChart from './ResultChart.js';
 class MacroResults extends React.Component {
 
   render() {
-    const items = this.props.results
-    console.log(items)
+    const items = JSON.parse(this.props.results)
+    console.log(typeof items)
     return (
       <div>
+        {console.log(items)}
         {items.map(item => (
           <Card style={{ marginBottom: 15 }} key={item.id}>
             <CardHeader

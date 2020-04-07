@@ -1,16 +1,16 @@
-#django dependencies
+# django dependencies
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 # from django_pandas.io import read_frame
 
-#rest framework dependencies
+# rest framework dependencies
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import status
 # from django.core import serializers
 
-#python dependencies
+# python dependencies
 import json
 import quandl
 import pandas as pd
@@ -23,21 +23,23 @@ from .serializer import MacroSerializer, StockPriceSerializer
 from datetime import datetime, timedelta
 import json
 
-#constants
-quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
+# constants
+quandl.ApiConfig.api_key = 'dFvSTC2myD1ts7eJq8VD'
 
 # CREATE YOUR VIEWS HERE:
 
-@api_view(['GET','POST'])
+
+@api_view(['GET', 'POST'])
 def apiOverview(request):
-    api_urls={
-        'Macro':'/macro-get/',
-        }
+    api_urls = {
+        'Macro': '/macro-get/',
+    }
     return Response(api_urls)
 
-@api_view(['GET','POST'])
+
+@api_view(['GET', 'POST'])
 def get_macro(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body)
@@ -56,7 +58,8 @@ def get_macro(request):
         # print(data)
         # return Response(data=data)
 
-        macro = Macro.objects.filter(event='ISM Manufacturing') #change to all later
+        macro = Macro.objects.filter(
+            event='ISM Manufacturing')  # change to all later
 
         stock_id_table = StockId.objects.all()
         for item in stock_id_table.values():
@@ -64,95 +67,100 @@ def get_macro(request):
                 stock_id = item['stock_id']
                 print(stock_id)
 
-        macro = Macro.objects.filter(event='ISM Manufacturing') #change to all later
-        #print(pd.DataFrame(list(stock_id_table.values())))
+        macro = Macro.objects.filter(
+            event='ISM Manufacturing')  # change to all later
+        # print(pd.DataFrame(list(stock_id_table.values())))
         context = []
         for item in macro.values():
-            #cleaning up database
-            actual = item['actual'].replace('','0')
+            # cleaning up database
+            actual = item['actual'].replace('', '0')
             actual = item['actual'].replace("−", "-")
             actual = float(item['actual'].replace('%', ''))
-            survm = item['actual'].replace('','0')
+            survm = item['actual'].replace('', '0')
             survm = item['actual'].replace("−", "-")
             survm = item['survm'].replace('%', '')
             stddev = item['stddev'].replace('%', '')
-            item['date0']=item['date'].strftime('%Y-%m-%d')
-            item['date7']=item['date'] + timedelta(days=7)
+            item['date0'] = item['date'].strftime('%Y-%m-%d')
+            item['date7'] = item['date'] + timedelta(days=7)
             item['date7'] = item['date7'].strftime('%Y-%m-%d')
             item['date30'] = item['date'] + timedelta(days=30)
             item['date30'] = item['date30'].strftime('%Y-%m-%d')
-            item['date']= item['date'].strftime('%Y-%m-%d')
-            item['time']= item['time'].strftime('%H:%M:%S')
+            item['date'] = item['date'].strftime('%Y-%m-%d')
+            item['time'] = item['time'].strftime('%H:%M:%S')
             if survm == "":
                 survm = 0.0
             else:
                 survm = float(survm)
 
             if stddev == "" or '0' or '0.00':
-                stddev = 1 # standard deviation cannot divide by 0.
+                stddev = 1  # standard deviation cannot divide by 0.
             else:
                 stddev = float(stddev)
-            event=item['event']
+            event = item['event']
             if event == "Change in Nonfarm Payrolls":
-                event=item['event'].replace('Change in Nonfarm Payrolls','Non-Farm Payroll')
+                event = item['event'].replace(
+                    'Change in Nonfarm Payrolls', 'Non-Farm Payroll')
             elif event == "Retail Sales Less Autos":
-                event=item['event'].replace('Retail Sales Less Autos','Retail Sales MoM')
-            #create 2 new field
+                event = item['event'].replace(
+                    'Retail Sales Less Autos', 'Retail Sales MoM')
+            # create 2 new field
             item['surprise_sign'] = calculate_surprise_sign(actual, survm)
-            item['surprise_magnitude'] = calculate_surprise_magnitude(actual, survm, stddev)
+            item['surprise_magnitude'] = calculate_surprise_magnitude(
+                actual, survm, stddev)
             item['ticker'] = body['security']
-            #filter with user input
-            if item['event']==body['indicator']:
-                if item['surprise_sign']==body['direction']:
-                    if item['surprise_magnitude']==body['magnitude']:
+            # filter with user input
+            if item['event'] == body['indicator']:
+                if item['surprise_sign'] == body['direction']:
+                    if item['surprise_magnitude'] == body['magnitude']:
                         context.append(item)
 
         print(context)
         json_context = json.dumps(context)
         return Response(data=json_context)
 
-        #hmm for some reason this section of the code doesn't run
+        # hmm for some reason this section of the code doesn't run
         for each in context:
-            each['price_t0'] = get_stockprice(stock_id,each['date0'])
-            each['price_t7'] = get_stockprice(stock_id,each['date7'])
-            each['price_t30']= get_stockprice(stock_id,each['date30'])
-            if each['price_t7']!=None:
-                each['drift_t7']=(float(each['price_t7'])-float(each['price_t0']))/float(each['price_t0'])
+            each['price_t0'] = get_stockprice(stock_id, each['date0'])
+            each['price_t7'] = get_stockprice(stock_id, each['date7'])
+            each['price_t30'] = get_stockprice(stock_id, each['date30'])
+            if each['price_t7'] != None:
+                each['drift_t7'] = (
+                    float(each['price_t7'])-float(each['price_t0']))/float(each['price_t0'])
             else:
-                each['drift_t7'] ="No data"
+                each['drift_t7'] = "No data"
             if each['price_t30'] != None:
-                each['drift_t30'] = (float(each['price_t30']) - float(each['price_t0'])) / float(each['price_t0'])
+                each['drift_t30'] = (
+                    float(each['price_t30']) - float(each['price_t0'])) / float(each['price_t0'])
             else:
                 each['drift_t30'] = "No data"
         print(context)
         #json_context = json.dumps(context)
-        #return Response(data=json_context)
+        # return Response(data=json_context)
 
         # for item in stock_id_table.values():
         #     if item['ticker'] == body['security']:
         #         stock_id = item['stock_id']
         #         print(stock_id)
-        
 
-        #get list of dates from context to be used as filter
+        # get list of dates from context to be used as filter
         # result_dates = [ item['date'] for item in context ]
         # stockprice_table = Stockprice.objects.filter(stock_id=stock_id,date=result_dates)
-        
+
         # #convert dates to datetime format to add the number of days using timedelta
         # drift_dates = []
         # for base_date in result_dates.values(): #dk if need to refer as item['date']
         #     base_date = datetime.strptime(base_date, '%Y-%m-%d').date()
         #     for count in range(0,30): #include the base date
         #         drift_dates.append(base_date + datetime.timedelta(days=count))
-        
-        #get all the stock price of all possible dates we need
+
+        # get all the stock price of all possible dates we need
         # stockprice_table_incl_driftdates = Stockprice.objects.filter(stock_id=stock_id,date=drift_dates)
-        
+
         #stockprice_t7 = Stockprice.objects.filter(stock_id=stock_id, date='2014-04-16')
         #stockprice_t30 = Stockprice.objects.filter(stock_id=stock_id, date='2014-04-16')
-        #price_today=stockprice_table.values['price']
+        # price_today=stockprice_table.values['price']
 
-        #convert datetime format back to string
+        # convert datetime format back to string
         # stockprice_list=list(stockprice_table.values())
         # #combined_stockprice_list=list(stockprice_table_incl_driftdates.values())
         # for item in stockprice_list: #or combined_stockprice_list
@@ -161,30 +169,35 @@ def get_macro(request):
 
         # for item in stockprice_table.values():
         #     item['date'] = item['date'].strftime('%Y-%m-%d')
-            # if item['date'] == '2014-04-16':
-            #     price_today = item['price']
-            #     id_today=float(item['id'])
-            #     print(id_today)
-            #
-            #
-            # if item['id'] == id_today+7:
-            #     price_t7=item['price']
-        
-def get_stockprice(stock_id,searchdate):
-    stockprice_table = Stockprice.objects.filter(stock_id=stock_id,date=searchdate)
+        # if item['date'] == '2014-04-16':
+        #     price_today = item['price']
+        #     id_today=float(item['id'])
+        #     print(id_today)
+        #
+        #
+        # if item['id'] == id_today+7:
+        #     price_t7=item['price']
+
+
+def get_stockprice(stock_id, searchdate):
+    stockprice_table = Stockprice.objects.filter(
+        stock_id=stock_id, date=searchdate)
     for each in stockprice_table.values():
-        price=each['price']
+        price = each['price']
         return price
 
         # json_context = json.dumps(context)
         # print(json_context)
         # return Response(data=json_context)
 
+
 def filter_date():
-    return date =='2014-04-16'
+    return date == '2014-04-16'
+
 
 class ReactFilterView(generics.ListAPIView):
     serializer_class = MacroSerializer
+
     def get_queryset(self):
         return (get_macro(self.request))
 
@@ -239,9 +252,10 @@ class ReactFilterView(generics.ListAPIView):
         #     Direction=Direction,
         #     Magnitude=Magnitude
         # )
-    
+
+
 def calculate_surprise_sign(actual, survm):
-    
+
     if actual - survm > 0:
         return('Exceed')
     elif actual - survm < 0:
@@ -249,14 +263,14 @@ def calculate_surprise_sign(actual, survm):
     else:
         return('Meet')
 
-def calculate_surprise_magnitude(actual, survm, stddev):
-      if abs(((actual - survm) / stddev)) > 2:
-          return('Large')
-      elif abs(((actual - survm) / stddev)) < 1:
-          return('Small')
-      else:
-          return('Medium')
 
+def calculate_surprise_magnitude(actual, survm, stddev):
+    if abs(((actual - survm) / stddev)) > 2:
+        return('Large')
+    elif abs(((actual - survm) / stddev)) < 1:
+        return('Small')
+    else:
+        return('Medium')
 
 
     # macro=Macro.objects.filter(ticker='NAPMPMI Index') #replace with indicatorname
