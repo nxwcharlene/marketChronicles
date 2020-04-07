@@ -151,7 +151,7 @@ function MacroForm() {
             </MuiPickersUtilsProvider>
             <div style={{ height: 10 }} />
             <hr></hr>
-            <h3>Sample Results Output</h3>
+            <h3>Results</h3>
             <div>Loading...</div>
           </Fragment>
         )}

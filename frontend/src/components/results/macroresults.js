@@ -65,19 +65,19 @@ class MacroResults extends React.Component {
                       <b><span>Post-release returns </span></b>
                     </li>
                     <li >
-                      <span> 1 Day: {item.ticker}</span>
+                      <span> 1 Day: {item.price_t0}</span>
                     </li>
                     <li >
-                      <span> 1 Week: {item.event}</span>
+                      <span> 1 Week: {item.drift_t7}%</span>
                     </li>
                     <li >
-                      <span> 1 Month: {item.surprise_sign}</span>
+                      <span> 1 Month: {item.drift_t30}%</span>
                     </li>
                     <li >
-                      <span> 3 Months: {item.surprise_magnitude}</span>
+                      <span> 3 Months: {item.drift_t30}%</span>
                     </li>
                     <li >
-                      <span> 6 Months: {item.surprise_magnitude}</span>
+                      <span> 6 Months: {item.drift_t30}%</span>
                     </li>
                   </ul>
                 </Grid>

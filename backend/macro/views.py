@@ -64,8 +64,8 @@ def get_macro(request):
         stock_id_table = StockId.objects.all()
         for item in stock_id_table.values():
             if item['ticker'] == body['security']:
-                stock_id = item['stock_id']
-                print(stock_id)
+                stockid = item['stock_id']
+                print(stockid)
 
         macro = Macro.objects.filter(
             event='ISM Manufacturing')  # change to all later
@@ -114,33 +114,27 @@ def get_macro(request):
                     if item['surprise_magnitude'] == body['magnitude']:
                         context.append(item)
 
+        # json_context = json.dumps(context)
+        # return Response(data=json_context)
+
+        for each in context:
+            each['price_t0'] = get_stockprice(stockid, each['date0'])
+            each['price_t7'] = get_stockprice(stockid, each['date7'])
+            each['price_t30'] = get_stockprice(stockid, each['date30'])
+            if each['price_t7'] != None:
+                each['drift_t7'] = round((100*(
+                 float(each['price_t7'])-float(each['price_t0']))/float(each['price_t0'])),2)
+            else:
+                 each['drift_t7'] = "No data"
+            if each['price_t30'] != None:
+                each['drift_t30'] = round((100*(
+                     float(each['price_t30']) - float(each['price_t0'])) / float(each['price_t0'])),2)
+            else:
+                each['drift_t30'] = "No data"
+
         print(context)
         json_context = json.dumps(context)
         return Response(data=json_context)
-
-        # hmm for some reason this section of the code doesn't run
-        for each in context:
-            each['price_t0'] = get_stockprice(stock_id, each['date0'])
-            each['price_t7'] = get_stockprice(stock_id, each['date7'])
-            each['price_t30'] = get_stockprice(stock_id, each['date30'])
-            if each['price_t7'] != None:
-                each['drift_t7'] = (
-                    float(each['price_t7'])-float(each['price_t0']))/float(each['price_t0'])
-            else:
-                each['drift_t7'] = "No data"
-            if each['price_t30'] != None:
-                each['drift_t30'] = (
-                    float(each['price_t30']) - float(each['price_t0'])) / float(each['price_t0'])
-            else:
-                each['drift_t30'] = "No data"
-        print(context)
-        #json_context = json.dumps(context)
-        # return Response(data=json_context)
-
-        # for item in stock_id_table.values():
-        #     if item['ticker'] == body['security']:
-        #         stock_id = item['stock_id']
-        #         print(stock_id)
 
         # get list of dates from context to be used as filter
         # result_dates = [ item['date'] for item in context ]
@@ -179,9 +173,9 @@ def get_macro(request):
         #     price_t7=item['price']
 
 
-def get_stockprice(stock_id, searchdate):
+def get_stockprice(stockid, searchdate):
     stockprice_table = Stockprice.objects.filter(
-        stock_id=stock_id, date=searchdate)
+        stock_id=stockid, date=searchdate)
     for each in stockprice_table.values():
         price = each['price']
         return price
