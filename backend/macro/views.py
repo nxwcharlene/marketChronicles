@@ -58,9 +58,6 @@ def get_macro(request):
         # print(data)
         # return Response(data=data)
 
-        macro = Macro.objects.filter(
-            event='ISM Manufacturing')  # change to all later
-
         stock_id_table = StockId.objects.all()
         for item in stock_id_table.values():
             if item['ticker'] == body['security']:
@@ -68,14 +65,14 @@ def get_macro(request):
                 print(stockid)
 
         macro = Macro.objects.filter(
-            event='ISM Manufacturing')  # change to all later
+            event=body['indicator'])  # change to all later
         # print(pd.DataFrame(list(stock_id_table.values())))
         context = []
         for item in macro.values():
             # cleaning up database
             actual = item['actual'].replace('', '0')
             actual = item['actual'].replace("−", "-")
-            actual = float(item['actual'].replace('%', ''))
+            actual = float(item['actual'].replace('%', '')) #valueerror: cannot convert string to float for some indicators
             survm = item['actual'].replace('', '0')
             survm = item['actual'].replace("−", "-")
             survm = item['survm'].replace('%', '')

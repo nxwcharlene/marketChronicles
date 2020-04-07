@@ -58,6 +58,7 @@ function MacroForm() {
 
   const onChange = (item, response) => {
     input[item] = response
+    console.log(input)
   }
 
   return (
