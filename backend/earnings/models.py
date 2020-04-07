@@ -105,6 +105,7 @@ class DjangoSession(models.Model):
 
 
 class Earnings(models.Model): #earnings surprise
+    id = models.FloatField(primary_key=True)
     stock_id = models.IntegerField(blank=True, null=True)
     quarter = models.CharField(db_column='Quarter', max_length=6, blank=True, null=True)  # Field name made lowercase.
     date = models.DateField(db_column='Date', blank=True, null=True)  # Field name made lowercase.
@@ -140,7 +141,7 @@ class Macro(models.Model):
 
 
 class StockId(models.Model):
-    stock_id = models.IntegerField(blank=True, null=True)
+    stock_id = models.IntegerField(primary_key=True)
     ticker = models.CharField(max_length=10)
     security = models.CharField(max_length=200)
     gics_sector = models.CharField(max_length=100, blank=True, null=True)

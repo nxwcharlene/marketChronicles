@@ -22,10 +22,10 @@ from datetime import timedelta
 
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 
-@api_view(['GET'])
+@api_view(['GET, POST'])
 def apiOverview(request):
     api_urls={
-        'Macro':'/macro-get/',
+        'get_earnings':'/earnings-get/',
         }
     return Response(api_urls)
 
@@ -36,88 +36,142 @@ def get_id(request):
 
 @api_view(['GET', 'POST'])
 def get_earnings(request):
-
     # Get Earnings
     # Get Surprise Direction and Magnitude
+    if request.method == 'POST':
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)
 
-    stock_id = request.GET.get('stock_id', 1)
-    magn=request.GET.get("magn","Pve") #positive
-    expr = request.GET.get('expr', 'small') #For the magnitude
+        stock_id_table = StockId.objects.all()
+        for item in stock_id_table.values():
+            if item['ticker'] == body['security']:
+                stock_id = item['stock_id']
 
-    if expr == 'large' and magn=="Pve":
-        earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__gt = 2)#greater than
-        stockPrice = Stockprice.objects.filter(stock_id=stock_id)
-    elif expr=="medium" and magn=="Pve":
-        earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__range = [1,1.9999])#greater than
-        stockPrice = Stockprice.objects.filter(stock_id=stock_id)
-    elif expr=="small" and magn=="Pve":
-        earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__range = [0.01,0.9999])#greater than
-        stockPrice = Stockprice.objects.filter(stock_id=stock_id)
-    elif expr=="large" and magn=="Nve":
-        earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__lt = -2)#greater than
-        stockPrice = Stockprice.objects.filter(stock_id=stock_id)
-    elif expr=="medium" and magn=="Nve":
-        earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__range = [-1.999,-1])#greater than
-        stockPrice = Stockprice.objects.filter(stock_id=stock_id)
-    elif expr=="small" and magn=="Nve":
-        earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__range = [-0.9999,-0.01])#greater than
-        stockPrice = Stockprice.objects.filter(stock_id=stock_id)
+        user_security=body['security']
+        user_direction=body['direction'] #positive
+        user_magnitude=body['magnitude'] #For the magnitude
 
-    content = []
-    contentStockPrice = []
-    prices=[]
-    for test in earning.values():
+        print(user_magnitude)
+        print(user_direction)
+        print(stock_id)
 
-        contentStockPrice.append(test)
-    for price in stockPrice.values() :
-        prices.append(price)
-    pricedict={}
-    for i in prices:
-        pricedict[i["date"]]=i["price"]
-    responselist=[]
-    for i in contentStockPrice:
-        fillerlist=[]
-        try:
-            fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 100 day price stock price change was ",pricedict[i["date"]+timedelta(days=100)]-pricedict[i["date"]]))
-            responselist.append(fillerlist)
-        except KeyError:
+        stockprice_table = Stockprice.objects.filter(stock_id=stock_id)
+        earnings_table = Earnings.objects.filter(stock_id=stock_id)
+        shortlist_earnings = []
+
+        for item in earnings_table.values():
+            item['ticker'] = user_security
+            actual = item['actual']
+            median = item['median']
+            z_score = float(item['z_score'])
+            item['direction']=calculate_surprise_sign(actual, median) #function defined below
+            item['magnitude']= z_score_calc(z_score) #function defined below 
+            if item['direction']== user_direction:
+                if item['magnitude']== user_magnitude:
+                    shortlist_earnings.append(item)
+        
+        print(shortlist_earnings)
+
+#modified the filtering algo below to lines 58 to 70
+        # if expr == 'Large' and magn=="Pve":
+        #     earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__gt = 2)#greater than
+        #     stockPrice = Stockprice.objects.filter(stock_id=stock_id)
+        # elif expr=="Medium" and magn=="Pve":
+        #     earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__range = [1,1.9999])#greater than
+        #     stockPrice = Stockprice.objects.filter(stock_id=stock_id)
+        # elif expr=="Small" and magn=="Pve":
+        #     earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__range = [0.01,0.9999])#greater than
+        #     stockPrice = Stockprice.objects.filter(stock_id=stock_id)
+        # elif expr=="Large" and magn=="Nve":
+        #     earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__lt = -2)#greater than
+        #     stockPrice = Stockprice.objects.filter(stock_id=stock_id)
+        # elif expr=="Medium" and magn=="Nve":
+        #     earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__range = [-1.999,-1])#greater than
+        #     stockPrice = Stockprice.objects.filter(stock_id=stock_id)
+        # elif expr=="Small" and magn=="Nve":
+        #     earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__range = [-0.9999,-0.01])#greater than
+        #     stockPrice = Stockprice.objects.filter(stock_id=stock_id)
+
+        content = []
+        contentStockPrice = []
+        prices=[]
+        for test in shortlist_earnings:
+
+            contentStockPrice.append(test)
+        for price in stockprice_table.values() :
+            prices.append(price)
+        pricedict={}
+        for i in prices:
+            pricedict[i["date"]]=i["price"]
+        responselist=[]
+        # print(content)
+        # print(contentStockPrice)
+        # print(prices)
+        for i in contentStockPrice:
+            fillerlist=[]
             try:
-                fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 103 day price stock price change was ",pricedict[i["date"]+timedelta(days=103)]-pricedict[i["date"]]))
+                fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 100 day price stock price change was ",pricedict[i["date"]+timedelta(days=100)]-pricedict[i["date"]]))
                 responselist.append(fillerlist)
             except KeyError:
                 try:
-                    fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]]))
+                    fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 103 day price stock price change was ",pricedict[i["date"]+timedelta(days=103)]-pricedict[i["date"]]))
                     responselist.append(fillerlist)
                 except KeyError:
-                        try:
-                            fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 23 day stock price change was",pricedict[i["date"]+timedelta(days=23)]-pricedict[i["date"]]))
-                            responselist.append(fillerlist)
-                        except KeyError:
+                    try:
+                        fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]]))
+                        responselist.append(fillerlist)
+                    except KeyError:
                             try:
-                                fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],))
+                                fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 23 day stock price change was",pricedict[i["date"]+timedelta(days=23)]-pricedict[i["date"]]))
                                 responselist.append(fillerlist)
-                            except KeyError: #start 3 day here
+                            except KeyError:
                                 try:
-                                    fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 100 day price stock price change was ",pricedict[i["date"]+timedelta(days=100)]-pricedict[i["date"]]))
+                                    fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],))
                                     responselist.append(fillerlist)
-                                except KeyError:
+                                except KeyError: #start 3 day here
                                     try:
-                                        fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 103 day price stock price change was ",pricedict[i["date"]+timedelta(days=103)]-pricedict[i["date"]]))
+                                        fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 100 day price stock price change was ",pricedict[i["date"]+timedelta(days=100)]-pricedict[i["date"]]))
                                         responselist.append(fillerlist)
                                     except KeyError:
                                         try:
-                                            fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]]))
+                                            fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 103 day price stock price change was ",pricedict[i["date"]+timedelta(days=103)]-pricedict[i["date"]]))
                                             responselist.append(fillerlist)
                                         except KeyError:
-                                                try:
-                                                    fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 23 day stock price change was",pricedict[i["date"]+timedelta(days=23)]-pricedict[i["date"]]))
-                                                    responselist.append(fillerlist)
-                                                except KeyError:
-                                                        fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],))
+                                            try:
+                                                fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]]))
+                                                responselist.append(fillerlist)
+                                            except KeyError:
+                                                    try:
+                                                        fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 23 day stock price change was",pricedict[i["date"]+timedelta(days=23)]-pricedict[i["date"]]))
                                                         responselist.append(fillerlist)
+                                                    except KeyError:
+                                                            fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],))
+                                                            responselist.append(fillerlist)
+                                                    else:
+                                                        fillerlist.append("No data for ", i['date'])
+                                                        responselist.append(fillerlist) 
 
-    return Response(data=responselist)
 
+        print(responselist)
+        return Response(data=shortlist_earnings)
+
+
+def z_score_calc(z_score):
+    if abs(z_score) > 2:
+        return('Large')
+    elif abs(z_score) < 1:
+        return('Small')
+    else:
+        return('Medium')
+
+def calculate_surprise_sign(actual, median):
+    if actual - median > 0:
+        return('Exceed')
+    elif actual - median < 0:
+        return('Below')
+    else:
+        return('Meet')
 
     '''df=pd.DataFrame(list(idframe.values())) #convert model data to dataframe
 
@@ -213,4 +267,3 @@ def get_earnings(request):
     #     }
     #     ]
     # }
-    return JsonResponse(data=context)
