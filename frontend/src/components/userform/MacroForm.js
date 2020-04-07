@@ -46,10 +46,11 @@ function MacroForm() {
     console.log(input)
     return axios.post(apiUrl, input)
       .then((response) => {
-        setResults(response.data);
-        setIsLoaded(true);
         console.log(response)
         console.log(response.data)
+        setResults(response.data);
+        setIsLoaded(true);
+
       }).catch((error) => {
         console.log(error)
       });
