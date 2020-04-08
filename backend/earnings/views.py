@@ -16,7 +16,7 @@ from earnings.models import Earnings, Macro, Stockprice, StockId
 
 # Python Libraries
 import json
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 # CREATE YOUR VIEWS HERE:
 
@@ -30,11 +30,6 @@ def apiOverview(request):
     return Response(api_urls)
 
 @api_view(['GET', 'POST'])
-#Call the earnings thingy. Like call the other DF and then play with it
-def get_id(request):
-    return()
-
-@api_view(['GET', 'POST'])
 def get_earnings(request):
     # Get Earnings
     # Get Surprise Direction and Magnitude
@@ -43,17 +38,18 @@ def get_earnings(request):
         body = json.loads(body_unicode)
         print(body)
 
-        stock_id_table = StockId.objects.all()
-        for item in stock_id_table.values():
-            if item['ticker'] == body['security']:
-                stock_id = item['stock_id']
-
         user_security=body['security']
         user_direction=body['direction'] #positive
         user_magnitude=body['magnitude'] #For the magnitude
 
         print(user_magnitude)
         print(user_direction)
+
+        stock_id_table = StockId.objects.all()
+        for item in stock_id_table.values():
+            if item['ticker'] == body['security']:
+                stock_id = item['stock_id']
+
         print(stock_id)
 
         stockprice_table = Stockprice.objects.filter(stock_id=stock_id)
@@ -61,7 +57,7 @@ def get_earnings(request):
         shortlist_earnings = []
 
         for item in earnings_table.values():
-            item['ticker'] = user_security
+            item['Ticker'] = user_security
             actual = item['actual']
             median = item['median']
             z_score = float(item['z_score'])
@@ -72,6 +68,11 @@ def get_earnings(request):
                     shortlist_earnings.append(item)
         
         print(shortlist_earnings)
+
+        # target_dates = []
+        # for item in shortlist_earnings:
+        #     target_dates.append(item['date'])
+        # print(target_dates)
 
 #modified the filtering algo below to lines 58 to 70
         # if expr == 'Large' and magn=="Pve":
@@ -92,6 +93,36 @@ def get_earnings(request):
         # elif expr=="Small" and magn=="Nve":
         #     earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__range = [-0.9999,-0.01])#greater than
         #     stockPrice = Stockprice.objects.filter(stock_id=stock_id)
+
+        #get driftdates and prices
+        for item in shortlist_earnings:
+            item['price_t0']=get_stockprice(stock_id, item['date'])
+
+            item['date_t1']= get_driftdate(item['date'], 1)
+            item['price_t1']=get_stockprice(stock_id,(item['date_t1']+ timedelta(days=1)))
+            #item['1day_return']= 100*((item['price_t1'] - item['price_t0'])/item['price_t0'])
+
+            item['date_t7']= get_driftdate(item['date'], 7)
+            #item['price_t7']=get_stockprice(stock_id,item['date_t7'])
+            #item['1week_return']= 100*((item['price_t7'] - item['price_t0'])/item['price_t0'])
+
+            item['date_t30']=get_driftdate(item['date'],30)
+            #item['price_t30']=get_stockprice(stock_id,item['date_t30'])
+            #item['1mth_return']= 100*((item['price_t30'] - item['price_t0'])/item['price_t0'])
+
+            item['date_t90']=get_driftdate(item['date'],90)
+            #item['price_t90']=get_stockprice(stock_id,item['date_t90'])
+            #item['3mth_return']= 100*((item['price_t90'] - item['price_t0'])/item['price_t0'])
+
+            item['date'] = item['date'].strftime('%Y-%m-%d')
+            item['date_t1'] = item['date_t1'].strftime('%Y-%m-%d')
+            item['date_t7'] = item['date_t7'].strftime('%Y-%m-%d')
+            item['date_t30'] = item['date_t30'].strftime('%Y-%m-%d')
+            item['date_t90'] = item['date_t90'].strftime('%Y-%m-%d')
+        
+        print(shortlist_earnings)
+        return Response(data=shortlist_earnings)
+
 
         content = []
         contentStockPrice = []
@@ -153,8 +184,8 @@ def get_earnings(request):
                                                         responselist.append(fillerlist) 
 
 
-        print(responselist)
-        return Response(data=shortlist_earnings)
+        #print(responselist)
+        
 
 
 def z_score_calc(z_score):
@@ -172,6 +203,21 @@ def calculate_surprise_sign(actual, median):
         return('Below')
     else:
         return('Meet')
+
+def get_stockprice(stockid, searchdate):
+    stockprice_table = Stockprice.objects.filter(stock_id=stockid)
+    # stockprice_dataframe = pd.DataFrame(list(stockprice_table.values()))
+    for each in stockprice_table.values():
+        if each['date'] == searchdate:
+            price = each['price']
+            return price
+        else:
+            return None
+            
+def get_driftdate(date_t0, driftdays):
+    driftdate = date_t0 + timedelta(days=driftdays)
+    return driftdate 
+
 
     '''df=pd.DataFrame(list(idframe.values())) #convert model data to dataframe
 
