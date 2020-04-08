@@ -16,38 +16,38 @@ class ResultChart extends Component {
 			zoomEnabled: true,
 			height: 150,
 			title: {
-				text: "Stock Price of BMW - March 2018" // to change
+				text: "Stock Price of ".concat("test")// to change to TICKER
 			},
             axisX:{
-				valueFormatString: "DD MMM",
+				valueFormatString: "DD MMM YYYY",
 				crosshair: {
 					enabled: true,
-                    snapToDataPoint: true
+                    snapToDataPoint: true,
                 }
             },
             axisY: {
-				title: "Closing Price (in EUR)", // to change
+				title: "Close Price (in USD)", // to change
 				includeZero: false,
-				valueFormatString: "€##0.00",
+				valueFormatString: "$##0.00",
 				crosshair: {
 					enabled: true,
 					snapToDataPoint: true,
 					labelFormatter: function(e) {
-                        return "€" + Chart1.formatNumber(e.value, "##0.00"); // to change
+                        return "$" + Chart1.formatNumber(e.value, "##0.00"); // to change
                     }
                 }
 			},
 			data: [{
 				type: "line",
 				xValueFormatString: "DD MMM",
-				yValueFormatString: "€##0.00", // to change
+				yValueFormatString: "$##0.00", // to change
 				dataPoints: dataPoints
 			}]
         }
-		
+
 		return (
 		<div>
-			<StockChart1 options = {options} 
+			<StockChart1 options = {options}
 				onRef={ref => this.chart = ref}
 			/>
 			{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
@@ -57,22 +57,21 @@ class ResultChart extends Component {
 
     componentDidMount(){
 		var chart = this.chart;
-		fetch('https://canvasjs.com/data/gallery/react/nifty-stock-price.json')
+		fetch('https://www.quandl.com/api/v3/datasets/WIKI/FB/data.json?order=asc&column_index=4&api_key=dFvSTC2myD1ts7eJq8VD')
 		.then(function(response) {
 			return response.json();
 		})
 		.then(function(data) {
-			for (var i = 0; i < data.length; i++) {
+			for (var i = 0; i < data.dataset_data.data.length; i++) {
 				dataPoints.push({
-					x: new Date(data[i].x),
-					y: data[i].y
+					x: new Date(data.dataset_data.data[i][0]),
+					y: data.dataset_data.data[i][1]
 				});
 			}
 			chart.render();
 		});
 	}
 }
-
 export default ResultChart;
 
 
