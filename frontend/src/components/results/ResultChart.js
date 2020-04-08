@@ -1,3 +1,5 @@
+//change name to pricemovementchart.js after changing refs in other files//
+
 import React, {Component} from 'react';
 import CanvasJSReact from '../../assets/canvasjs.react';
 
