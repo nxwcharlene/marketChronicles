@@ -263,10 +263,6 @@ def get_drift(price_t0, price_driftdate):
     else:
         return('No Data')
     
-
-
-
-
     '''df=pd.DataFrame(list(idframe.values())) #convert model data to dataframe
 
     stockidval=df.at[1,"stock_id"]
