@@ -55,7 +55,7 @@ function PriceForm() {
     };
 
     const onChange = (item, response) => {
-      // e.persist();
+//      e.persist();
       console.log(response)
       input[item] = response
       console.log(input)

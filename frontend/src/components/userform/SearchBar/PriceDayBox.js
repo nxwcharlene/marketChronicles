@@ -44,7 +44,7 @@ const PriceDayBox = (props) => {
     // setDirection(event.target.value);
     return (
         <NativeSelect
-          id="demo-customized-select-native"
+          id="period"
           input={<BootstrapInput />}
           defaultValue={"1D"}
           onChange={(event) => {
