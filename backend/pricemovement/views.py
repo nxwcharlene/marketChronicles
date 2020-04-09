@@ -225,6 +225,7 @@ def get_date(request):
 
         # If period = 1M
 
+
         # If period = 1Y
 
 
@@ -243,7 +244,7 @@ def get_date(request):
             loaded_data = json.loads(huge_weekly_move)
             context.append(loaded_data)
             context = context[0]
-            return Response(data=[0])
+            return Response(data=context)
         elif body['period'] == '1M':
             None
         elif body['period'] == '1Y':
