@@ -78,7 +78,7 @@ class PriceMovementResults extends React.Component {
                                              <span>Ticker: {item.ticker}</span>
                                          </li>
                                          <li >
-                                             <span>Price change (%): {item.returns}</span>
+                                             <span>Price change: {item.returns}</span>
                                          </li>
                                          <li >
                                              <span>Period: {item.period}</span>

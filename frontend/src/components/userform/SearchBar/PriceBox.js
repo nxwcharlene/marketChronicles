@@ -56,7 +56,7 @@ const PriceBox = (props) => {
           <option value={"1-3"}>1 - 3%</option>
           <option value={"3-5"}>3 - 5%</option>
           <option value={"5-10"}>5 - 10%</option>
-          <option value={">10"}>> 10%</option>
+          <option value={"10-200"}>> 10%</option>
         </NativeSelect>
         );
 }

@@ -2,17 +2,17 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from pricemovement.models import StockId, Stockprice
 from .serializer import StockIdSerializer, StockPriceSerializer
-# from django_pandas.io import read_frame
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+# from django_pandas.io import read_frame
 
 #python dependencies
+import re
 import json
 import quandl
 import pandas as pd
 from datetime import datetime, timedelta
-import re
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 
 
@@ -184,34 +184,28 @@ def get_date(request):
         # body = {"security": "MMM", "pricechange": "1-3", "period": "1D", "startdate": "2020-01-02", "enddate": "2020-04-06"}
         context = []
 
-        # sec_tic = loaded_input['Name of Security']
-        # criteria = float(loaded_input['% Change in stock price'].strip('%'))
-        # time_period = loaded_input['Time period']
-        # start_date = loaded_input['Start Date']
-        # end_date = loaded_input['End Date']
-
         stockid = StockId.objects.all()
         stock_id = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
         stock_number = stock_id[stock_id.loc[:, 'ticker'] == body['security']].iloc[0].loc['stock_id']
-
         stockprice = Stockprice.objects.filter(stock_id=stock_number)
         price_table = pd.DataFrame(list(stockprice.values()))
-        # price_table = stock_price[stock_price.loc[:,'stock_id']==stock_number]
-
-        # security =stock_id[stock_id.loc[:,'stock_id']==stock_number].iloc[0].loc['security'].split(" ")[0]
 
         price_table['ticker'] = body['security']
         price_table['period'] = body['period']
-        price_table.loc[:, 'returns'] = round(price_table['price'].pct_change() * 100, 2)
+        price_table.loc[:, 'returns'] = round(price_table['price'].pct_change() * 100, 2) # creates a column for daily returns
         price_table['date'] = pd.to_datetime(price_table['date'])
         price_table = price_table.set_index('date')
-        huge_daily_move = price_table[price_table.loc[:, 'returns'] > float(body['pricechange'][0])]
+
+        # If period = 1D
+        huge_daily_move = price_table[(price_table.loc[:, 'returns'] > float(body['pricechange'].split('-')[0])) & (price_table.loc[:, 'returns'] < float(body['pricechange'].split('-')[-1]))]
         huge_daily_move = huge_daily_move.loc[body['startdate']:body['enddate']]
+        huge_daily_move.returns = huge_daily_move.returns.astype(str) + '%'
         date_index = huge_daily_move.index.strftime("%Y-%m-%d")
         huge_daily_move = huge_daily_move.set_index(date_index)
         huge_daily_move['date'] = huge_daily_move.index
         huge_daily_move = huge_daily_move.to_json(orient='records')
 
+        # If period = 1W
         week_open = price_table.price.resample('W-SUN').last().shift(1, freq='D')
         week_open.rename("open_price", inplace=True)
         week_close = price_table.price.resample('W-FRI').last().shift(-4, freq='D')
@@ -223,13 +217,18 @@ def get_date(request):
             ((weekly_data['close_price'] - weekly_data['open_price']) / weekly_data['open_price']) * 100, 2)
         huge_weekly_move = weekly_data[weekly_data.loc[:, 'returns'] > float(body['pricechange'][0])]
         huge_weekly_move = huge_weekly_move.loc[body['startdate']:body['enddate']]
+        huge_weekly_move.returns = huge_daily_move.returns.astype(str) + '%'
         date_index = huge_weekly_move.index.strftime("%Y-%m-%d")
         huge_weekly_move = huge_weekly_move.set_index(date_index)
         huge_weekly_move['date'] = huge_weekly_move.index
         huge_weekly_move = huge_weekly_move.to_json(orient='records')
 
+        # If period = 1M
+
+        # If period = 1Y
+
+
         context = []
-        # return Response(data=context)
 
         if body['period'] == '1D':
             # output=huge_daily_move.to_dict()
@@ -244,7 +243,13 @@ def get_date(request):
             loaded_data = json.loads(huge_weekly_move)
             context.append(loaded_data)
             context = context[0]
-        return Response(data=[0])
+            return Response(data=[0])
+        elif body['period'] == '1M':
+            None
+        elif body['period'] == '1Y':
+            None
+        else:
+            return Response(data=context)
 
 
 @api_view(['GET', 'POST'])
