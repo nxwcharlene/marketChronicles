@@ -34,8 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 function PriceForm() {
     const classes = useStyles();
-    const input = {security: "", pricechange: "1-3", period: "1D", startdate: "2020-01-01", enddate: "2020-04-18"} // default values, must match each box.js
-
+    const [input, setInput] = useState({security: "", pricechange: "1-3", period: "1D", startdate: "2020-01-01", enddate: "2020-04-18"});
     const [results, setResults] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -44,6 +43,7 @@ function PriceForm() {
       setIsLoaded(true);
       e.preventDefault();
       console.log(input)
+
       return axios.post(apiUrl, input)
           .then((response) => {
             setResults(response.data);
@@ -62,12 +62,14 @@ function PriceForm() {
       // setInput({ item: response.name, indicator: '', direction: '', magnitude: 0 })
     };
 
+
+
     return (
        <React.Fragment>
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <form onSubmit={saveInput}>
                 <FormControl className={classes.margin}>
-                <SecurityBox onChange={onChange} />
+                <SecurityBox onChange={onChange}/>
                 <FormHelperText>Name of Security</FormHelperText>
                 </FormControl>
 
