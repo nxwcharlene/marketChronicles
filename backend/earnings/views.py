@@ -67,11 +67,6 @@ def get_earnings(request):
         
         print(shortlist_earnings)
 
-        target_dates = []
-        for item in shortlist_earnings:
-            target_dates.append(item['date'])
-        print(target_dates)
-
 #modified the filtering algo below to lines 58 to 70
         # if expr == 'Large' and magn=="Pve":
         #     earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__gt = 2)#greater than
@@ -92,7 +87,14 @@ def get_earnings(request):
         #     earning = Earnings.objects.filter(stock_id=stock_id).filter(z_score__range = [-0.9999,-0.01])#greater than
         #     stockPrice = Stockprice.objects.filter(stock_id=stock_id)
 
-        #get driftdates and prices
+
+        # target_dates = []
+        # for item in shortlist_earnings:
+        #     target_dates.append(item['date'])
+        # print(target_dates)
+
+
+        #get prices of the next x days and calculate drift
         for item in shortlist_earnings:
             stockprice_table = Stockprice.objects.filter(stock_id=stock_id)
             df = pd.DataFrame(list(stockprice_table.values()))
@@ -100,115 +102,120 @@ def get_earnings(request):
             try:
                 index_t0 = df.loc[df['date'] == searchdate].index[0]
                 item['index'] = index_t0
-            except IndexError:
+            except (KeyError, IndexError):
                 item['index'] = 'No data'
-            # item['price_t0']=get_stockprice('26',item['date'], 0)
-            # item['price_t1']=get_stockprice('26',item['date'],1)
-            # item['price_t7']=get_stockprice('26',item['date'], 7)
-            # item['price_t30']=get_stockprice('26',item['date'], 30)
-            # item['price_t90']=get_stockprice('26',item['date'], 90)
-
-            # item['date_t1']= get_driftdate(item['date'], 1)
-            # item['price_t1']=get_stockprice(item['date'],1)
-            #item['1day_return']= 100*((item['price_t1'] - item['price_t0'])/item['price_t0'])
-
-            # item['date_t7']= get_driftdate(item['date'], 7)
-            # item['price_t7']=get_stockprice(item['date'], 7)
-            #item['1week_return']= 100*((item['price_t7'] - item['price_t0'])/item['price_t0'])
-
-            # item['date_t30']=get_driftdate(item['date'],30)
-            #item['price_t30']=get_stockprice(stock_id,item['date_t30'])
-            #item['1mth_return']= 100*((item['price_t30'] - item['price_t0'])/item['price_t0'])
-
-            # item['date_t90']=get_driftdate(item['date'],90)
-            #item['price_t90']=get_stockprice(stock_id,item['date_t90'])
-            #item['3mth_return']= 100*((item['price_t90'] - item['price_t0'])/item['price_t0'])
-
-            # item['date'] = item['date'].strftime('%Y-%m-%d')
-            # item['date_t1'] = item['date_t1'].strftime('%Y-%m-%d')
-            # item['date_t7'] = item['date_t7'].strftime('%Y-%m-%d')
-            # item['date_t30'] = item['date_t30'].strftime('%Y-%m-%d')
-            # item['date_t90'] = item['date_t90'].strftime('%Y-%m-%d')
+            if item['index'] != 'No data':
+                item['price_t0']=get_stockprice('26',item['date'], 0)
+                item['price_t1']=get_stockprice('26',item['date'],1) #26 is goog's stock_id
+                item['price_t7']=get_stockprice('26',item['date'], 7) 
+                item['price_t30']=get_stockprice('26',item['date'], 30)
+                item['price_t90']=get_stockprice('26',item['date'], 90)
+                item['1day_return']=get_drift(item['price_t0'],item['price_t1'])
+                item['1wk_return']=get_drift(item['price_t0'],item['price_t7'])
+                item['1mth_return']=get_drift(item['price_t0'],item['price_t30'])
+                item['3mth_return']=get_drift(item['price_t0'],item['price_t90'])
+                # if item['price_t1'] != "No Data":
+                #     item['1day_return']= float(100*((item['price_t1'] - item['price_t0'])/item['price_t0']), 2)
+                # else:
+                #     item['1day_return']= 'No Data'
+                # if item['price_t7'] != "No Data":
+                #     item['1day_return']= float(100*((item['price_t7'] - item['price_t0'])/item['price_t0']),2)
+                # else:
+                #     item['1wk_return']= 'No Data'
+                # if item['price_t30'] != 'No Data':
+                #     item['1mth_return']= float(100*((item['price_t30'] - item['price_t0'])/item['price_t0']),2)
+                # else:
+                #     item['1mth_return']= 'No Data'
+                # if item['price_t90'] != 'No Data':
+                #     item['3mth_return']= float(100*((item['price_t90'] - item['price_t0'])/item['price_t0']),2)
+                # else:
+                #     item['1mth_return']= 'No Data'
+            item['date'] = item['date'].strftime('%Y-%m-%d')
         
         print(shortlist_earnings)
-        base_date = "2020-02-03"
-        base_date = datetime.strptime(base_date, '%Y-%m-%d').date()
-        df = pd.DataFrame(list(stockprice_table.values()))
+        return Response(data=shortlist_earnings)
+
+        # TESTING
+        # base_date = "2020-02-03"
+        # base_date = datetime.strptime(base_date, '%Y-%m-%d').date()
+        # df = pd.DataFrame(list(stockprice_table.values()))
         # base_date_row = df.loc[df['date']== base_date]
         # print(base_date_row) 
-        index_test = df.loc[df['date']== base_date].index[0]
-        next_index = index_test + 1 
+        # index_test = df.loc[df['date']== base_date].index[0]
+        # print('This is the Index')
+        # print(index_test)
+        # next_index = index_test + 1 
         # print(test)
-        get_price = df.loc[index_test, 'price']
-        print(get_price)
-        get_next_price = df.loc[next_index, 'price']
-        print(get_next_price)
+        # get_price = df.loc[1504, 'price']
+        # print(get_price)
+        # get_next_price = df.loc[next_index, 'price']
+        # print(get_next_price)
         # indextest = df.index.get_loc(df.loc[df['date']== base_date])
         # indextest2 = df.index.get_loc(base_date)
         # print(indextest)
         # print(indextest2)
 
-        print(df.loc[df['date'].isin(target_dates)])
-        return Response(data=shortlist_earnings)
+        # print(df.loc[df['date'].isin(target_dates)])
+        #END OF TESTING
 
-        content = []
-        contentStockPrice = []
-        prices=[]
-        for test in shortlist_earnings:
+        # content = []
+        # contentStockPrice = []
+        # prices=[]
+        # for test in shortlist_earnings:
 
-            contentStockPrice.append(test)
-        for price in stockprice_table.values() :
-            prices.append(price)
-        pricedict={}
-        for i in prices:
-            pricedict[i["date"]]=i["price"]
-        responselist=[]
-        # print(content)
-        # print(contentStockPrice)
-        # print(prices)
-        for i in contentStockPrice:
-            fillerlist=[]
-            try:
-                fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 100 day price stock price change was ",pricedict[i["date"]+timedelta(days=100)]-pricedict[i["date"]]))
-                responselist.append(fillerlist)
-            except KeyError:
-                try:
-                    fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 103 day price stock price change was ",pricedict[i["date"]+timedelta(days=103)]-pricedict[i["date"]]))
-                    responselist.append(fillerlist)
-                except KeyError:
-                    try:
-                        fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]]))
-                        responselist.append(fillerlist)
-                    except KeyError:
-                            try:
-                                fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 23 day stock price change was",pricedict[i["date"]+timedelta(days=23)]-pricedict[i["date"]]))
-                                responselist.append(fillerlist)
-                            except KeyError:
-                                try:
-                                    fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],))
-                                    responselist.append(fillerlist)
-                                except KeyError: #start 3 day here
-                                    try:
-                                        fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 100 day price stock price change was ",pricedict[i["date"]+timedelta(days=100)]-pricedict[i["date"]]))
-                                        responselist.append(fillerlist)
-                                    except KeyError:
-                                        try:
-                                            fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 103 day price stock price change was ",pricedict[i["date"]+timedelta(days=103)]-pricedict[i["date"]]))
-                                            responselist.append(fillerlist)
-                                        except KeyError:
-                                            try:
-                                                fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]]))
-                                                responselist.append(fillerlist)
-                                            except KeyError:
-                                                    try:
-                                                        fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 23 day stock price change was",pricedict[i["date"]+timedelta(days=23)]-pricedict[i["date"]]))
-                                                        responselist.append(fillerlist)
-                                                    except KeyError:
-                                                            fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],))
-                                                            responselist.append(fillerlist)
-                                                    else:
-                                                        fillerlist.append("No data for ", i['date'])
-                                                        responselist.append(fillerlist) 
+        #     contentStockPrice.append(test)
+        # for price in stockprice_table.values() :
+        #     prices.append(price)
+        # pricedict={}
+        # for i in prices:
+        #     pricedict[i["date"]]=i["price"]
+        # responselist=[]
+        # # print(content)
+        # # print(contentStockPrice)
+        # # print(prices)
+        # for i in contentStockPrice:
+        #     fillerlist=[]
+        #     try:
+        #         fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 100 day price stock price change was ",pricedict[i["date"]+timedelta(days=100)]-pricedict[i["date"]]))
+        #         responselist.append(fillerlist)
+        #     except KeyError:
+        #         try:
+        #             fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 103 day price stock price change was ",pricedict[i["date"]+timedelta(days=103)]-pricedict[i["date"]]))
+        #             responselist.append(fillerlist)
+        #         except KeyError:
+        #             try:
+        #                 fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]]))
+        #                 responselist.append(fillerlist)
+        #             except KeyError:
+        #                     try:
+        #                         fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],"The 23 day stock price change was",pricedict[i["date"]+timedelta(days=23)]-pricedict[i["date"]]))
+        #                         responselist.append(fillerlist)
+        #                     except KeyError:
+        #                         try:
+        #                             fillerlist.append(("The one day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=1)]-pricedict[i["date"]],))
+        #                             responselist.append(fillerlist)
+        #                         except KeyError: #start 3 day here
+        #                             try:
+        #                                 fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 100 day price stock price change was ",pricedict[i["date"]+timedelta(days=100)]-pricedict[i["date"]]))
+        #                                 responselist.append(fillerlist)
+        #                             except KeyError:
+        #                                 try:
+        #                                     fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]],"and the 103 day price stock price change was ",pricedict[i["date"]+timedelta(days=103)]-pricedict[i["date"]]))
+        #                                     responselist.append(fillerlist)
+        #                                 except KeyError:
+        #                                     try:
+        #                                         fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 20 day stock price change was",pricedict[i["date"]+timedelta(days=20)]-pricedict[i["date"]]))
+        #                                         responselist.append(fillerlist)
+        #                                     except KeyError:
+        #                                             try:
+        #                                                 fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],"The 23 day stock price change was",pricedict[i["date"]+timedelta(days=23)]-pricedict[i["date"]]))
+        #                                                 responselist.append(fillerlist)
+        #                                             except KeyError:
+        #                                                     fillerlist.append(("The 3 day stock price change on ",i["date"], "was ",pricedict[i["date"]+timedelta(days=3)]-pricedict[i["date"]],))
+        #                                                     responselist.append(fillerlist)
+        #                                             else:
+        #                                                 fillerlist.append("No data for ", i['date'])
+        #                                                 responselist.append(fillerlist) 
 
 
         #print(responselist)
@@ -242,8 +249,21 @@ def get_stockprice(stockid, searchdate, daysafter):
     index_t0 = df.loc[df['date'] == searchdate].index[0]
     #get index for x days after release date
     index = index_t0 + daysafter
-    price = df.loc[index, 'price']
-    return price
+    try:
+        price = df.loc[index, 'price']
+        return float(price)
+    except KeyError:
+        return ('No Data')
+
+def get_drift(price_t0, price_driftdate):
+    if price_driftdate != 'No Data':
+        drift_return = 100*((price_driftdate - price_t0)/price_t0)
+        drift_return = round(drift_return, 2)
+        return (drift_return)
+    else:
+        return('No Data')
+    
+
 
 
 
