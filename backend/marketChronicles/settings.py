@@ -107,22 +107,22 @@ DATABASES = {
     #     'HOST': '127.0.0.1',
     #     'PORT':'3306'
     # }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'bf3210_database',
-    #     'USER': 'root',
-    #     'PASSWORD': '1234qwer',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '3306',
-    # }
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'new_schema',
-            'USER': 'root',
-            'PASSWORD': 'black raisins',
-            'HOST': '127.0.0.1',
-            'PORT': '3306'
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bf3210_database',
+        'USER': 'root',
+        'PASSWORD': 'sharedpassword',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.mysql',
+    #         'NAME': 'new_schema',
+    #         'USER': 'root',
+    #         'PASSWORD': 'black raisins',
+    #         'HOST': '127.0.0.1',
+    #         'PORT': '3306'
+    # }
 }
 
 CORS_ORIGIN_ALLOW_ALL=True

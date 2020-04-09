@@ -19,42 +19,41 @@ import Skeleton from '@material-ui/lab/Skeleton';
 
 // Using class components
 class PriceMovementResults extends React.Component {
- constructor(props) {
-     super(props);
-     this.state = {
-         items: [],
-         isLoaded: false
-     }
- }
- componentDidMount() {
-     const requestOptions ={
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: 'POST Request Example'})
-     };
-     fetch("http://127.0.0.1:8000/pricemovement/get_date")
-         .then(res => res.json())
-         .then(json => {
-             this.setState({
-                 items: json,
-                 isLoaded: true,
-             })
-         }).catch((err) => {
-             console.log(err);
-         });
- }
+// constructor(props) {
+//     super(props);
+//     this.state = {
+//         isLoaded: false
+//     }
+// }
+// componentDidMount() {
+//     const requestOptions ={
+//        method: 'POST',
+//        headers: { 'Content-Type': 'application/json' },
+//        body: JSON.stringify({ title: 'POST Request Example'})
+//     };
+//     fetch("http://127.0.0.1:8000/pricemovement/get_date")
+//         .then(res => res.json())
+//         .then(json => {
+//             this.setState({
+//                 items: json,
+//                 isLoaded: true,
+//             })
+//         }).catch((err) => {
+//             console.log(err);
+//         });
+// }
 
      render() {
-         const { items, isLoaded } = this.state;
-         console.log(this.state.items)
-//         const items = this.props.results
+//         const { isLoaded } = this.state;
+         const items = this.props.results;
+         console.log(this.props.items)
 
-         if (!isLoaded)
-             return (
-                 <div>
-                    <Skeleton animation="wave" variant="rect" width={"100%"} height={200} />
-                 </div>
-             )
+//         if (!isLoaded)
+//             return (
+//                 <div>
+//                    <Skeleton animation="wave" variant="rect" width={"100%"} height={200} />
+//                 </div>
+//             )
 
          return (
              <div>
@@ -70,46 +69,49 @@ class PriceMovementResults extends React.Component {
 
                          <CardContent>
                              <Grid container spacing={0} alignItems="flex-end">
-                                 <Grid item key={item.ticker} xs={3} md={3} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                                 <Grid item key={item.ticker} xs={3} md={3} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 10}}>
                                    <ul>
-                                         <div style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                                         <div style={{flex: 1, flexDirection: 'column', justifyContent: 'top'}}>
                                          <li >
                                              <b><span>Price Movement </span></b>
+                                         </li>
+                                         <li >
+                                             <div style={{height:10}} ><span> </span></div>
                                          </li>
                                          <li >
                                              <span>Ticker: {item.ticker}</span>
                                          </li>
                                          <li >
-                                             <span>Price change (%): {item.ticker}</span>
+                                             <span>Price change (%): {item.returns}</span>
                                          </li>
                                          <li >
-                                             <span>Period: {item.ticker}</span>
+                                             <span>Period: {item.period}</span>
                                          </li>
                                          </div>
                                    </ul>
                                  </Grid>
 
-                                 <Grid item key={item.stock_id} xs={3} md={3}>
+                                 <Grid item key={item.stock_id} xs={4} md={4} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
                                      <ul>
                                          <li >
                                              <b><span>Returns following large price movement </span></b>
                                          </li>
                                          <li >
-                                             <span> 1 Day: {item.author}</span>
+                                             <span> 1 Day: {item.returns}</span>
                                          </li>
                                          <li >
-                                             <span> 1 Week: {item.author}</span>
+                                             <span> 1 Week: {item.returns}</span>
                                          </li>
                                          <li >
-                                             <span> 1 Month: {item.author}</span>
+                                             <span> 1 Month: {item.returns}</span>
                                          </li>
                                          <li >
-                                             <span> 3 Months: {item.title}</span>
+                                             <span> 1 Year: {item.returns}</span>
                                          </li>
                                      </ul>
                                  </Grid>
 
-                                 <Grid item key={item.id} xs={6} md={3}>
+                                 <Grid item key={item.id} xs={5} md={5} style={{height: 140}}>
                                      <ResultChart />
                                  </Grid>
                              </Grid>

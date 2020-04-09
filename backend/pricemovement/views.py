@@ -101,7 +101,7 @@ def get_price(request):
 
 @api_view(['GET', 'POST'])
 def get_date(request):
-    if request.method == 'GET':
+    if request.method == 'GET': # GET uses dummy inputs, POST uses real user inputs
         user_input = {
             'Name of Security': 'AAPL',
             '% Change in stock price': '6%',
@@ -177,10 +177,11 @@ def get_date(request):
 
 
     elif request.method == 'POST':
-        # body_unicode = request.body.decode('utf-8')
-        # body = json.loads(body_unicode)
-        # print(body) # returns security, pricechange, period, startdate, and enddate
-        body = {'security': 'MMM', 'pricechange': '1-3', 'period': '1D', 'startdate': '2020-01-02', 'enddate': '2020-04-06'}
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body) # returns security, pricechange, period, startdate, and enddate
+        # body = {'security': 'MMM', 'pricechange': '1-3', 'period': '1D', 'startdate': '2020-01-02', 'enddate': '2020-04-06'}
+        # body = {"security": "MMM", "pricechange": "1-3", "period": "1D", "startdate": "2020-01-02", "enddate": "2020-04-06"}
         context = []
 
         # sec_tic = loaded_input['Name of Security']

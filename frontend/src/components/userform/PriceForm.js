@@ -62,48 +62,62 @@ function PriceForm() {
       // setInput({ item: response.name, indicator: '', direction: '', magnitude: 0 })
     };
 
+    return (
+       <React.Fragment>
+          <MuiPickersUtilsProvider utils={MomentUtils}>
+            <form onSubmit={saveInput}>
+                <FormControl className={classes.margin}>
+                <SecurityBox onChange={onChange} />
+                <FormHelperText>Name of Security</FormHelperText>
+                </FormControl>
 
-        return (
-            <React.Fragment>
-              <MuiPickersUtilsProvider utils={MomentUtils}>
-                <form onSubmit={saveInput}>
-                    <FormControl className={classes.margin}>
-                    <SecurityBox onChange={onChange} />
-                    <FormHelperText>Name of Security</FormHelperText>
-                    </FormControl>
+                <FormControl className={classes.margin}>
+                 <PriceBox onChange={onChange}/>
+                 <FormHelperText>% change in stock price</FormHelperText>
+                </FormControl>
 
-                    <FormControl className={classes.margin}>
-                     <PriceBox onChange={onChange}/>
-                     <FormHelperText>% change in stock price</FormHelperText>
-                    </FormControl>
+                <FormControl className={classes.margin}>
+                <PriceDayBox onChange={onChange}/>
+                <FormHelperText>Within a period of </FormHelperText>
+                </FormControl>
 
-                    <FormControl className={classes.margin}>
-                    <PriceDayBox onChange={onChange}/>
-                    <FormHelperText>Within a period of </FormHelperText>
-                    </FormControl>
+                <div style={{height:5}}/>
 
-                    <div style={{height:5}}/>
+                <FormControl className={classes.margin}>
+                <div style={{height:5}}/>
+                <StartDatePicker utils={MomentUtils} onChange={onChange}/>
+                <FormHelperText>Start Date YYYY-MM-DD</FormHelperText>
+                </FormControl>
 
-                    <FormControl className={classes.margin}>
-                    <div style={{height:5}}/>
-                    <StartDatePicker utils={MomentUtils} onChange={onChange}/>
-                    <FormHelperText>Start Date YYYY-MM-DD</FormHelperText>
-                    </FormControl>
+                <FormControl className={classes.margin}>
+                <div style={{height:5}}/>
+                <EndDatePicker utils={MomentUtils} onChange={onChange}/>
+                <FormHelperText>End Date YYYY-MM-DD</FormHelperText>
+                </FormControl>
 
-                    <FormControl className={classes.margin}>
-                    <div style={{height:5}}/>
-                    <EndDatePicker utils={MomentUtils} onChange={onChange}/>
-                    <FormHelperText>End Date YYYY-MM-DD</FormHelperText>
-                    </FormControl>
+                <Button className={classes.gobutton} size="medium" variant="contained" color="primary" type="submit">
+                    SEARCH
+                </Button>
+            </form>
+          </MuiPickersUtilsProvider>
 
-                    <Button className={classes.gobutton} size="medium" variant="contained" color="primary" type="submit">
-                        SEARCH
-                    </Button>
-                </form>
-
-              </MuiPickersUtilsProvider>
-            </React.Fragment>
-        );
+          {isLoaded ? (
+            <Fragment>
+                <div style={{ height: 10 }} />
+                <hr></hr>
+                <h3>Search Results</h3>
+                <PriceMovementResults results={results} />
+            </Fragment>
+          ) : (
+            <Fragment>
+                <div style={{ height: 10 }} />
+                <hr></hr>
+                <h3> Search Results</h3>
+                <h5>Please select input</h5>
+            </Fragment>
+          )}
+       </React.Fragment>
+    );
 }
 
 export default withRouter(PriceForm);

@@ -23,10 +23,10 @@ function PriceMovementPage() {
                     <h3>&emsp;&emsp;Search for large historical stock price movement</h3>
                     <PriceForm />
                     <div style={{height:10}}/>
-                    <hr></hr>
-                    <h3>Sample Results Output</h3>
-                    <div style={{height:10}}/>
-                    <PriceMovementResults />
+                    {/* <hr></hr> */}
+                    {/* <h3>Sample Results Output</h3> */}
+                    {/* <div style={{height:10}}/> */}
+                    {/* <PriceMovementResults /> */}
                 </Container>
 
                 <div style={{height:30}}/>
