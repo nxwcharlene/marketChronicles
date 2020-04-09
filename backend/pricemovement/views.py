@@ -217,7 +217,7 @@ def get_date(request):
             ((weekly_data['close_price'] - weekly_data['open_price']) / weekly_data['open_price']) * 100, 2)
         huge_weekly_move = weekly_data[weekly_data.loc[:, 'returns'] > float(body['pricechange'][0])]
         huge_weekly_move = huge_weekly_move.loc[body['startdate']:body['enddate']]
-        huge_weekly_move.returns = huge_daily_move.returns.astype(str) + '%'
+        # huge_weekly_move.returns = huge_daily_move.returns.astype(str) + '%'
         date_index = huge_weekly_move.index.strftime("%Y-%m-%d")
         huge_weekly_move = huge_weekly_move.set_index(date_index)
         huge_weekly_move['date'] = huge_weekly_move.index
