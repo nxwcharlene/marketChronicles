@@ -1,34 +1,13 @@
 import React from 'react';
-//import DatePicker from 'react-datepicker';
-//import "react-datepicker/dist/react-datepicker.css";
-//import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import { Fragment, useState } from "react";
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { DatePicker, KeyboardDatePicker } from "@material-ui/pickers";
 import MomentUtils from '@date-io/moment';
 import moment from 'moment';
 
-//class Example extends React.Component {
-//
-//  state = {
-//    startDate: new Date()
-//  };
-//
-//  handleChange = date => {
-//    this.setState({
-//      startDate: date
-//    });
-//  };
-//
-//  render() {
-//
-//    return (
-//    <>
-//    </>
-//    );
-//  }
-//}
-
+function disableWeekends(date) {
+  return date.day() === 0 | date.day() === 6;
+}
 
 function EndDatePicker(props) {
     const [startDate, setStartDate] = React.useState(new Date("2020-04-01"));
@@ -46,6 +25,7 @@ function EndDatePicker(props) {
     //        label="End Date"
             format="YYYY-MM-DD"
             style={{width:200}}
+            shouldDisableDate={disableWeekends}
             value={selectedDate}
             InputAdornmentProps={{ position: "end" }}
             onChange={(event, value) => {

@@ -30,6 +30,9 @@ import moment from 'moment';
 //  }
 //}
 
+function disableWeekends(date) {
+  return date.day() === 0 | date.day() === 6;
+}
 
 function StartDatePicker(props) {
 //    const [startDate, setStartDate] = React.useState(new Date("2020/01/01"));
@@ -47,6 +50,7 @@ function StartDatePicker(props) {
     //        label="Start Date"
             format="YYYY-MM-DD"
             style={{width:200}}
+            shouldDisableDate={disableWeekends}
             value={selectedDate}
             InputAdornmentProps={{ position: "end" }}
             onChange={(event, value) => {
