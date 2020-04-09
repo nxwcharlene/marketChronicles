@@ -31,8 +31,6 @@ def apiOverview(request):
 
 @api_view(['GET', 'POST'])
 def get_earnings(request):
-    # Get Earnings
-    # Get Surprise Direction and Magnitude
     if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
@@ -69,10 +67,10 @@ def get_earnings(request):
         
         print(shortlist_earnings)
 
-        # target_dates = []
-        # for item in shortlist_earnings:
-        #     target_dates.append(item['date'])
-        # print(target_dates)
+        target_dates = []
+        for item in shortlist_earnings:
+            target_dates.append(item['date'])
+        print(target_dates)
 
 #modified the filtering algo below to lines 58 to 70
         # if expr == 'Large' and magn=="Pve":
@@ -96,33 +94,62 @@ def get_earnings(request):
 
         #get driftdates and prices
         for item in shortlist_earnings:
-            item['price_t0']=get_stockprice(stock_id, item['date'])
+            stockprice_table = Stockprice.objects.filter(stock_id=stock_id)
+            df = pd.DataFrame(list(stockprice_table.values()))
+            searchdate = item['date']
+            try:
+                index_t0 = df.loc[df['date'] == searchdate].index[0]
+                item['index'] = index_t0
+            except IndexError:
+                item['index'] = 'No data'
+            # item['price_t0']=get_stockprice('26',item['date'], 0)
+            # item['price_t1']=get_stockprice('26',item['date'],1)
+            # item['price_t7']=get_stockprice('26',item['date'], 7)
+            # item['price_t30']=get_stockprice('26',item['date'], 30)
+            # item['price_t90']=get_stockprice('26',item['date'], 90)
 
-            item['date_t1']= get_driftdate(item['date'], 1)
-            item['price_t1']=get_stockprice(stock_id,(item['date_t1']+ timedelta(days=1)))
+            # item['date_t1']= get_driftdate(item['date'], 1)
+            # item['price_t1']=get_stockprice(item['date'],1)
             #item['1day_return']= 100*((item['price_t1'] - item['price_t0'])/item['price_t0'])
 
-            item['date_t7']= get_driftdate(item['date'], 7)
-            #item['price_t7']=get_stockprice(stock_id,item['date_t7'])
+            # item['date_t7']= get_driftdate(item['date'], 7)
+            # item['price_t7']=get_stockprice(item['date'], 7)
             #item['1week_return']= 100*((item['price_t7'] - item['price_t0'])/item['price_t0'])
 
-            item['date_t30']=get_driftdate(item['date'],30)
+            # item['date_t30']=get_driftdate(item['date'],30)
             #item['price_t30']=get_stockprice(stock_id,item['date_t30'])
             #item['1mth_return']= 100*((item['price_t30'] - item['price_t0'])/item['price_t0'])
 
-            item['date_t90']=get_driftdate(item['date'],90)
+            # item['date_t90']=get_driftdate(item['date'],90)
             #item['price_t90']=get_stockprice(stock_id,item['date_t90'])
             #item['3mth_return']= 100*((item['price_t90'] - item['price_t0'])/item['price_t0'])
 
-            item['date'] = item['date'].strftime('%Y-%m-%d')
-            item['date_t1'] = item['date_t1'].strftime('%Y-%m-%d')
-            item['date_t7'] = item['date_t7'].strftime('%Y-%m-%d')
-            item['date_t30'] = item['date_t30'].strftime('%Y-%m-%d')
-            item['date_t90'] = item['date_t90'].strftime('%Y-%m-%d')
+            # item['date'] = item['date'].strftime('%Y-%m-%d')
+            # item['date_t1'] = item['date_t1'].strftime('%Y-%m-%d')
+            # item['date_t7'] = item['date_t7'].strftime('%Y-%m-%d')
+            # item['date_t30'] = item['date_t30'].strftime('%Y-%m-%d')
+            # item['date_t90'] = item['date_t90'].strftime('%Y-%m-%d')
         
         print(shortlist_earnings)
-        return Response(data=shortlist_earnings)
+        base_date = "2020-02-03"
+        base_date = datetime.strptime(base_date, '%Y-%m-%d').date()
+        df = pd.DataFrame(list(stockprice_table.values()))
+        # base_date_row = df.loc[df['date']== base_date]
+        # print(base_date_row) 
+        index_test = df.loc[df['date']== base_date].index[0]
+        next_index = index_test + 1 
+        # print(test)
+        get_price = df.loc[index_test, 'price']
+        print(get_price)
+        get_next_price = df.loc[next_index, 'price']
+        print(get_next_price)
+        # indextest = df.index.get_loc(df.loc[df['date']== base_date])
+        # indextest2 = df.index.get_loc(base_date)
+        # print(indextest)
+        # print(indextest2)
 
+        print(df.loc[df['date'].isin(target_dates)])
+        return Response(data=shortlist_earnings)
 
         content = []
         contentStockPrice = []
@@ -203,20 +230,21 @@ def calculate_surprise_sign(actual, median):
         return('Below')
     else:
         return('Meet')
-
-def get_stockprice(stockid, searchdate):
-    stockprice_table = Stockprice.objects.filter(stock_id=stockid)
-    # stockprice_dataframe = pd.DataFrame(list(stockprice_table.values()))
-    for each in stockprice_table.values():
-        if each['date'] == searchdate:
-            price = each['price']
-            return price
-        else:
-            return None
             
 def get_driftdate(date_t0, driftdays):
     driftdate = date_t0 + timedelta(days=driftdays)
-    return driftdate 
+    return driftdate
+
+def get_stockprice(stockid, searchdate, daysafter):
+    stockprice_table = Stockprice.objects.filter(stock_id=stockid)
+    df = pd.DataFrame(list(stockprice_table.values()))
+    #get index for date_t0
+    index_t0 = df.loc[df['date'] == searchdate].index[0]
+    #get index for x days after release date
+    index = index_t0 + daysafter
+    price = df.loc[index, 'price']
+    return price
+
 
 
     '''df=pd.DataFrame(list(idframe.values())) #convert model data to dataframe

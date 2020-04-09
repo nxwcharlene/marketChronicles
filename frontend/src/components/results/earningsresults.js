@@ -3,153 +3,150 @@
 import React, { component, useState, useEffect }from 'react';
 import Grid from '@material-ui/core/Grid';
 import ResultChart from './ResultChart.js';
-import earningsresultsAPI from './earningsresultsAPI';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import Container from '@material-ui/core/Container';
 
 class EarningsResults extends React.Component {
 
-    render() {
-        const items = JSON.parse(this.props.results)
-        console.log(typeof items)
-        return (
-          <div>
-            {console.log(items)}
-            {items.map(item => (
-              <Card style={{ marginBottom: 15 }} key={item.id}>
-                <CardHeader
-                  title={item.date}
-                  titleTypographyProps={{ align: 'left', variant: 'body1' }}
-                  style={{
-                    backgroundColor: 'grey',
-                    height: 20
-                  }}
-                />
+    // render() {
+    //     const items = JSON.parse(this.props.results)
+    //     console.log(typeof items)
+    //     return (
+    //       <div>
+    //         {console.log(items)}
+    //         {items.map(item => (
+    //           <Card style={{ marginBottom: 15 }} key={item.id}>
+    //             <CardHeader
+    //               title={item.date}
+    //               titleTypographyProps={{ align: 'left', variant: 'body1' }}
+    //               style={{
+    //                 backgroundColor: 'grey',
+    //                 height: 20
+    //               }}
+    //             />
     
-                <CardContent>
-                  <Grid container spacing={0} alignItems="flex-end">
-                    <Grid key={item.id} item xs={3} md={3} style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-                      <ul>
-                        <div style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-                          <li >
-                            <b><span>Earnings Release </span></b>
-                          </li>
-                          <li >
-                            <span>Ticker: {item.ticker}</span>
-                          </li>
-                          <li >
-                            <span>Quarter: {item.quarter}</span>
-                          </li>
-                          <li >
-                            <span>Actual: {item.actual}</span>
-                          </li>
-                          <li >
-                            <span>Estimate: {item.median}</span>
-                          </li>
-                          <li >
-                            <span>Surprise: {item.magnitude}</span>
-                          </li>
-                        </div>
-                      </ul>
-                    </Grid>
+    //             <CardContent>
+    //               <Grid container spacing={0} alignItems="flex-end">
+    //                 <Grid key={item.id} item xs={3} md={3} style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+    //                   <ul>
+    //                     <div style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+    //                       <li >
+    //                         <b><span>Earnings Release </span></b>
+    //                       </li>
+    //                       <li >
+    //                         <span>Ticker: {item.ticker}</span>
+    //                       </li>
+    //                       <li >
+    //                         <span>Quarter: {item.quarter}</span>
+    //                       </li>
+    //                       <li >
+    //                         <span>Actual: {item.actual}</span>
+    //                       </li>
+    //                       <li >
+    //                         <span>Estimate: {item.median}</span>
+    //                       </li>
+    //                       <li >
+    //                         <span>Surprise: {item.magnitude}</span>
+    //                       </li>
+    //                     </div>
+    //                   </ul>
+    //                 </Grid>
     
-                    <Grid key={item.id} item xs={3} md={3}>
-                      <ul>
-                        <li >
-                          <b><span>Post-release returns </span></b>
-                        </li>
-                        <li >
-                          <span> 1 Day: {item.price_t1}</span>
-                        </li>
-                        <li >
-                          <span> 1 Week: {item.price_t7}</span>
-                        </li>
-                        <li >
-                          <span> 1 Month: {item.date_t30}</span>
-                        </li>
-                        <li >
-                          <span> 3 Months: {item.date_t90}</span>
-                        </li>
-                        <li >
-                          <span> 6 Months: {item.date_t90}</span>
-                        </li>
-                      </ul>
-                    </Grid>
+    //                 <Grid key={item.id} item xs={3} md={3}>
+    //                   <ul>
+    //                     <li >
+    //                       <b><span>Post-release returns </span></b>
+    //                     </li>
+    //                     <li >
+    //                       <span> 1 Day: {item.price_t1}</span>
+    //                     </li>
+    //                     <li >
+    //                       <span> 1 Week: {item.price_t7}</span>
+    //                     </li>
+    //                     <li >
+    //                       <span> 1 Month: {item.date_t30}</span>
+    //                     </li>
+    //                     <li >
+    //                       <span> 3 Months: {item.date_t90}</span>
+    //                     </li>
+    //                     <li >
+    //                       <span> 6 Months: {item.date_t90}</span>
+    //                     </li>
+    //                   </ul>
+    //                 </Grid>
     
-                    <Grid key={item.id} item xs={6} md={6}>
-                      <ResultChart style={{ height: 10 }} />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+    //                 <Grid key={item.id} item xs={6} md={6}>
+    //                   <ResultChart style={{ height: 10 }} />
+    //                 </Grid>
+    //               </Grid>
+    //             </CardContent>
+    //           </Card>
+    //         ))}
+    //       </div>
     
-        );
-      }
+    //     );
+    //   }
+    // }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            items: [],
+            isLoaded: false
+        }
+    }
+    componentDidMount() {
+        fetch('http://localhost:8000/earnings/')
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    items: json,
+                    isLoaded: true,
+                })
+            }).catch((err) => {
+                console.log(err);
+            });
     }
 
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             items: [],
-//             isLoaded: false
-//         }
-//     }
-//     componentDidMount() {
-//         fetch('http://localhost:8000/earnings')
-//             .then(res => res.json())
-//             .then(json => {
-//                 this.setState({
-//                     items: json,
-//                     isLoaded: true,
-//                 })
-//             }).catch((err) => {
-//                 console.log(err);
-//             });
-//     }
+//render UI
+    render() {
+        const { isLoaded, items } = this.state;
 
-// //render UI
-//     render() {
-//         const { isLoaded, items } = this.state;
+        if (!isLoaded)
+            return <div>Loading...</div>;
 
-//         if (!isLoaded)
-//             return <div>Loading...</div>;
+        return (
+            <Grid container spacing={2} justify= "space-evenly" alignItems="center">
+                    <ul>
+                        {items.map(item => (
+                            <div key={item.id} style={{border:'1px solid'}}>
+                            <li>
+                                <span>{item.id}</span>
+                            </li>
+                            <li >
+                                <span>Ticker: {item.ticker}</span>
+                            </li>
+                            <li >
+                                <span>Date: {item.date}</span>
+                            </li>
+                            <li >
+                                <span>Event: {item.event}</span>
+                            </li>
+                            <li >
+                                <span>Surprise Sign : {item.surprise_sign}</span>
+                            </li>
+                            <li >
+                                <span>Surprise Magnitude: {item.surprise_magnitude}</span>
+                            </li>
+                            </div>
 
-//         return (
-//             <Grid container spacing={2} justify= "space-evenly" alignItems="center">
-//                     <ul>
-//                         {items.map(item => (
-//                             <div key={item.id} style={{border:'1px solid'}}>
-//                             <li>
-//                                 <span>{item.id}</span>
-//                             </li>
-//                             <li >
-//                                 <span>Ticker: {item.ticker}</span>
-//                             </li>
-//                             <li >
-//                                 <span>Date: {item.date}</span>
-//                             </li>
-//                             <li >
-//                                 <span>Event: {item.event}</span>
-//                             </li>
-//                             <li >
-//                                 <span>Surprise Sign : {item.surprise_sign}</span>
-//                             </li>
-//                             <li >
-//                                 <span>Surprise Magnitude: {item.surprise_magnitude}</span>
-//                             </li>
-//                             </div>
-
-//                         ))}
-//                     </ul>
-//             </Grid>
-//         );
-//     }
-// }
+                        ))}
+                    </ul>
+            </Grid>
+        );
+    }
+}
 
 export default EarningsResults;

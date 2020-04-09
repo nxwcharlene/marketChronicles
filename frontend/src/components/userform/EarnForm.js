@@ -2,7 +2,6 @@ import React, {useState, Fragment} from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
@@ -63,8 +62,6 @@ function EarnForm(){
 
   return (
     <React.Fragment>
-      {isLoaded ? (
-        <Fragment>
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <form onSubmit={saveInput}>
               <FormControl className={classes.margin}>
@@ -106,61 +103,23 @@ function EarnForm(){
               </Button>
           </form>
         </MuiPickersUtilsProvider>
-        <div style={{ height: 10 }} />
-        <hr></hr>
-        <h3>Results Output</h3>
-        <EarningsResults results={results} />
-      </Fragment>
-    ) : (        
-      <Fragment>
-          <MuiPickersUtilsProvider utils={MomentUtils}>
-            <form onSubmit={saveInput}>
-              <FormControl className={classes.margin}>
-                <SecurityBox onChange={onChange}/>
-                <FormHelperText>Name of Security</FormHelperText>
-              </FormControl>
 
-              <FormControl className={classes.margin}>
-                <IncomeBox onChange={onChange}/>
-                <FormHelperText>Income Statement Line Item</FormHelperText>
-              </FormControl>
-
-              <FormControl className={classes.margin}>
-                <DirectionBox onChange={onChange}/>
-                <FormHelperText>Surprise Direction </FormHelperText>
-              </FormControl>
-
-              <FormControl className={classes.margin}>
-                <MagnitudeBox onChange={onChange}/>
-                <FormHelperText>Surprise Magnitude </FormHelperText>
-              </FormControl>
-
-              <div style={{height:5}}/>
-
-              <FormControl className={classes.margin}>
-              <div style={{height:5}}/>
-                <StartDatePicker utils={MomentUtils} />
-                <FormHelperText>Start Date </FormHelperText>
-              </FormControl>
-
-              <FormControl className={classes.margin}>
-              <div style={{height:5}}/>
-                <EndDatePicker utils={MomentUtils} />
-                <FormHelperText>End Date </FormHelperText>
-              </FormControl>
-
-              <Button className={classes.gobutton} size="medium" variant="contained" color="primary" type="submit">
-                  SEARCH
-              </Button>
-          </form>
-        </MuiPickersUtilsProvider>
-        <div style={{ height: 10 }} />
-            <hr></hr>
-            <h3>Results</h3>
-            <div>Loading...</div>
-        </Fragment>
-      )}
-  </React.Fragment>
+        {isLoaded ? (
+            <Fragment>
+                <div style={{ height: 10 }} />
+                <hr></hr>
+                <h3>Search Results</h3>
+                <EarningsResults results={results} />
+            </Fragment>
+          ) : (
+            <Fragment>
+                <div style={{ height: 10 }} />
+                <hr></hr>
+                <h3> Search Results</h3>
+                <h5>Loading...</h5>
+            </Fragment>
+          )}
+     </React.Fragment>
   );
 }
 
