@@ -1,15 +1,12 @@
 //get output from backend via API, display JSON, have to convert to Bokeh
 
-import React, { component, useState, useEffect } from 'react';
+import React from 'react';
+//import { component, useState, useEffect } from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import demo from '../../images/demo_results.jpeg';
-import macroresultsAPI from './macroresultsAPI';
+//import macroresultsAPI from './macroresultsAPI';
 import ResultChart from './ResultChart.js';
 
 
