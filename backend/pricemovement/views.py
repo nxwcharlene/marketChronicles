@@ -215,16 +215,30 @@ def get_date(request):
         weekly_data['period'] = body['period']
         weekly_data['returns'] = round(
             ((weekly_data['close_price'] - weekly_data['open_price']) / weekly_data['open_price']) * 100, 2)
-        huge_weekly_move = weekly_data[weekly_data.loc[:, 'returns'] > float(body['pricechange'][0])]
+        huge_weekly_move = weekly_data[(weekly_data.loc[:, 'returns'] > float(body['pricechange'].split('-')[0])) & (weekly_data.loc[:, 'returns'] < float(body['pricechange'].split('-')[1]))]
         huge_weekly_move = huge_weekly_move.loc[body['startdate']:body['enddate']]
-        # huge_weekly_move.returns = huge_daily_move.returns.astype(str) + '%'
+        huge_weekly_move.returns = huge_weekly_move.returns.astype(str) + '%'
         date_index = huge_weekly_move.index.strftime("%Y-%m-%d")
         huge_weekly_move = huge_weekly_move.set_index(date_index)
         huge_weekly_move['date'] = huge_weekly_move.index
         huge_weekly_move = huge_weekly_move.to_json(orient='records')
 
         # If period = 1M
-
+        monthly_price = price_table.price.resample('M').last()
+        monthly_price.rename("price", inplace=True)
+        monthly_returns = monthly_price.pct_change()
+        monthly_returns.rename("returns", inplace=True)
+        monthly_data = pd.concat([monthly_price, monthly_returns], axis=1)
+        monthly_data['ticker'] = body['security']
+        monthly_data['period'] = body['period']
+        monthly_data['returns'] = round(monthly_data['returns']*100, 2)
+        huge_monthly_move = monthly_data[(monthly_data.loc[:, 'returns'] > float(body['pricechange'].split('-')[0])) & (monthly_data.loc[:, 'returns'] < float(body['pricechange'].split('-')[1]))]
+        huge_monthly_move = huge_monthly_move.loc[body['startdate']:body['enddate']]
+        huge_monthly_move.returns = huge_monthly_move.returns.astype(str) + '%'
+        date_index = huge_monthly_move.index.strftime("%Y-%m-%d")
+        huge_monthly_move = huge_monthly_move.set_index(date_index)
+        huge_monthly_move['date'] = huge_monthly_move.index
+        huge_monthly_move = huge_monthly_move.to_json(orient='records')
 
         # If period = 1Y
 
@@ -232,21 +246,20 @@ def get_date(request):
         context = []
 
         if body['period'] == '1D':
-            # output=huge_daily_move.to_dict()
-            # context.append(output)
             loaded_data = json.loads(huge_daily_move)
             context.append(loaded_data)
             context = context[0]
             return Response(data=context)
         elif body['period'] == '1W':
-            # output=huge_weekly_move.to_dict()
-            # context.append(output)
             loaded_data = json.loads(huge_weekly_move)
             context.append(loaded_data)
             context = context[0]
             return Response(data=context)
         elif body['period'] == '1M':
-            None
+            loaded_data = json.loads(huge_monthly_move)
+            context.append(loaded_data)
+            context = context[0]
+            return Response(data=context)
         elif body['period'] == '1Y':
             None
         else:
