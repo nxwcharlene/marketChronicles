@@ -241,6 +241,7 @@ def get_date(request):
         huge_monthly_move = huge_monthly_move.to_json(orient='records')
 
         # If period = 1Y
+        huge_yearly_move = None
 
 
         context = []
@@ -261,7 +262,10 @@ def get_date(request):
             context = context[0]
             return Response(data=context)
         elif body['period'] == '1Y':
-            None
+            loaded_data = json.loads(huge_yearly_move)
+            context.append(loaded_data)
+            context = context[0]
+            return Response(data=context)
         else:
             return Response(data=context)
 

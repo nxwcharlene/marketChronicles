@@ -49,6 +49,7 @@ const MagnitudeBox = (props) => {
           //value={input.magnitude}
           input={<BootstrapInput />}
           // onChange={handleChange}
+          defaultValue={"Large"}
           onChange={(event) => {
             props.onChange('magnitude', event.target.value)
           }}

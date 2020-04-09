@@ -48,6 +48,7 @@ const DirectionBox = (props) => {
           id="direction"
           // value={direction}
           input={<BootstrapInput />}
+          defaultValue={"Exceed"}
           onChange={(event) => {
             props.onChange('direction', event.target.value)
           }}
