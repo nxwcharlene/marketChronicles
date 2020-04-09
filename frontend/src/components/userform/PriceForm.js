@@ -62,8 +62,6 @@ function PriceForm() {
       // setInput({ item: response.name, indicator: '', direction: '', magnitude: 0 })
     };
 
-
-
     return (
        <React.Fragment>
           <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -114,8 +112,7 @@ function PriceForm() {
             <Fragment>
                 <div style={{ height: 10 }} />
                 <hr></hr>
-                <h3> Search Results</h3>
-                <h5>Please select input</h5>
+                <h3>No results were found</h3>
             </Fragment>
           )}
        </React.Fragment>
