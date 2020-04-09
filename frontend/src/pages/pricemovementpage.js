@@ -1,13 +1,12 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core/styles';
+//import { makeStyles } from '@material-ui/core/styles';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 import PriceAppBar from '../components/structure/navbar/PriceAppBar.js';
 import PriceForm from '../components/userform/PriceForm.js';
-import PriceMovementResults from  '../components/results/pricemovementresults.js';
+//import PriceMovementResults from  '../components/results/pricemovementresults.js';
 import Footer from '../components/structure/footer/Footer.js';
-import BokehChart from '../components/results/test_BokehChart.js';
 
 function PriceMovementPage() {
     return (

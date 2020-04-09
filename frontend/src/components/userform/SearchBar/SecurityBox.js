@@ -5,21 +5,15 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const SecurityBox = (props) => {
   const [result, setResult] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const fetchResult = await API.get('/');
       setResult(fetchResult.data);
-      setIsLoading(false);
     }
 
     fetchData();
   }, []);
-
-  const loadingMessage = () => {
-    return <span>Loading...</span>
-  }
 
   return (
    <div>

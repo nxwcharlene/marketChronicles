@@ -1,18 +1,15 @@
-import React from 'react';
-import { Fragment, useState } from "react";
+import React, { Fragment } from 'react';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { DatePicker, KeyboardDatePicker } from "@material-ui/pickers";
+import { KeyboardDatePicker } from "@material-ui/pickers";
 import MomentUtils from '@date-io/moment';
-import moment from 'moment';
 
 function disableWeekends(date) {
   return date.day() === 0 | date.day() === 6;
 }
 
 function EndDatePicker(props) {
-    const [startDate, setStartDate] = React.useState(new Date("2020-04-01"));
-    const [endDate, setEndDate] = React.useState(new Date("2020-04-18"));
-        let now = moment();
+//    const [startDate, setStartDate] = React.useState(new Date("2020-04-01"));
+//    const [endDate, setEndDate] = React.useState(new Date("2020-04-18"));
     const [selectedDate, handleDateChange] = React.useState(new Date("2020-04-18"));
 
       return (

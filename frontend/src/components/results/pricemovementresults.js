@@ -1,19 +1,15 @@
 //get output from backend via API, display JSON, have to convert to Bokeh
 
-import React, {component, useState, useEffect} from 'react';
-import axios from 'axios';
+import React from 'react';
+//import {component, useState, useEffect} from 'react';
+//import axios from 'axios';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import demo from '../../images/demo_results.jpeg';
+//import { makeStyles } from '@material-ui/core/styles';
 import ResultChart from './ResultChart.js';
-import pricemovementresultsAPI from './pricemovementresultsAPI';
-import Skeleton from '@material-ui/lab/Skeleton';
-// import { useTable, useGroupBy, useFilters, useSortBy, useExpanded, usePagination } from 'react-table';
+//import Skeleton from '@material-ui/lab/Skeleton';
 
 // React js fetch: Use componentDidMount to fetch json array of objects from given url and update state
 
