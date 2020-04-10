@@ -13,7 +13,7 @@ import ResultChart from './ResultChart.js';
 class MacroResults extends React.Component {
 
   render() {
-    const items = JSON.parse(this.props.results)
+    const items = this.props.results
     console.log(typeof items)
     return (
       <div>
@@ -62,19 +62,19 @@ class MacroResults extends React.Component {
                       <b><span>Post-release returns </span></b>
                     </li>
                     <li >
-                      <span> 1 Day: {item.price_t0}</span>
+                      <span> 1 Day: {item.day_return}%</span>
                     </li>
                     <li >
-                      <span> 1 Week: {item.drift_t7}%</span>
+                      <span> 1 Week: {item.wk_return}%</span>
                     </li>
                     <li >
-                      <span> 1 Month: {item.drift_t30}%</span>
+                      <span> 1 Month: {item.mth_return}%</span>
                     </li>
                     <li >
-                      <span> 3 Months: {item.drift_t30}%</span>
+                      <span> 3 Months: {item.threemth_return}%</span>
                     </li>
                     <li >
-                      <span> 6 Months: {item.drift_t30}%</span>
+                      <span> 6 Months: {item.sixmth_return}%</span>
                     </li>
                   </ul>
                 </Grid>

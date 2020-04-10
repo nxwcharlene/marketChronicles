@@ -105,11 +105,11 @@ def get_earnings(request):
             except (KeyError, IndexError):
                 item['index'] = 'No data'
             if item['index'] != 'No data':
-                item['price_t0']=get_stockprice('26',item['date'], 0)
-                item['price_t1']=get_stockprice('26',item['date'],1) #26 is goog's stock_id
-                item['price_t7']=get_stockprice('26',item['date'], 7) 
-                item['price_t30']=get_stockprice('26',item['date'], 30)
-                item['price_t90']=get_stockprice('26',item['date'], 90)
+                item['price_t0']=get_stockprice(stock_id,item['date'], 0)
+                item['price_t1']=get_stockprice(stock_id,item['date'],1) #26 is goog's stock_id
+                item['price_t7']=get_stockprice(stock_id,item['date'], 7) 
+                item['price_t30']=get_stockprice(stock_id,item['date'], 30)
+                item['price_t90']=get_stockprice(stock_id,item['date'], 90)
                 item['day_return']=get_drift(item['price_t0'],item['price_t1'])
                 item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
                 item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
