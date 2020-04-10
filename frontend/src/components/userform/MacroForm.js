@@ -45,29 +45,27 @@ function MacroForm() {
     e.preventDefault();
     console.log(input)
     return axios.post(apiUrl, input)
+
       .then((response) => {
-        console.log(response)
-        console.log(response.data)
+//        console.log(response)
+//        console.log(response.data)
         setResults(response.data);
-            if (Object.keys(response.data).length == 0) {
-                setIsLoaded(true);
-                setIsEmpty(true);
-                console.log(response.data);
-            } else {
-                setIsLoaded(true);
-                setIsEmpty(false);
-                console.log(response.data);
-            }
+        if (Object.keys(response.data).length == 0) {
+            setIsLoaded(true);
+            setIsEmpty(true);
+            console.log(response.data);
+        } else {
+            setIsLoaded(true);
+            setIsEmpty(false);
+            console.log(response.data);
+        }
           }).catch((error) => {
             console.log(error)
           });
-
-      }).catch((error) => {
-        console.log(error)
-      });
-  }
+  };
 
   const onChange = (item, response) => {
+    console.log(response)
     input[item] = response
     console.log(input)
   }
