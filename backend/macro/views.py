@@ -77,12 +77,12 @@ def get_macro(request):
             survm = item['actual'].replace("−", "-")
             survm = item['survm'].replace('%', '')
             stddev = item['stddev'].replace('%', '')
-            item['date0'] = item['date'].strftime('%Y-%m-%d')
-            item['date7'] = item['date'] + timedelta(days=7)
-            item['date7'] = item['date7'].strftime('%Y-%m-%d')
-            item['date30'] = item['date'] + timedelta(days=30)
-            item['date30'] = item['date30'].strftime('%Y-%m-%d')
-            item['date'] = item['date'].strftime('%Y-%m-%d')
+            # item['date0'] = item['date'].strftime('%Y-%m-%d')
+            # item['date7'] = item['date'] + timedelta(days=7)
+            # item['date7'] = item['date7'].strftime('%Y-%m-%d')
+            # item['date30'] = item['date'] + timedelta(days=30)
+            # item['date30'] = item['date30'].strftime('%Y-%m-%d')
+            # item['date'] = item['date'].strftime('%Y-%m-%d')
             item['time'] = item['time'].strftime('%H:%M:%S')
             if survm == "":
                 survm = 0.0
@@ -114,24 +114,59 @@ def get_macro(request):
         # json_context = json.dumps(context)
         # return Response(data=json_context)
 
-        for each in context:
-            each['price_t0'] = get_stockprice(stockid, each['date0'])
-            each['price_t7'] = get_stockprice(stockid, each['date7'])
-            each['price_t30'] = get_stockprice(stockid, each['date30'])
-            if each['price_t7'] != None:
-                each['drift_t7'] = round((100*(
-                 float(each['price_t7'])-float(each['price_t0']))/float(each['price_t0'])),2)
-            else:
-                 each['drift_t7'] = "No data"
-            if each['price_t30'] != None:
-                each['drift_t30'] = round((100*(
-                     float(each['price_t30']) - float(each['price_t0'])) / float(each['price_t0'])),2)
-            else:
-                each['drift_t30'] = "No data"
+        # for each in context:
+        #     each['price_t0'] = get_stockprice(stockid, each['date0'])
+        #     each['price_t7'] = get_stockprice(stockid, each['date7'])
+        #     each['price_t30'] = get_stockprice(stockid, each['date30'])
+        #     if each['price_t7'] != None:
+        #         each['drift_t7'] = round((100*(
+        #          float(each['price_t7'])-float(each['price_t0']))/float(each['price_t0'])),2)
+        #     else:
+        #          each['drift_t7'] = "No data"
+        #     if each['price_t30'] != None:
+        #         each['drift_t30'] = round((100*(
+        #              float(each['price_t30']) - float(each['price_t0'])) / float(each['price_t0'])),2)
+        #     else:
+        #         each['drift_t30'] = "No data"
+
+        for item in context:
+            stockprice_table = Stockprice.objects.filter(stock_id=stockid)
+            df = pd.DataFrame(list(stockprice_table.values()))
+            searchdate = item['date']
+            try:
+                index_t0 = df.loc[df['date'] == searchdate].index[0]
+                item['index'] = index_t0
+            except (KeyError, IndexError):
+                item['index'] = 'No data'
+            if item['index'] != 'No data':
+                item['price_t0']=get_stockprice(stockid,item['date'], 0)
+                item['price_t1']=get_stockprice(stockid,item['date'],1) 
+                item['price_t7']=get_stockprice(stockid,item['date'], 7) 
+                item['price_t30']=get_stockprice(stockid,item['date'], 30)
+                item['price_t90']=get_stockprice(stockid,item['date'], 90)
+                item['price_t180']=get_stockprice(stockid,item['date'], 180)
+                item['day_return']=get_drift(item['price_t0'],item['price_t1'])
+                item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
+                item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
+                item['threemth_return']=get_drift(item['price_t0'],item['price_t90'])
+                item['sixmth_return']=get_drift(item['price_t0'],item['price_t180'])
+            if item['index'] == 'No data':
+                item['price_t0']= 'No data'
+                item['price_t1']= 'No data'
+                item['price_t7']= 'No data'
+                item['price_t30']= 'No data'
+                item['price_t90']= 'No data'
+                item['day_return']= 'No data'
+                item['wk_return']= 'No data'
+                item['mth_return']= 'No data'
+                item['threemth_return']= 'No data'
+                item['sixmth_return']= 'No data'
+            item['date'] = item['date'].strftime('%Y-%m-%d')
 
         print(context)
-        json_context = json.dumps(context)
-        return Response(data=json_context)
+        context.reverse()
+        #json_context = json.dumps(context)
+        return Response(data=context)
 
         # get list of dates from context to be used as filter
         # result_dates = [ item['date'] for item in context ]
@@ -181,6 +216,26 @@ def get_stockprice(stockid, searchdate):
         # print(json_context)
         # return Response(data=json_context)
 
+def get_stockprice(stockid, searchdate, daysafter):
+    stockprice_table = Stockprice.objects.filter(stock_id=stockid)
+    df = pd.DataFrame(list(stockprice_table.values()))
+    #get index for date_t0
+    index_t0 = df.loc[df['date'] == searchdate].index[0]
+    #get index for x days after release date
+    index = index_t0 + daysafter
+    try:
+        price = df.loc[index, 'price']
+        return float(price)
+    except KeyError:
+        return ('No Data')
+
+def get_drift(price_t0, price_driftdate):
+    if price_driftdate != 'No Data':
+        drift_return = 100*((price_driftdate - price_t0)/price_t0)
+        drift_return = round(drift_return, 2)
+        return (drift_return)
+    else:
+        return('No Data')
 
 def filter_date():
     return date == '2014-04-16'
