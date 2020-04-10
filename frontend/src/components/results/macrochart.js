@@ -69,6 +69,7 @@ class ResultChart extends Component {
 				});
 			}
 			chart.render();
+			dataPoints=[]
 		});
 	}
 }
