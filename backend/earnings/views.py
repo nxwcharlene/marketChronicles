@@ -114,6 +114,16 @@ def get_earnings(request):
                 item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
                 item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
                 item['threemth_return']=get_drift(item['price_t0'],item['price_t90'])
+            if item['index'] == 'No data':
+                item['price_t0']= 'No data'
+                item['price_t1']= 'No data'
+                item['price_t7']= 'No data'
+                item['price_t30']= 'No data'
+                item['price_t90']= 'No data'
+                item['day_return']= 'No data'
+                item['wk_return']= 'No data'
+                item['mth_return']= 'No data'
+                item['threemth_return']= 'No data'
                 # if item['price_t1'] != "No Data":
                 #     item['1day_return']= float(100*((item['price_t1'] - item['price_t0'])/item['price_t0']), 2)
                 # else:
@@ -131,7 +141,8 @@ def get_earnings(request):
                 # else:
                 #     item['1mth_return']= 'No Data'
             item['date'] = item['date'].strftime('%Y-%m-%d')
-        
+
+        shortlist_earnings.sort(key=id, reverse=True)
         print(shortlist_earnings)
         return Response(data=shortlist_earnings)
 
@@ -262,6 +273,7 @@ def get_drift(price_t0, price_driftdate):
         return (drift_return)
     else:
         return('No Data')
+
     
     '''df=pd.DataFrame(list(idframe.values())) #convert model data to dataframe
 

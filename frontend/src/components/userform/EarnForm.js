@@ -116,7 +116,7 @@ function EarnForm(){
                 <div style={{ height: 10 }} />
                 <hr></hr>
                 <h3> Search Results</h3>
-                <h5>Loading...</h5>
+                <div>Loading...</div>
             </Fragment>
           )}
      </React.Fragment>

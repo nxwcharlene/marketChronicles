@@ -38,7 +38,7 @@ class EarningsResults extends React.Component {
                         <b><span>Earnings Release </span></b>
                       </li>
                       <li >
-                        <span>Ticker: {item.ticker}</span>
+                        <span>Ticker: {item.Ticker}</span>
                       </li>
                       <li >
                         <span>Release Date: {item.date}</span>
@@ -56,23 +56,25 @@ class EarningsResults extends React.Component {
                   </ul>
                 </Grid>
 
-                <Grid key={item.id} item xs={3} md={3}>
+                <Grid key={item.id} item xs={3} md={3} style={{ flex: 1, flexDirection: 'column', justifyContent: 'top' }}>
                   <ul>
-                    <li >
-                      <b><span>Post-release returns </span></b>
-                    </li>
-                    <li >
-                      <span> 1 Day: {item.day_return}</span>
-                    </li>
-                    <li >
-                      <span> 1 Week: {item.week_return}%</span>
-                    </li>
-                    <li >
-                      <span> 1 Month: {item.mth_return}%</span>
-                    </li>
-                    <li >
-                      <span> 3 Months: {item.threemth_return}%</span>
-                    </li>
+                    <div style={{ flex: 1, flexDirection: 'column', justifyContent: 'top' }}>
+                        <li >
+                        <b><span>Post-release returns </span></b>
+                        </li>
+                        <li >
+                        <span> 1 Day: {item.day_return}%</span>
+                        </li>
+                        <li >
+                        <span> 1 Week: {item.wk_return}%</span>
+                        </li>
+                        <li >
+                        <span> 1 Month: {item.mth_return}%</span>
+                        </li>
+                        <li >
+                        <span> 3 Months: {item.threemth_return}%</span>
+                        </li>
+                    </div>
                   </ul>
                 </Grid>
 
