@@ -197,7 +197,7 @@ def get_date(request):
         price_table = price_table.set_index('date')
 
         # If period = 1D
-        huge_daily_move = price_table[(price_table.loc[:, 'returns'] > float(body['pricechange'].split('-')[0])) & (price_table.loc[:, 'returns'] < float(body['pricechange'].split('-')[-1]))]
+        huge_daily_move = price_table[(abs(price_table.loc[:, 'returns']) > float(body['pricechange'].split('-')[0])) & (abs(price_table.loc[:, 'returns']) < float(body['pricechange'].split('-')[-1]))]
         huge_daily_move = huge_daily_move.loc[body['startdate']:body['enddate']]
         huge_daily_move.returns = huge_daily_move.returns.astype(str) + '%'
         date_index = huge_daily_move.index.strftime("%Y-%m-%d")
@@ -215,7 +215,7 @@ def get_date(request):
         weekly_data['period'] = body['period']
         weekly_data['returns'] = round(
             ((weekly_data['close_price'] - weekly_data['open_price']) / weekly_data['open_price']) * 100, 2)
-        huge_weekly_move = weekly_data[(weekly_data.loc[:, 'returns'] > float(body['pricechange'].split('-')[0])) & (weekly_data.loc[:, 'returns'] < float(body['pricechange'].split('-')[1]))]
+        huge_weekly_move = weekly_data[(abs(weekly_data.loc[:, 'returns']) > float(body['pricechange'].split('-')[0])) & abs((weekly_data.loc[:, 'returns']) < float(body['pricechange'].split('-')[1]))]
         huge_weekly_move = huge_weekly_move.loc[body['startdate']:body['enddate']]
         huge_weekly_move.returns = huge_weekly_move.returns.astype(str) + '%'
         date_index = huge_weekly_move.index.strftime("%Y-%m-%d")
@@ -232,17 +232,30 @@ def get_date(request):
         monthly_data['ticker'] = body['security']
         monthly_data['period'] = body['period']
         monthly_data['returns'] = round(monthly_data['returns']*100, 2)
-        huge_monthly_move = monthly_data[(monthly_data.loc[:, 'returns'] > float(body['pricechange'].split('-')[0])) & (monthly_data.loc[:, 'returns'] < float(body['pricechange'].split('-')[1]))]
+        huge_monthly_move = monthly_data[(abs(monthly_data.loc[:, 'returns']) > float(body['pricechange'].split('-')[0])) & (abs(monthly_data.loc[:, 'returns']) < float(body['pricechange'].split('-')[1]))]
         huge_monthly_move = huge_monthly_move.loc[body['startdate']:body['enddate']]
         huge_monthly_move.returns = huge_monthly_move.returns.astype(str) + '%'
-        date_index = huge_monthly_move.index.strftime("%Y-%m-%d")
+        date_index = huge_monthly_move.index.strftime("%b-%Y") # mmm-yyyy format instead of %Y-%m-%d
         huge_monthly_move = huge_monthly_move.set_index(date_index)
         huge_monthly_move['date'] = huge_monthly_move.index
         huge_monthly_move = huge_monthly_move.to_json(orient='records')
 
         # If period = 1Y
-        huge_yearly_move = None
-
+        yearly_price = price_table.price.resample('A').last()
+        yearly_price.rename("price", inplace=True)
+        yearly_returns = yearly_price.pct_change()
+        yearly_returns.rename("returns", inplace=True)
+        yearly_data = pd.concat([yearly_price, yearly_returns], axis=1)
+        yearly_data['ticker'] = body['security']
+        yearly_data['period'] = body['period']
+        yearly_data['returns'] = round(yearly_data['returns']*100, 2)
+        huge_yearly_move = yearly_data[(abs(yearly_data.loc[:, 'returns']) > float(body['pricechange'].split('-')[0])) & (abs(yearly_data.loc[:, 'returns']) < float(body['pricechange'].split('-')[1]))]
+        huge_yearly_move = huge_yearly_move.loc[body['startdate']:body['enddate']]
+        huge_yearly_move.returns = huge_yearly_move.returns.astype(str) + '%'
+        date_index = huge_yearly_move.index.strftime("%Y") # Showing the year only, instead of %Y-%m-%d
+        huge_yearly_move = huge_yearly_move.set_index(date_index)
+        huge_yearly_move['date'] = huge_yearly_move.index
+        huge_yearly_move = huge_yearly_move.to_json(orient='records')
 
         context = []
 
