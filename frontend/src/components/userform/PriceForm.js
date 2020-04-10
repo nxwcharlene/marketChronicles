@@ -45,8 +45,11 @@ function PriceForm() {
       e.preventDefault();
       console.log(input)
 
+
       return axios.post(apiUrl, input)
           .then((response) => {
+            console.log(response);
+            console.log(response.data);
             setResults(response.data);
             if (Object.keys(response.data).length == 0) {
                 setIsLoaded(true);

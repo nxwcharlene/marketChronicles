@@ -37,20 +37,20 @@ function MacroForm() {
   const classes = useStyles();
   const [input, setInput] = useState({security: "", indicator: "", direction: "Exceed", magnitude: "Large", startdate: "2020-01-01", enddate: "2020-04-18"});
   const [results, setResults] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
 
   const apiUrl = "http://localhost:8000/macro/macro-get/";
   const saveInput = (e) => {
     e.preventDefault();
     console.log(input)
-    return axios.post(apiUrl, input)
 
+    return axios.post(apiUrl, input)
       .then((response) => {
-//        console.log(response)
-//        console.log(response.data)
+        console.log(response)
+        console.log(response.data)
         setResults(response.data);
-        if (Object.keys(response.data).length == 0) {
+        if (response.data.length == 2) {
             setIsLoaded(true);
             setIsEmpty(true);
             console.log(response.data);

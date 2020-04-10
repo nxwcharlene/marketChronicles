@@ -14,10 +14,11 @@ class MacroResults extends React.Component {
 
   render() {
     const items = JSON.parse(this.props.results)
+    console.log(this.props.items)
     console.log(typeof items)
     return (
       <div>
-        {console.log(items)}
+        {/* {console.log(items)} */}
         {items.map(item => (
           <Card style={{ marginBottom: 15 }} key={item.id}>
             <CardHeader
