@@ -59,7 +59,12 @@ class ResultChart extends Component {
 
     componentDidMount(){
 		var chart = this.chart;
-		fetch('https://www.quandl.com/api/v3/datasets/WIKI/FB/data.json?order=asc&column_index=4&api_key=dFvSTC2myD1ts7eJq8VD')
+		const baseurl="https://www.quandl.com/api/v3/datasets/WIKI/"
+		const ticker="FB" //to replace with item ticker
+		const start_date="2015-02-04" //to replace with item date + 1 mth
+		const end_date="2016-02-04" //to replace with item date - 1 mth
+		const fullurl=baseurl.concat(ticker,"/data.json?order=asc&column_index=4&","start_date=",start_date,"&end_date=",end_date,"&api_key=dFvSTC2myD1ts7eJq8VD")
+		fetch(fullurl)
 		.then(function(response) {
 			return response.json();
 		})
@@ -71,6 +76,7 @@ class ResultChart extends Component {
 				});
 			}
 			chart.render();
+			dataPoints=[]
 		});
 	}
 }
