@@ -65,7 +65,7 @@ class PriceMovementResults extends React.Component {
 
                          <CardContent>
                              <Grid container spacing={0} alignItems="flex-end">
-                                 <Grid item key={item.ticker} xs={3} md={3} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 10}}>
+                                 <Grid item key={item.ticker} xs={2} md={2} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 10}}>
                                    <ul>
                                          <div style={{flex: 1, flexDirection: 'column', justifyContent: 'top'}}>
                                          <li >
@@ -87,10 +87,10 @@ class PriceMovementResults extends React.Component {
                                    </ul>
                                  </Grid>
 
-                                 <Grid item key={item.stock_id} xs={4} md={4} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                                 <Grid item key={item.stock_id} xs={3} md={3} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
                                      <ul>
                                          <li >
-                                             <b><span>Returns following large price movement </span></b>
+                                             <b><span>Post-Movement Returns </span></b>
                                          </li>
                                          <li >
                                              <span> 1 Day: {item.returns}</span>
@@ -107,9 +107,14 @@ class PriceMovementResults extends React.Component {
                                      </ul>
                                  </Grid>
 
-                                 <Grid item key={item.id} xs={5} md={5} style={{height: 140}}>
+                                 <Grid item key={item.id} xs={4} md={4} style={{height: 140, paddingLeft: 10, paddingRight: 20}}>
                                      <ResultChart />
                                  </Grid>
+
+                                 <Grid item key={item.id} xs={4} md={4} style={{height: 140, paddingLeft: 30, paddingRight: 20}}>
+                                     <b><span>Related News</span></b>
+                                 </Grid>
+
                              </Grid>
                          </CardContent>
                        </Card>
