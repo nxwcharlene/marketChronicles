@@ -38,6 +38,7 @@ function MacroForm() {
   const [input, setInput] = useState({security: "", indicator: "", direction: "Exceed", magnitude: "Large", startdate: "2020-01-01", enddate: "2020-04-18"});
   const [results, setResults] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isEmpty, setIsEmpty] = useState(false);
 
   const apiUrl = "http://localhost:8000/macro/macro-get/";
   const saveInput = (e) => {
@@ -48,7 +49,18 @@ function MacroForm() {
         console.log(response)
         console.log(response.data)
         setResults(response.data);
-        setIsLoaded(true);
+            if (Object.keys(response.data).length == 0) {
+                setIsLoaded(true);
+                setIsEmpty(true);
+                console.log(response.data);
+            } else {
+                setIsLoaded(true);
+                setIsEmpty(false);
+                console.log(response.data);
+            }
+          }).catch((error) => {
+            console.log(error)
+          });
 
       }).catch((error) => {
         console.log(error)
@@ -62,99 +74,70 @@ function MacroForm() {
 
   return (
     <React.Fragment>
-      {isLoaded ? (
-        <Fragment>
-          <MuiPickersUtilsProvider utils={MomentUtils}>
-            <form onSubmit={saveInput}>
-              <FormControl className={classes.margin}>
-                <SecurityBox onChange={onChange} />
-                <FormHelperText>Name of Security </FormHelperText>
-              </FormControl>
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <form onSubmit={saveInput}>
+          <FormControl className={classes.margin}>
+            <SecurityBox onChange={onChange} />
+            <FormHelperText>Name of Security </FormHelperText>
+          </FormControl>
 
-              <FormControl className={classes.margin}>
-                <IndicatorBox onChange={onChange} />
-                <FormHelperText>Economic Indicator </FormHelperText>
-              </FormControl>
+          <FormControl className={classes.margin}>
+            <IndicatorBox onChange={onChange} />
+            <FormHelperText>Economic Indicator </FormHelperText>
+          </FormControl>
 
-              <FormControl className={classes.margin}>
-                <DirectionBox onChange={onChange} />
-                <FormHelperText>Surprise Direction </FormHelperText>
-              </FormControl>
+          <FormControl className={classes.margin}>
+            <DirectionBox onChange={onChange} />
+            <FormHelperText>Surprise Direction </FormHelperText>
+          </FormControl>
 
-              <FormControl className={classes.margin}>
-                <MagnitudeBox onChange={onChange} />
-                <FormHelperText>Surprise Magnitude </FormHelperText>
-              </FormControl>
+          <FormControl className={classes.margin}>
+            <MagnitudeBox onChange={onChange} />
+            <FormHelperText>Surprise Magnitude </FormHelperText>
+          </FormControl>
 
-              <FormControl className={classes.margin}>
-                <div style={{ height: 5 }} />
-                <StartDatePicker utils={MomentUtils} onChange={onChange} />
-                <FormHelperText>Start Date </FormHelperText>
-              </FormControl>
+          <FormControl className={classes.margin}>
+            <div style={{ height: 5 }} />
+            <StartDatePicker utils={MomentUtils} onChange={onChange} />
+            <FormHelperText>Start Date </FormHelperText>
+          </FormControl>
 
-              <FormControl className={classes.margin}>
-                <div style={{ height: 5 }} />
-                <EndDatePicker utils={MomentUtils} onChange={onChange} />
-                <FormHelperText>End Date </FormHelperText>
-              </FormControl>
+          <FormControl className={classes.margin}>
+            <div style={{ height: 5 }} />
+            <EndDatePicker utils={MomentUtils} onChange={onChange} />
+            <FormHelperText>End Date </FormHelperText>
+          </FormControl>
 
-              <Button className={classes.gobutton} size="large" variant="contained" color="primary" type="submit">
-                SEARCH
+          <Button className={classes.gobutton} size="large" variant="contained" color="primary" type="submit">
+            SEARCH
           </Button>
-            </form>
-          </MuiPickersUtilsProvider>
+        </form>
+      </MuiPickersUtilsProvider>
+
+
+      {(isLoaded && !isEmpty) ? (
+        <Fragment>
           <div style={{ height: 10 }} />
           <hr></hr>
-          <h3>Sample Results Output</h3>
+          <h3>Search Results</h3>
           <MacroResults results={results} />
         </Fragment>
+
       ) : (
-          <Fragment>
-            <MuiPickersUtilsProvider utils={MomentUtils}>
-              <form onSubmit={saveInput}>
-                <FormControl className={classes.margin}>
-                  <SecurityBox onChange={onChange} />
-                  <FormHelperText>Name of Security </FormHelperText>
-                </FormControl>
-
-                <FormControl className={classes.margin}>
-                  <IndicatorBox onChange={onChange} />
-                  <FormHelperText>Economic Indicator </FormHelperText>
-                </FormControl>
-
-                <FormControl className={classes.margin}>
-                  <DirectionBox onChange={onChange} />
-                  <FormHelperText>Surprise Direction </FormHelperText>
-                </FormControl>
-
-                <FormControl className={classes.margin}>
-                  <MagnitudeBox onChange={onChange} />
-                  <FormHelperText>Surprise Magnitude </FormHelperText>
-                </FormControl>
-
-                <FormControl className={classes.margin}>
-                  <div style={{ height: 5 }} />
-                  <StartDatePicker utils={MomentUtils} onChange={onChange} />
-                  <FormHelperText>Start Date </FormHelperText>
-                </FormControl>
-
-                <FormControl className={classes.margin}>
-                  <div style={{ height: 5 }} />
-                  <EndDatePicker utils={MomentUtils} onChange={onChange} />
-                  <FormHelperText>End Date </FormHelperText>
-                </FormControl>
-
-                <Button className={classes.gobutton} size="large" variant="contained" color="primary" type="submit">
-                  SEARCH
-                </Button>
-              </form>
-            </MuiPickersUtilsProvider>
-            <div style={{ height: 10 }} />
-            <hr></hr>
-            <h3>Results</h3>
-            <div>Loading...</div>
-          </Fragment>
-        )}
+            (isLoaded && isEmpty) ? (
+                <Fragment>
+                    <div style={{ height: 10 }} />
+                    <hr></hr>
+                    <h3>No results were found</h3>
+                </Fragment>
+            ) : (
+                <Fragment>
+                    <div style={{ height: 10 }} />
+                    <hr></hr>
+                    <h3>Please select inputs</h3>
+                </Fragment>
+            )
+      )}
     </React.Fragment>
   );
 }
