@@ -37,6 +37,7 @@ function PriceForm() {
     const [input, setInput] = useState({security: "", pricechange: "1-3", period: "1D", startdate: "2020-01-01", enddate: "2020-04-18"});
     const [results, setResults] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(false);
 
     const apiUrl = "http://127.0.0.1:8000/pricemovement/get_date/";
     const saveInput = (e) => {
@@ -47,8 +48,15 @@ function PriceForm() {
       return axios.post(apiUrl, input)
           .then((response) => {
             setResults(response.data);
-            setIsLoaded(true);
-            console.log(response.data);
+            if (Object.keys(response.data).length == 0) {
+                setIsLoaded(true);
+                setIsEmpty(true);
+                console.log(response.data);
+            } else {
+                setIsLoaded(true);
+                setIsEmpty(false);
+                console.log(response.data);
+            }
           }).catch((error) => {
             console.log(error)
           });
@@ -61,6 +69,8 @@ function PriceForm() {
       console.log(input)
       // setInput({ item: response.name, indicator: '', direction: '', magnitude: 0 })
     };
+
+
 
     return (
        <React.Fragment>
@@ -101,19 +111,29 @@ function PriceForm() {
             </form>
           </MuiPickersUtilsProvider>
 
-          {isLoaded ? (
+          {(isLoaded && !isEmpty) ? (
+
             <Fragment>
                 <div style={{ height: 10 }} />
                 <hr></hr>
                 <h3>Search Results</h3>
                 <PriceMovementResults results={results} />
             </Fragment>
+
           ) : (
-            <Fragment>
-                <div style={{ height: 10 }} />
-                <hr></hr>
-                <h3>No results were found</h3>
-            </Fragment>
+                  (isLoaded && isEmpty) ? (
+                    <Fragment>
+                        <div style={{ height: 10 }} />
+                        <hr></hr>
+                        <h3>No results were found</h3>
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                        <div style={{ height: 10 }} />
+                        <hr></hr>
+                        <h3>Please select inputs</h3>
+                    </Fragment>
+                  )
           )}
        </React.Fragment>
     );
