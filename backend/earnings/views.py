@@ -110,10 +110,10 @@ def get_earnings(request):
                 item['price_t7']=get_stockprice('26',item['date'], 7) 
                 item['price_t30']=get_stockprice('26',item['date'], 30)
                 item['price_t90']=get_stockprice('26',item['date'], 90)
-                item['1day_return']=get_drift(item['price_t0'],item['price_t1'])
-                item['1wk_return']=get_drift(item['price_t0'],item['price_t7'])
-                item['1mth_return']=get_drift(item['price_t0'],item['price_t30'])
-                item['3mth_return']=get_drift(item['price_t0'],item['price_t90'])
+                item['day_return']=get_drift(item['price_t0'],item['price_t1'])
+                item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
+                item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
+                item['threemth_return']=get_drift(item['price_t0'],item['price_t90'])
                 # if item['price_t1'] != "No Data":
                 #     item['1day_return']= float(100*((item['price_t1'] - item['price_t0'])/item['price_t0']), 2)
                 # else:
