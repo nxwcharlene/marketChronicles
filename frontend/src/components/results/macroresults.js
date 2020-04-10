@@ -15,9 +15,10 @@ class MacroResults extends React.Component {
   render() {
     const items = this.props.results
     console.log(typeof items)
+    console.log(items)
+
     return (
       <div>
-        {console.log(items)}
         {items.map(item => (
           <Card style={{ marginBottom: 15 }} key={item.id}>
             <CardHeader

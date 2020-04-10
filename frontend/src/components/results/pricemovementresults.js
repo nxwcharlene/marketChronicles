@@ -42,7 +42,7 @@ class PriceMovementResults extends React.Component {
      render() {
 //         const { isLoaded } = this.state;
          const items = this.props.results;
-         console.log(this.props.items)
+         console.log(items)
 
 //         if (!isLoaded)
 //             return (
@@ -112,7 +112,20 @@ class PriceMovementResults extends React.Component {
                                  </Grid>
 
                                  <Grid item key={item.id} xs={4} md={4} style={{height: 140, paddingLeft: 30, paddingRight: 20}}>
+                                     <ul>
                                      <b><span>Related News</span></b>
+
+                                     <li >
+                                         <span> 1. Google outage hits Gmail, Snapchat and Nest </span>
+                                     </li>
+                                     <li >
+                                         <span> 2. France’s competition watchdog orders Google to pay for news reuse </span>
+                                     </li>
+                                     <li >
+                                         <span> 3. Google Makes Stadia Gaming Service Free </span>
+                                     </li>
+
+                                     </ul>
                                  </Grid>
 
                              </Grid>

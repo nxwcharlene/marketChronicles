@@ -14,6 +14,7 @@ import EndDatePicker from './SearchBar/EndDatePicker.js';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import PriceMovementResults from '../results/pricemovementresults.js';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -41,10 +42,9 @@ function PriceForm() {
 
     const apiUrl = "http://127.0.0.1:8000/pricemovement/get_date/";
     const saveInput = (e) => {
-      setIsLoaded(true);
+      setIsLoaded(null);
       e.preventDefault();
       console.log(input)
-
 
       return axios.post(apiUrl, input)
           .then((response) => {
@@ -130,11 +130,22 @@ function PriceForm() {
                         <h3>No results were found</h3>
                     </Fragment>
                   ) : (
-                    <Fragment>
-                        <div style={{ height: 10 }} />
-                        <hr></hr>
-                        <h3>Please select inputs</h3>
-                    </Fragment>
+
+                          ((isLoaded == null)) ? (
+                            <Fragment>
+                                <div style={{ height: 10 }} />
+                                <hr></hr>
+                                <div>
+                                    <Skeleton animation="wave" variant="rect" width={"100%"} height={300} />
+                                </div>
+                            </Fragment>
+                          ) : (
+                            <Fragment>
+                                <div style={{ height: 10 }} />
+                                <hr></hr>
+                                <h3>Please select inputs</h3>
+                            </Fragment>
+                          )
                   )
           )}
        </React.Fragment>

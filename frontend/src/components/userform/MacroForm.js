@@ -15,6 +15,8 @@ import EndDatePicker from './SearchBar/EndDatePicker.js';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import MacroResults from '../results/macroresults';
+import Skeleton from '@material-ui/lab/Skeleton';
+
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -42,15 +44,16 @@ function MacroForm() {
 
   const apiUrl = "http://localhost:8000/macro/macro-get/";
   const saveInput = (e) => {
+    setIsLoaded(null)
     e.preventDefault();
     console.log(input)
 
     return axios.post(apiUrl, input)
       .then((response) => {
         console.log(response)
-        console.log(response.data)
+//        console.log(response.data)
         setResults(response.data);
-        if (response.data.length == 2) {
+        if (Object.keys(response.data).length == 0) {
             setIsLoaded(true);
             setIsEmpty(true);
             console.log(response.data);
@@ -129,11 +132,21 @@ function MacroForm() {
                     <h3>No results were found</h3>
                 </Fragment>
             ) : (
-                <Fragment>
-                    <div style={{ height: 10 }} />
-                    <hr></hr>
-                    <h3>Please select inputs</h3>
-                </Fragment>
+                  ((isLoaded == null)) ? (
+                    <Fragment>
+                        <div style={{ height: 10 }} />
+                        <hr></hr>
+                        <div>
+                            <Skeleton animation="wave" variant="rect" width={"100%"} height={300} />
+                        </div>
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                        <div style={{ height: 10 }} />
+                        <hr></hr>
+                        <h3>Please select inputs</h3>
+                    </Fragment>
+                  )
             )
       )}
     </React.Fragment>

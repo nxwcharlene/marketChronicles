@@ -99,22 +99,22 @@ DATABASES = {
     #     'HOST': '127.0.0.1',
     #     'PORT':'3306'
     # }
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'newschema',
-        'USER': 'root',
-        'PASSWORD': 'sharedpassword',
-        'HOST': '127.0.0.1',
-        'PORT':'3306'
-    }
     # 'default': {
     #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'bf3210_database',
+    #     'NAME': 'newschema',
     #     'USER': 'root',
     #     'PASSWORD': 'sharedpassword',
     #     'HOST': '127.0.0.1',
-    #     'PORT': '3306',
+    #     'PORT':'3306'
     # }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bf3210_database',
+        'USER': 'root',
+        'PASSWORD': 'sharedpassword',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
     #     'default': {
     #         'ENGINE': 'django.db.backends.mysql',
     #         'NAME': 'new_schema',
