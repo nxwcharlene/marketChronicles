@@ -142,7 +142,8 @@ def get_earnings(request):
                 #     item['1mth_return']= 'No Data'
             item['date'] = item['date'].strftime('%Y-%m-%d')
 
-        shortlist_earnings.sort(key=id, reverse=True)
+        print(shortlist_earnings)
+        shortlist_earnings.reverse()
         print(shortlist_earnings)
         return Response(data=shortlist_earnings)
 
