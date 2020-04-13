@@ -31,7 +31,7 @@ const SecurityBox = (props) => {
                     </React.Fragment>
                 )}
                 onInputChange={(event, value, reason) => {
-                (reason === 'clear') ? props.onChange('security', '') : props.onChange('security', value.split(":")[0])
+                (reason === 'clear') ? props.onChange('security', '') : props.onChange('security', value)
                 }}
                 renderInput={params => (
                   <TextField {...params} style={{width:400}} id="Security" variant="outlined" placeholder="Security" />

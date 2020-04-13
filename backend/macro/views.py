@@ -43,6 +43,10 @@ def get_macro(request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body)
+
+        companyname = body['security'].split(":")[1]
+        body['security'] = body['security'].split(":")[0]
+
         user_startdate = body['startdate']
         user_enddate = body['enddate']
         # security = request.POST.get('security', '')

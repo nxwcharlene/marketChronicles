@@ -36,6 +36,9 @@ def get_earnings(request):
         body = json.loads(body_unicode)
         print(body)
 
+        companyname = body['security'].split(":")[1]
+        body['security'] = body['security'].split(":")[0]
+
         user_security=body['security']
         user_direction=body['direction'] #positive
         user_magnitude=body['magnitude'] #For the magnitude

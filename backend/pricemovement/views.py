@@ -12,6 +12,7 @@ import re
 import json
 import quandl
 import pandas as pd
+import requests
 from datetime import datetime, timedelta
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 
@@ -180,9 +181,12 @@ def get_date(request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body) # returns security, pricechange, period, startdate, and enddate
-        # body = {'security': 'MMM', 'pricechange': '1-3', 'period': '1D', 'startdate': '2020-01-02', 'enddate': '2020-04-06'}
-        # body = {"security": "MMM", "pricechange": "1-3", "period": "1D", "startdate": "2020-01-02", "enddate": "2020-04-06"}
+        # body = {'security': 'AMZN: Amazon', 'pricechange': '1-3', 'period': '1D', 'startdate': '2020-01-02', 'enddate': '2020-04-06'}
+        # body = {"security": "AMZN: Amazon", "pricechange": "1-3", "period": "1D", "startdate": "2020-01-02", "enddate": "2020-04-06"}
         context = []
+
+        companyname = body['security'].split(":")[1]
+        body['security'] = body['security'].split(":")[0]
 
         stockid = StockId.objects.all()
         stock_id = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
@@ -259,9 +263,20 @@ def get_date(request):
 
         context = []
 
+        # NEWS
+        fakestartdate = "2020-03-18"
+        fakeenddate = "2020-04-18"
+        newsapikey = "cb96aea22e024b5090f23187cec75f76"
+        apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
+            companyname, fakestartdate, fakeenddate, newsapikey)
+        newsresponse = requests.request("GET", apiurl)
+        loaded_news = json.loads(newsresponse.text)
+
+
         if body['period'] == '1D':
             loaded_data = json.loads(huge_daily_move)
             context.append(loaded_data)
+            context.append(loaded_news["articles"])
             context = context[0]
             context.reverse()
             return Response(data=context)
@@ -289,12 +304,36 @@ def get_date(request):
 
 
 @api_view(['GET', 'POST'])
-def get_bokehchart(request):
+def get_news(request): # dummy get_news request
     if request.method == 'GET':
-        return Response("Hello, this is the GET request")
-    elif request.method == 'POST':
-        return Response("Hello, this is the POST request")
+        securityname = "amazon"
+        startdate = "2020-03-19"
+        enddate = "2020-04-18"
+        newsapikey = "cb96aea22e024b5090f23187cec75f76"
 
+        apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
+            securityname, startdate, enddate, newsapikey)
+
+        response = requests.request("GET", apiurl)
+        loaded_news = json.loads(response.text)
+        return Response(data=loaded_news)
+
+    elif request.method == 'POST':
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)  # returns security, pricechange, period, startdate, and enddate
+
+        securityname = body["security"].split(":")[1]
+        startdate = "2020-03-18"
+        enddate = "2020-04-18"
+        newsapikey = "cb96aea22e024b5090f23187cec75f76"
+
+        apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
+            securityname, startdate, enddate, newsapikey)
+
+        response = requests.request("GET", apiurl)
+        loaded_news = json.loads(response.text)
+        return Response(data=loaded_news)
 
 
 def get_stockprice(stockid, searchdate, daysafter):
