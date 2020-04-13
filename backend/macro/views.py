@@ -43,6 +43,8 @@ def get_macro(request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body)
+        user_startdate = body['startdate']
+        user_enddate = body['enddate']
         # security = request.POST.get('security', '')
         # indicator = request.POST.get('indicator', '')
         # direction = request.POST.get('direction', '')
@@ -65,7 +67,8 @@ def get_macro(request):
                 print(stockid)
 
         macro = Macro.objects.filter(
-            event=body['indicator'])  # change to all later
+            event=body['indicator'],
+            date__range=[user_startdate, user_enddate])  # change to all later
         # print(pd.DataFrame(list(stock_id_table.values())))
         context = []
         for item in macro.values():

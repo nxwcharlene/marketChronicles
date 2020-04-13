@@ -14,6 +14,8 @@ import EndDatePicker from './SearchBar/EndDatePicker.js';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import EarningsResults from '../results/earningsresults.js';
+import Skeleton from '@material-ui/lab/Skeleton';
+
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -37,8 +39,9 @@ function EarnForm(){
 
   const [results, setResults] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isEmpty, setIsEmpty] = useState(false);
+  const [input, setInput] = useState({security: "", Income: "", direction: "Exceed", magnitude: "Large", startdate: "2020-01-01", enddate: "2020-04-18"});
 
-  const input = {}
   const apiUrl = "http://localhost:8000/earnings/earnings-get/";
   const saveInput = (e) => {
     e.preventDefault();
@@ -49,7 +52,15 @@ function EarnForm(){
         console.log(response)
         console.log(response.data);
         setResults(response.data);
-        setIsLoaded(true);
+        if (Object.keys(response.data).length == 0) {
+          setIsLoaded(true);
+          setIsEmpty(true);
+          console.log(response.data);
+      } else {
+          setIsLoaded(true);
+          setIsEmpty(false);
+          console.log(response.data);
+      }
       }).catch((error) => {
         console.log(error)
       });
@@ -88,13 +99,13 @@ function EarnForm(){
 
               <FormControl className={classes.margin}>
               <div style={{height:5}}/>
-                <StartDatePicker utils={MomentUtils} />
+                <StartDatePicker utils={MomentUtils} onChange={onChange}/>
                 <FormHelperText>Start Date </FormHelperText>
               </FormControl>
 
               <FormControl className={classes.margin}>
               <div style={{height:5}}/>
-                <EndDatePicker utils={MomentUtils} />
+                <EndDatePicker utils={MomentUtils} onChange={onChange}/>
                 <FormHelperText>End Date </FormHelperText>
               </FormControl>
 
@@ -104,21 +115,40 @@ function EarnForm(){
           </form>
         </MuiPickersUtilsProvider>
 
-        {isLoaded ? (
-            <Fragment>
-                <div style={{ height: 10 }} />
-                <hr></hr>
-                <h3>Search Results</h3>
-                <EarningsResults results={results} />
-            </Fragment>
-          ) : (
-            <Fragment>
-                <div style={{ height: 10 }} />
-                <hr></hr>
-                <h3> Search Results</h3>
-                <div>Loading...</div>
-            </Fragment>
-          )}
+        {(isLoaded && !isEmpty) ? (
+        <Fragment>
+          <div style={{ height: 10 }} />
+          <hr></hr>
+          <h3>Search Results</h3>
+          <h4>Number of instances found: {results.length} </h4>
+          <EarningsResults results={results} />
+        </Fragment>
+
+      ) : (
+            (isLoaded && isEmpty) ? (
+                <Fragment>
+                    <div style={{ height: 10 }} />
+                    <hr></hr>
+                    <h3>No results were found</h3>
+                </Fragment>
+            ) : (
+                  ((isLoaded == null)) ? (
+                    <Fragment>
+                        <div style={{ height: 10 }} />
+                        <hr></hr>
+                        <div>
+                            <Skeleton animation="wave" variant="rect" width={"100%"} height={300} />
+                        </div>
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                        <div style={{ height: 10 }} />
+                        <hr></hr>
+                        <h3>Please select inputs</h3>
+                    </Fragment>
+                  )
+            )
+      )}
      </React.Fragment>
   );
 }

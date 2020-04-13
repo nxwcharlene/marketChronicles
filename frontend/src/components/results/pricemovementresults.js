@@ -21,18 +21,16 @@ class PriceMovementResults extends React.Component {
 //         isLoaded: false
 //     }
 // }
+//
 // componentDidMount() {
-//     const requestOptions ={
-//        method: 'POST',
-//        headers: { 'Content-Type': 'application/json' },
-//        body: JSON.stringify({ title: 'POST Request Example'})
-//     };
+//     const newsapikey = "cb96aea22e024b5090f23187cec75f76"
+//     var apiurl = "http://newsapi.org/v2/everything?q=apple&from=2020-04-12&to=2020-04-12&sortBy=popularity&apiKey=cb96aea22e024b5090f23187cec75f76"
 //     fetch("http://127.0.0.1:8000/pricemovement/get_date")
 //         .then(res => res.json())
 //         .then(json => {
 //             this.setState({
-//                 items: json,
-//                 isLoaded: true,
+//                 newsitems: json,
+////                 isLoaded: true,
 //             })
 //         }).catch((err) => {
 //             console.log(err);
@@ -41,6 +39,7 @@ class PriceMovementResults extends React.Component {
 
      render() {
 //         const { isLoaded } = this.state;
+//         const newsitems = this.state.newsitems;
          const items = this.props.results;
          console.log(items)
 
@@ -133,6 +132,7 @@ class PriceMovementResults extends React.Component {
                        </Card>
                  ))}
                  <div style={{height:50}}/>
+
              </div>
          );
      }

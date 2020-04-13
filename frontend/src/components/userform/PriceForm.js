@@ -119,6 +119,7 @@ function PriceForm() {
                 <div style={{ height: 10 }} />
                 <hr></hr>
                 <h3>Search Results</h3>
+                <h4>Number of instances found: {results.length} </h4>
                 <PriceMovementResults results={results} />
             </Fragment>
 

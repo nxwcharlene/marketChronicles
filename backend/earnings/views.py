@@ -39,9 +39,14 @@ def get_earnings(request):
         user_security=body['security']
         user_direction=body['direction'] #positive
         user_magnitude=body['magnitude'] #For the magnitude
+        user_startdate = body['startdate']
+        user_enddate = body['enddate']
+        #user_startdate=datetime.datetime.strptime(body['startdate'], '%Y-%m-%d').date()
+        #user_enddate=datetime.datetime.strptime(body['enddate'], '%Y-%m-%d').date()
 
         print(user_magnitude)
         print(user_direction)
+        print(user_startdate)
 
         stock_id_table = StockId.objects.all()
         for item in stock_id_table.values():
@@ -51,7 +56,7 @@ def get_earnings(request):
         print(stock_id)
 
         stockprice_table = Stockprice.objects.filter(stock_id=stock_id)
-        earnings_table = Earnings.objects.filter(stock_id=stock_id)
+        earnings_table = Earnings.objects.filter(stock_id=stock_id, date__range=[user_startdate, user_enddate])
         shortlist_earnings = []
 
         for item in earnings_table.values():
@@ -110,20 +115,24 @@ def get_earnings(request):
                 item['price_t7']=get_stockprice(stock_id,item['date'], 7) 
                 item['price_t30']=get_stockprice(stock_id,item['date'], 30)
                 item['price_t90']=get_stockprice(stock_id,item['date'], 90)
+                item['price_t180']=get_stockprice(stock_id,item['date'], 180)
                 item['day_return']=get_drift(item['price_t0'],item['price_t1'])
                 item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
                 item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
                 item['threemth_return']=get_drift(item['price_t0'],item['price_t90'])
+                item['sixmth_return']=get_drift(item['price_t0'],item['price_t180'])
             if item['index'] == 'No data':
                 item['price_t0']= 'No data'
                 item['price_t1']= 'No data'
                 item['price_t7']= 'No data'
                 item['price_t30']= 'No data'
                 item['price_t90']= 'No data'
+                item['price_t180']= 'No data'
                 item['day_return']= 'No data'
                 item['wk_return']= 'No data'
                 item['mth_return']= 'No data'
                 item['threemth_return']= 'No data'
+                item['sixmth_return']= 'No data'
                 # if item['price_t1'] != "No Data":
                 #     item['1day_return']= float(100*((item['price_t1'] - item['price_t0'])/item['price_t0']), 2)
                 # else:
