@@ -18,21 +18,22 @@ class ResultChart extends Component {
 			zoomEnabled: true,
 			height: 150,
 			title: {
-				text: "Stock Price of ".concat("test")// to change to TICKER
+				text: "Stock Price of ".concat(this.props.ticker),
+				horizontalAlign:"center"
 			},
             axisX:{
 				valueFormatString: "DD MMM YYYY",
 				crosshair: {
-					enabled: true,
+					enabled: false,
                     snapToDataPoint: true,
                 }
             },
             axisY: {
-				title: "Close Price (in USD)", // to change
+				title: "Close Price (USD)", // to change
 				includeZero: false,
 				valueFormatString: "$##0.00",
 				crosshair: {
-					enabled: true,
+					enabled: false,
 					snapToDataPoint: true,
 					labelFormatter: function(e) {
                         return "$" + Chart1.formatNumber(e.value, "##0.00"); // to change
@@ -41,7 +42,7 @@ class ResultChart extends Component {
 			},
 			data: [{
 				type: "line",
-				xValueFormatString: "DD MMM",
+				xValueFormatString: "DD MMM YYYY",
 				yValueFormatString: "$##0.00", // to change
 				dataPoints: dataPoints
 			}]
@@ -60,11 +61,25 @@ class ResultChart extends Component {
     componentDidMount(){
 		var chart = this.chart;
 		const baseurl="https://www.quandl.com/api/v3/datasets/WIKI/"
-		const ticker="FB" //to replace with item ticker
-		const start_date="2015-02-04" //to replace with item date + 1 mth
-		const end_date="2016-02-04" //to replace with item date - 1 mth
-		const fullurl=baseurl.concat(ticker,"/data.json?order=asc&column_index=4&","start_date=",start_date,"&end_date=",end_date,"&api_key=dFvSTC2myD1ts7eJq8VD")
-		fetch(fullurl)
+		const ticker=this.props.ticker
+		const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to avoid CORS error
+		var date=new Date(this.props.date);
+		console.log(this.props.date)
+        var start_date_year=''+(date.getFullYear()-1); //to provide data starting 1 year ago
+        var start_date_month=''+ (date.getMonth()+1); //gives one month before so need to +1
+        var start_date_day=''+date.getDate();
+        if (start_date_month.length < 2)
+            start_date_month = '0' + start_date_month;
+        if (start_date_day.length < 2)
+            start_date_day = '0' + start_date_day;
+        var start_date_formatted=[start_date_year,start_date_month,start_date_day].join('-');
+//        var end_date_year=''+(date.getFullYear()+1);
+//        var end_date_month=start_date_month;
+//        var end_date_day=start_date_day;
+//        var end_date_formatted=[end_date_year,end_date_month,end_date_day].join('-');
+		const end_date_formatted="2018-03-27";
+		var fullurl=baseurl.concat(ticker,"/data.json?order=asc&column_index=4&","start_date=",start_date_formatted,"&end_date=",end_date_formatted,"&api_key=dFvSTC2myD1ts7eJq8VD");
+		fetch(proxyurl+fullurl)
 		.then(function(response) {
 			return response.json();
 		})
@@ -76,7 +91,8 @@ class ResultChart extends Component {
 				});
 			}
 			chart.render();
-			dataPoints=[]
+			dataPoints=[];
+			console.log(fullurl)
 		});
 	}
 }
