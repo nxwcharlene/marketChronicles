@@ -183,10 +183,19 @@ def get_date(request):
         print(body) # returns security, pricechange, period, startdate, and enddate
         # body = {'security': 'AMZN: Amazon', 'pricechange': '1-3', 'period': '1D', 'startdate': '2020-01-02', 'enddate': '2020-04-06'}
         # body = {"security": "AMZN: Amazon", "pricechange": "1-3", "period": "1D", "startdate": "2020-01-02", "enddate": "2020-04-06"}
-        context = []
 
         companyname = body['security'].split(":")[1]
         body['security'] = body['security'].split(":")[0]
+
+
+        # HARDCODED NEWS W FAKE DATES
+        fakestartdate = "2020-03-18"
+        fakeenddate = "2020-04-18"
+        newsapikey = "cb96aea22e024b5090f23187cec75f76"
+        apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
+            companyname, fakestartdate, fakeenddate, newsapikey)
+        newsresponse = requests.request("GET", apiurl)
+        loaded_news = json.loads(newsresponse.text)["articles"]
 
         stockid = StockId.objects.all()
         stock_id = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
@@ -262,21 +271,14 @@ def get_date(request):
         huge_yearly_move = huge_yearly_move.to_json(orient='records')
 
         context = []
-
-        # NEWS
-        fakestartdate = "2020-03-18"
-        fakeenddate = "2020-04-18"
-        newsapikey = "cb96aea22e024b5090f23187cec75f76"
-        apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
-            companyname, fakestartdate, fakeenddate, newsapikey)
-        newsresponse = requests.request("GET", apiurl)
-        loaded_news = json.loads(newsresponse.text)
-
+        # context = {}
 
         if body['period'] == '1D':
             loaded_data = json.loads(huge_daily_move)
+            # context.update(loaded_data[0])
+            # context.update(loaded_news)
             context.append(loaded_data)
-            context.append(loaded_news["articles"])
+            context.append(loaded_news)
             context = context[0]
             context.reverse()
             return Response(data=context)
@@ -310,12 +312,11 @@ def get_news(request): # dummy get_news request
         startdate = "2020-03-19"
         enddate = "2020-04-18"
         newsapikey = "cb96aea22e024b5090f23187cec75f76"
-
         apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
             securityname, startdate, enddate, newsapikey)
 
         response = requests.request("GET", apiurl)
-        loaded_news = json.loads(response.text)
+        loaded_news = json.loads(response.text)["articles"]
         return Response(data=loaded_news)
 
     elif request.method == 'POST':
@@ -332,7 +333,7 @@ def get_news(request): # dummy get_news request
             securityname, startdate, enddate, newsapikey)
 
         response = requests.request("GET", apiurl)
-        loaded_news = json.loads(response.text)
+        loaded_news = json.loads(response.text)["articles"]
         return Response(data=loaded_news)
 
 

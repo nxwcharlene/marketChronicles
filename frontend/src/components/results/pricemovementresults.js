@@ -43,13 +43,6 @@ class PriceMovementResults extends React.Component {
          const items = this.props.results;
          console.log(items)
 
-//         if (!isLoaded)
-//             return (
-//                 <div>
-//                    <Skeleton animation="wave" variant="rect" width={"100%"} height={200} />
-//                 </div>
-//             )
-
          return (
              <div>
                  {items.map(item => (
