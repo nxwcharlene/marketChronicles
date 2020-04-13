@@ -120,6 +120,7 @@ function EarnForm(){
           <div style={{ height: 10 }} />
           <hr></hr>
           <h3>Search Results</h3>
+          <h4>Number of instances found: {results.length} </h4>
           <EarningsResults results={results} />
         </Fragment>
 
