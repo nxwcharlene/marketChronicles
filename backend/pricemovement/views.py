@@ -263,23 +263,28 @@ def get_date(request):
             loaded_data = json.loads(huge_daily_move)
             context.append(loaded_data)
             context = context[0]
+            context.reverse()
             return Response(data=context)
         elif body['period'] == '1W':
             loaded_data = json.loads(huge_weekly_move)
             context.append(loaded_data)
             context = context[0]
+            context.reverse()
             return Response(data=context)
         elif body['period'] == '1M':
             loaded_data = json.loads(huge_monthly_move)
             context.append(loaded_data)
             context = context[0]
+            context.reverse()
             return Response(data=context)
         elif body['period'] == '1Y':
             loaded_data = json.loads(huge_yearly_move)
             context.append(loaded_data)
             context = context[0]
+            context.reverse()
             return Response(data=context)
         else:
+            context.reverse()
             return Response(data=context)
 
 
@@ -289,3 +294,26 @@ def get_bokehchart(request):
         return Response("Hello, this is the GET request")
     elif request.method == 'POST':
         return Response("Hello, this is the POST request")
+
+
+
+def get_stockprice(stockid, searchdate, daysafter):
+    stockprice_table = Stockprice.objects.filter(stock_id=stockid)
+    df = pd.DataFrame(list(stockprice_table.values()))
+    #get index for date_t0
+    index_t0 = df.loc[df['date'] == searchdate].index[0]
+    #get index for x days after release date
+    index = index_t0 + daysafter
+    try:
+        price = df.loc[index, 'price']
+        return float(price)
+    except KeyError:
+        return ('No Data')
+
+def get_drift(price_t0, price_driftdate):
+    if price_driftdate != 'No Data':
+        drift_return = 100*((price_driftdate - price_t0)/price_t0)
+        drift_return = round(drift_return, 2)
+        return (drift_return)
+    else:
+        return('No Data')
