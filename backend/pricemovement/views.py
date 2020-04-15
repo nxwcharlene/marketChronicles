@@ -189,13 +189,13 @@ def get_date(request):
 
 
         # HARDCODED NEWS W FAKE DATES
-        fakestartdate = "2020-03-18"
-        fakeenddate = "2020-04-18"
-        newsapikey = "cb96aea22e024b5090f23187cec75f76"
-        apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
-            "fed", fakestartdate, fakeenddate, newsapikey)
+        # fakestartdate = "2020-03-18"
+        # fakeenddate = "2020-04-18"
+        # newsapikey = "cb96aea22e024b5090f23187cec75f76"
+        apiurl = "https://api.cityfalcon.com/v0.2/stories?identifier_type=full_tickers&identifiers={}_US&categories=mp%2Cop&min_cityfalcon_score=20&order_by=top&time_filter=mth1&languages=en&access_token=3ffa373c7c1524ac4935b333b1b6a4132a6555755aafa15203e1b5a68b7bf65d".format(
+            body['security'])
         newsresponse = requests.request("GET", apiurl)
-        loaded_news = json.loads(newsresponse.text)["articles"]
+        loaded_news = json.loads(newsresponse.text)["stories"]
 
         stockid = StockId.objects.all()
         stock_id = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
@@ -312,11 +312,9 @@ def get_news(request): # dummy get_news request
         startdate = "2020-03-19"
         enddate = "2020-04-18"
         newsapikey = "cb96aea22e024b5090f23187cec75f76"
-        apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
-            securityname, startdate, enddate, newsapikey)
-
+        apiurl = "https://api.cityfalcon.com/v0.2/stories?identifier_type=full_tickers&identifiers=AAPL_US,AMZN_US&categories=mp%2Cop&min_cityfalcon_score=20&order_by=top&time_filter=d1&all_languages=true&access_token=3ffa373c7c1524ac4935b333b1b6a4132a6555755aafa15203e1b5a68b7bf65d"
         response = requests.request("GET", apiurl)
-        loaded_news = json.loads(response.text)["articles"]
+        loaded_news = json.loads(response.text)["stories"]
         return Response(data=loaded_news)
 
     elif request.method == 'POST':
