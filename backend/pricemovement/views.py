@@ -193,7 +193,7 @@ def get_date(request):
         fakeenddate = "2020-04-18"
         newsapikey = "cb96aea22e024b5090f23187cec75f76"
         apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
-            companyname, fakestartdate, fakeenddate, newsapikey)
+            "fed", fakestartdate, fakeenddate, newsapikey)
         newsresponse = requests.request("GET", apiurl)
         loaded_news = json.loads(newsresponse.text)["articles"]
 
@@ -279,7 +279,7 @@ def get_date(request):
             # context.update(loaded_news)
             context.append(loaded_data)
             context.append(loaded_news)
-            context = context[0]
+            # context = context[0]
             context.reverse()
             return Response(data=context)
         elif body['period'] == '1W':
@@ -308,7 +308,7 @@ def get_date(request):
 @api_view(['GET', 'POST'])
 def get_news(request): # dummy get_news request
     if request.method == 'GET':
-        securityname = "amazon"
+        securityname = "fed"
         startdate = "2020-03-19"
         enddate = "2020-04-18"
         newsapikey = "cb96aea22e024b5090f23187cec75f76"

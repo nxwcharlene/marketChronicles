@@ -39,13 +39,13 @@ class PriceMovementResults extends React.Component {
 
      render() {
 //         const { isLoaded } = this.state;
-//         const newsitems = this.state.newsitems;
-         const items = this.props.results;
+         const newsitems = this.props.results[0];
+         const items = this.props.results[1];
          console.log(items)
 
          return (
              <div>
-                 {items.map(item => (
+                 {items.map((item) => (
                        <Card style={{marginBottom:20}} key={item.date}>
                          <CardHeader
                              title={item.date}
@@ -100,30 +100,30 @@ class PriceMovementResults extends React.Component {
                                  </Grid>
 
                                  <Grid item key={item.id} xs={4} md={4} style={{height: 140, paddingLeft: 10, paddingRight: 20}}>
-                                     <ResultChart ticker={item.ticker} date={item.date}/>
+                                     {/* <ResultChart ticker={item.ticker} date={item.date}/> */}
                                  </Grid>
 
+
                                  <Grid item key={item.id} xs={4} md={4} style={{height: 140, paddingLeft: 30, paddingRight: 20}}>
-                                     <ul>
+
                                      <b><span>Related News</span></b>
+                                     <div style={{marginBottom:5}} />
 
-                                     <li >
-                                         <span> 1. Google outage hits Gmail, Snapchat and Nest </span>
-                                     </li>
-                                     <li >
-                                         <span> 2. France’s competition watchdog orders Google to pay for news reuse </span>
-                                     </li>
-                                     <li >
-                                         <span> 3. Google Makes Stadia Gaming Service Free </span>
-                                     </li>
-
+                                     <ul>
+                                     {newsitems.slice(0, 3).map((newsitem) => (
+                                         <li style={{marginBottom: 5}}>
+                                             <a href={newsitem.url} target="_blank"> <span> - {newsitem.title} </span> </a>
+                                         </li>
+                                     ))}
                                      </ul>
                                  </Grid>
 
                              </Grid>
                          </CardContent>
                        </Card>
+
                  ))}
+
                  <div style={{height:50}}/>
 
              </div>
