@@ -44,6 +44,7 @@ function EarnForm(){
 
   const apiUrl = "http://localhost:8000/earnings/earnings-get/";
   const saveInput = (e) => {
+    setIsLoaded(null);
     e.preventDefault();
     console.log(apiUrl)
     return axios.post(apiUrl, input)
