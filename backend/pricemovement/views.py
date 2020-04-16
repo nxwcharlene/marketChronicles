@@ -13,7 +13,8 @@ import json
 import quandl
 import pandas as pd
 import requests
-from datetime import datetime, timedelta
+#from datetime import datetime, timedelta
+import datetime
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 
 
@@ -186,6 +187,8 @@ def get_date(request):
 
         companyname = body['security'].split(":")[1]
         body['security'] = body['security'].split(":")[0]
+        user_startdate = body['startdate']
+        user_enddate = body['enddate']
 
         # HARDCODED NEWS W FAKE DATES
         # fakestartdate = "2020-03-18"
@@ -197,6 +200,10 @@ def get_date(request):
         loaded_news = json.loads(newsresponse.text)["stories"]
 
         stockid = StockId.objects.all()
+        for item in stockid.values():
+            if item['ticker'] == body['security']:
+                stock_id_number = item['stock_id']
+                print(stock_id_number)
         stock_id = pd.DataFrame(list(stockid.values()))  # convert model data to dataframe
         stock_number = stock_id[stock_id.loc[:, 'ticker'] == body['security']].iloc[0].loc['stock_id']
         stockprice = Stockprice.objects.filter(stock_id=stock_number)
@@ -207,15 +214,24 @@ def get_date(request):
         price_table.loc[:, 'returns'] = round(price_table['price'].pct_change() * 100, 2) # creates a column for daily returns
         price_table['date'] = pd.to_datetime(price_table['date'])
         price_table = price_table.set_index('date')
+        print(price_table)
 
         # If period = 1D
-        huge_daily_move = price_table[(abs(price_table.loc[:, 'returns']) > float(body['pricechange'].split('-')[0])) & (abs(price_table.loc[:, 'returns']) < float(body['pricechange'].split('-')[-1]))]
-        huge_daily_move = huge_daily_move.loc[body['startdate']:body['enddate']]
+        stockprice_daily = Stockprice.objects.filter(stock_id=stock_number, date__range=[user_startdate, user_enddate])
+        price_table_daily = pd.DataFrame(list(stockprice_daily.values()))
+        price_table_daily['ticker'] = body['security']
+        price_table_daily['period'] = body['period']
+        price_table_daily.loc[:, 'returns'] = round(price_table['price'].pct_change() * 100, 2)
+        huge_daily_move = price_table_daily[(abs(price_table_daily.loc[:, 'returns']) > float(body['pricechange'].split('-')[0])) & (abs(price_table_daily.loc[:, 'returns']) < float(body['pricechange'].split('-')[-1]))]
+        #huge_daily_move = huge_daily_move.loc[body['startdate']:body['enddate']]
+        print(huge_daily_move)
         huge_daily_move.returns = huge_daily_move.returns.astype(str) + '%'
-        date_index = huge_daily_move.index.strftime("%Y-%m-%d")
-        huge_daily_move = huge_daily_move.set_index(date_index)
-        huge_daily_move['date'] = huge_daily_move.index
+        #date_index = huge_daily_move.index.strftime("%Y-%m-%d")
+        #huge_daily_move = huge_daily_move.set_index(date_index)
+        print(huge_daily_move.index)
+        #huge_daily_move['date'] = huge_daily_move.index
         huge_daily_move = huge_daily_move.to_json(orient='records')
+
 
         # If period = 1W
         week_open = price_table.price.resample('W-SUN').last().shift(1, freq='D')
@@ -277,6 +293,43 @@ def get_date(request):
             # context.update(loaded_data[0])
             # context.update(loaded_news)
             context.append(loaded_data)
+            print(context)
+            for item in context:
+                stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
+                df = pd.DataFrame(list(stockprice_table.values()))
+                searchdate = item['date']
+                try:
+                    index_t0 = df.loc[df['date'] == searchdate].index[0]
+                    item['index'] = index_t0
+                except (KeyError, IndexError):
+                    item['index'] = 'No data'
+                if item['index'] != 'No data':
+                    item['price_t0']=get_stockprice(stock_id,item['date'], 0)
+                    item['price_t1']=get_stockprice(stock_id,item['date'],1)
+                    item['price_t7']=get_stockprice(stock_id,item['date'], 7) 
+                    item['price_t30']=get_stockprice(stock_id,item['date'], 30)
+                    item['price_t90']=get_stockprice(stock_id,item['date'], 90)
+                    item['price_t180']=get_stockprice(stock_id,item['date'], 180)
+                    item['day_return']=get_drift(item['price_t0'],item['price_t1'])
+                    item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
+                    item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
+                    item['threemth_return']=get_drift(item['price_t0'],item['price_t90'])
+                    item['sixmth_return']=get_drift(item['price_t0'],item['price_t180'])
+                if item['index'] == 'No data':
+                    item['price_t0']= 'No data'
+                    item['price_t1']= 'No data'
+                    item['price_t7']= 'No data'
+                    item['price_t30']= 'No data'
+                    item['price_t90']= 'No data'
+                    item['price_t180']= 'No data'
+                    item['day_return']= 'No data'
+                    item['wk_return']= 'No data'
+                    item['mth_return']= 'No data'
+                    item['threemth_return']= 'No data'
+                    item['sixmth_return']= 'No data'
+                item['date'] = item['date'].strftime('%Y-%m-%d')
+            context.append(loaded_news["articles"])
+            context = context[0]
             context.append(loaded_news)
             # context = context[0]
             context.reverse()
