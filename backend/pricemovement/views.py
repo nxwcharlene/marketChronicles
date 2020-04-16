@@ -213,21 +213,14 @@ def get_date(request):
         price_table.loc[:, 'returns'] = round(price_table['price'].pct_change() * 100, 2) # creates a column for daily returns
         price_table['date'] = pd.to_datetime(price_table['date'])
         price_table = price_table.set_index('date')
-        print(price_table)
 
         # If period = 1D
-        # stockprice_daily = Stockprice.objects.filter(stock_id=stock_number, date__range=[user_startdate, user_enddate])
-        # price_table_daily = pd.DataFrame(list(stockprice_daily.values()))
-        # price_table_daily['ticker'] = body['security']
-        # price_table_daily['period'] = body['period']
         price_table.loc[:, 'returns'] = round(price_table['price'].pct_change() * 100, 2)
         huge_daily_move = price_table[(abs(price_table.loc[:, 'returns']) > float(body['pricechange'].split('-')[0])) & (abs(price_table.loc[:, 'returns']) < float(body['pricechange'].split('-')[-1]))]
         huge_daily_move = huge_daily_move.loc[body['startdate']:body['enddate']]
-        print(huge_daily_move)
         huge_daily_move.returns = huge_daily_move.returns.astype(str) + '%'
         date_index = huge_daily_move.index.strftime("%Y-%m-%d")
         huge_daily_move = huge_daily_move.set_index(date_index)
-        print(huge_daily_move.index)
         huge_daily_move['date'] = huge_daily_move.index
         huge_daily_move = huge_daily_move.to_json(orient='records')
 
@@ -285,7 +278,6 @@ def get_date(request):
         huge_yearly_move = huge_yearly_move.to_json(orient='records')
 
         context = []
-        # context = {}
 
         if body['period'] == '1D':
             loaded_data = json.loads(huge_daily_move)
@@ -293,18 +285,19 @@ def get_date(request):
                 stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
                 df = pd.DataFrame(list(stockprice_table.values()))
                 searchdate = datetime.datetime.strptime(item['date'], '%Y-%m-%d') #.date()
+                searchdate = searchdate.date()
                 try:
                     index_t0 = df.loc[df['date'] == searchdate].index[0]
-                    item['index'] = index_t0
+                    item['index']=index_t0
                 except (KeyError, IndexError):
                     item['index'] = 'No data'
                 if item['index'] != 'No data':
-                    item['price_t0']=get_stockprice(stock_number,item['date'], 0)
-                    item['price_t1']=get_stockprice(stock_number,item['date'],1)
-                    item['price_t7']=get_stockprice(stock_number,item['date'], 7) 
-                    item['price_t30']=get_stockprice(stock_number,item['date'], 30)
-                    item['price_t90']=get_stockprice(stock_number,item['date'], 90)
-                    item['price_t180']=get_stockprice(stock_number,item['date'], 180)
+                    item['price_t0']=get_stockprice(stock_number,searchdate, 0)
+                    item['price_t1']=get_stockprice(stock_number,searchdate,1)
+                    item['price_t7']=get_stockprice(stock_number,searchdate, 7) 
+                    item['price_t30']=get_stockprice(stock_number,searchdate, 30)
+                    item['price_t90']=get_stockprice(stock_number,searchdate, 90)
+                    item['price_t180']=get_stockprice(stock_number,searchdate, 180)
                     item['day_return']=get_drift(item['price_t0'],item['price_t1'])
                     item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
                     item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
@@ -322,7 +315,6 @@ def get_date(request):
                     item['mth_return']= 'No data'
                     item['threemth_return']= 'No data'
                     item['sixmth_return']= 'No data'
-                #item['date'] = item['date'].strftime('%Y-%m-%d')
             context.append(loaded_data)
             print(loaded_data)
             context.reverse()
@@ -330,6 +322,39 @@ def get_date(request):
             return Response(data=context)
         elif body['period'] == '1W':
             loaded_data = json.loads(huge_weekly_move)
+            for item in loaded_data:
+                stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
+                df = pd.DataFrame(list(stockprice_table.values()))
+                searchdate = datetime.datetime.strptime(item['date'], '%Y-%m-%d').date()
+                try:
+                    index_t0 = df.loc[df['date'] == searchdate].index[0]
+                    item['index']=index_t0
+                except (KeyError, IndexError):
+                    item['index'] = 'No data'
+                if item['index'] != 'No data':
+                    item['price_t0']=get_stockprice(stock_number,searchdate, 0)
+                    item['price_t1']=get_stockprice(stock_number,searchdate,1)
+                    item['price_t7']=get_stockprice(stock_number,searchdate, 7) 
+                    item['price_t30']=get_stockprice(stock_number,searchdate, 30)
+                    item['price_t90']=get_stockprice(stock_number,searchdate, 90)
+                    item['price_t180']=get_stockprice(stock_number,searchdate, 180)
+                    item['day_return']='-'
+                    item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
+                    item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
+                    item['threemth_return']=get_drift(item['price_t0'],item['price_t90'])
+                    item['sixmth_return']=get_drift(item['price_t0'],item['price_t180'])
+                if item['index'] == 'No data':
+                    item['price_t0']= 'No data'
+                    item['price_t1']= 'No data'
+                    item['price_t7']= 'No data'
+                    item['price_t30']= 'No data'
+                    item['price_t90']= 'No data'
+                    item['price_t180']= 'No data'
+                    item['day_return']= '-'
+                    item['wk_return']= 'No data'
+                    item['mth_return']= 'No data'
+                    item['threemth_return']= 'No data'
+                    item['sixmth_return']= 'No data'
             context.append(loaded_data)
             # context = context[0]
             context.reverse()
@@ -337,6 +362,39 @@ def get_date(request):
             return Response(data=context)
         elif body['period'] == '1M':
             loaded_data = json.loads(huge_monthly_move)
+            for item in loaded_data:
+                stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
+                df = pd.DataFrame(list(stockprice_table.values()))
+                searchdate = datetime.datetime.strptime(item['date'], '%Y-%m-%d').date()
+                try:
+                    index_t0 = df.loc[df['date'] == searchdate].index[0]
+                    item['index']=index_t0
+                except (KeyError, IndexError):
+                    item['index'] = 'No data'
+                if item['index'] != 'No data':
+                    item['price_t0']=get_stockprice(stock_number,searchdate, 0)
+                    item['price_t1']=get_stockprice(stock_number,searchdate,1)
+                    item['price_t7']=get_stockprice(stock_number,searchdate, 7) 
+                    item['price_t30']=get_stockprice(stock_number,searchdate, 30)
+                    item['price_t90']=get_stockprice(stock_number,searchdate, 90)
+                    item['price_t180']=get_stockprice(stock_number,searchdate, 180)
+                    item['day_return']='-'
+                    item['wk_return']='-'
+                    item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
+                    item['threemth_return']=get_drift(item['price_t0'],item['price_t90'])
+                    item['sixmth_return']=get_drift(item['price_t0'],item['price_t180'])
+                if item['index'] == 'No data':
+                    item['price_t0']= 'No data'
+                    item['price_t1']= 'No data'
+                    item['price_t7']= 'No data'
+                    item['price_t30']= 'No data'
+                    item['price_t90']= 'No data'
+                    item['price_t180']= 'No data'
+                    item['day_return']= '-'
+                    item['wk_return']= '-'
+                    item['mth_return']= 'No data'
+                    item['threemth_return']= 'No data'
+                    item['sixmth_return']= 'No data'
             context.append(loaded_data)
             # context = context[0]
             context.reverse()
@@ -344,6 +402,39 @@ def get_date(request):
             return Response(data=context)
         elif body['period'] == '1Y':
             loaded_data = json.loads(huge_yearly_move)
+            for item in loaded_data:
+                stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
+                df = pd.DataFrame(list(stockprice_table.values()))
+                searchdate = datetime.datetime.strptime(item['date'], '%Y-%m-%d').date()
+                try:
+                    index_t0 = df.loc[df['date'] == searchdate].index[0]
+                    item['index']=index_t0
+                except (KeyError, IndexError):
+                    item['index'] = 'No data'
+                if item['index'] != 'No data':
+                    item['price_t0']=get_stockprice(stock_number,searchdate, 0)
+                    item['price_t1']=get_stockprice(stock_number,searchdate,1)
+                    item['price_t7']=get_stockprice(stock_number,searchdate, 7) 
+                    item['price_t30']=get_stockprice(stock_number,searchdate, 30)
+                    item['price_t90']=get_stockprice(stock_number,searchdate, 90)
+                    item['price_t180']=get_stockprice(stock_number,searchdate, 180)
+                    item['day_return']='-'
+                    item['wk_return']='-'
+                    item['mth_return']='-'
+                    item['threemth_return']='-'
+                    item['sixmth_return']=get_drift(item['price_t0'],item['price_t180'])
+                if item['index'] == 'No data':
+                    item['price_t0']= 'No data'
+                    item['price_t1']= 'No data'
+                    item['price_t7']= 'No data'
+                    item['price_t30']= 'No data'
+                    item['price_t90']= 'No data'
+                    item['price_t180']= 'No data'
+                    item['day_return']= '-'
+                    item['wk_return']= '-'
+                    item['mth_return']= '-'
+                    item['threemth_return']= '-'
+                    item['sixmth_return']= 'No data'
             context.append(loaded_data)
             # context = context[0]
             context.reverse()
