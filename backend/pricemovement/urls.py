@@ -6,5 +6,5 @@ urlpatterns = [
     path('', views.get_date, name='get_date'),
     path('get_price/', views.get_price, name='get_price'),
     path('get_date/', views.get_date, name='get_date'),
-    path('get_news/', views.get_news, name='get_news'),
+    #path('get_news/', views.get_news, name='get_news'),
 ]

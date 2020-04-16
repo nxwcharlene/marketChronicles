@@ -218,19 +218,19 @@ def get_date(request):
         print(price_table)
 
         # If period = 1D
-        stockprice_daily = Stockprice.objects.filter(stock_id=stock_number, date__range=[user_startdate, user_enddate])
-        price_table_daily = pd.DataFrame(list(stockprice_daily.values()))
-        price_table_daily['ticker'] = body['security']
-        price_table_daily['period'] = body['period']
-        price_table_daily.loc[:, 'returns'] = round(price_table['price'].pct_change() * 100, 2)
-        huge_daily_move = price_table_daily[(abs(price_table_daily.loc[:, 'returns']) > float(body['pricechange'].split('-')[0])) & (abs(price_table_daily.loc[:, 'returns']) < float(body['pricechange'].split('-')[-1]))]
-        #huge_daily_move = huge_daily_move.loc[body['startdate']:body['enddate']]
+        # stockprice_daily = Stockprice.objects.filter(stock_id=stock_number, date__range=[user_startdate, user_enddate])
+        # price_table_daily = pd.DataFrame(list(stockprice_daily.values()))
+        # price_table_daily['ticker'] = body['security']
+        # price_table_daily['period'] = body['period']
+        price_table.loc[:, 'returns'] = round(price_table['price'].pct_change() * 100, 2)
+        huge_daily_move = price_table[(abs(price_table.loc[:, 'returns']) > float(body['pricechange'].split('-')[0])) & (abs(price_table.loc[:, 'returns']) < float(body['pricechange'].split('-')[-1]))]
+        huge_daily_move = huge_daily_move.loc[body['startdate']:body['enddate']]
         print(huge_daily_move)
         huge_daily_move.returns = huge_daily_move.returns.astype(str) + '%'
-        #date_index = huge_daily_move.index.strftime("%Y-%m-%d")
-        #huge_daily_move = huge_daily_move.set_index(date_index)
+        date_index = huge_daily_move.index.strftime("%Y-%m-%d")
+        huge_daily_move = huge_daily_move.set_index(date_index)
         print(huge_daily_move.index)
-        #huge_daily_move['date'] = huge_daily_move.index
+        huge_daily_move['date'] = huge_daily_move.index
         huge_daily_move = huge_daily_move.to_json(orient='records')
 
 
@@ -290,27 +290,25 @@ def get_date(request):
         # context = {}
 
         if body['period'] == '1D':
-            loaded_data = json.loads(huge_daily_move)
-            # context.update(loaded_data[0])
-            # context.update(loaded_news)
+            loaded_data = json.loads(huge_daily_move) 
             context.append(loaded_data)
-            print(context)
-            for item in context:
+            print(loaded_data)
+            for item in loaded_data:
                 stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
                 df = pd.DataFrame(list(stockprice_table.values()))
-                searchdate = item['date']
+                searchdate = datetime.datetime.strptime(item['date'], '%Y-%m-%d') #.date()
                 try:
                     index_t0 = df.loc[df['date'] == searchdate].index[0]
                     item['index'] = index_t0
                 except (KeyError, IndexError):
                     item['index'] = 'No data'
                 if item['index'] != 'No data':
-                    item['price_t0']=get_stockprice(stock_id,item['date'], 0)
-                    item['price_t1']=get_stockprice(stock_id,item['date'],1)
-                    item['price_t7']=get_stockprice(stock_id,item['date'], 7) 
-                    item['price_t30']=get_stockprice(stock_id,item['date'], 30)
-                    item['price_t90']=get_stockprice(stock_id,item['date'], 90)
-                    item['price_t180']=get_stockprice(stock_id,item['date'], 180)
+                    item['price_t0']=get_stockprice(stock_number,item['date'], 0)
+                    item['price_t1']=get_stockprice(stock_number,item['date'],1)
+                    item['price_t7']=get_stockprice(stock_number,item['date'], 7) 
+                    item['price_t30']=get_stockprice(stock_number,item['date'], 30)
+                    item['price_t90']=get_stockprice(stock_number,item['date'], 90)
+                    item['price_t180']=get_stockprice(stock_number,item['date'], 180)
                     item['day_return']=get_drift(item['price_t0'],item['price_t1'])
                     item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
                     item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
@@ -328,11 +326,10 @@ def get_date(request):
                     item['mth_return']= 'No data'
                     item['threemth_return']= 'No data'
                     item['sixmth_return']= 'No data'
-                item['date'] = item['date'].strftime('%Y-%m-%d')
-            context.append(loaded_news["articles"])
-            context = context[0]
+                #item['date'] = item['date'].strftime('%Y-%m-%d')
+            context.append(loaded_data)
+            print(loaded_data)
             context.append(loaded_news)
-            # context = context[0]
             context.reverse()
             return Response(data=context)
         elif body['period'] == '1W':
@@ -358,35 +355,34 @@ def get_date(request):
             return Response(data=context)
 
 
-@api_view(['GET', 'POST'])
-def get_news(request): # dummy get_news request
-    if request.method == 'GET':
-        securityname = "fed"
-        startdate = "2020-03-19"
-        enddate = "2020-04-18"
-        newsapikey = "cb96aea22e024b5090f23187cec75f76"
-        apiurl = "https://api.cityfalcon.com/v0.2/stories?identifier_type=full_tickers&identifiers=AAPL_US,AMZN_US&categories=mp%2Cop&min_cityfalcon_score=20&order_by=top&time_filter=d1&all_languages=true&access_token=3ffa373c7c1524ac4935b333b1b6a4132a6555755aafa15203e1b5a68b7bf65d"
-        response = requests.request("GET", apiurl)
-        loaded_news = json.loads(response.text)["stories"]
-        return Response(data=loaded_news)
+# @api_view(['GET', 'POST'])
+# def get_news(request): # dummy get_news request
+#     if request.method == 'GET':
+#         securityname = "fed"
+#         startdate = "2020-03-19"
+#         enddate = "2020-04-18"
+#         newsapikey = "cb96aea22e024b5090f23187cec75f76"
+#         apiurl = "https://api.cityfalcon.com/v0.2/stories?identifier_type=full_tickers&identifiers=AAPL_US,AMZN_US&categories=mp%2Cop&min_cityfalcon_score=20&order_by=top&time_filter=d1&all_languages=true&access_token=3ffa373c7c1524ac4935b333b1b6a4132a6555755aafa15203e1b5a68b7bf65d"
+#         response = requests.request("GET", apiurl)
+#         loaded_news = json.loads(response.text)["stories"]
+#         return Response(data=loaded_news)
 
-    elif request.method == 'POST':
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        print(body)  # returns security, pricechange, period, startdate, and enddate
+#     elif request.method == 'POST':
+#         body_unicode = request.body.decode('utf-8')
+#         body = json.loads(body_unicode)
+#         print(body)  # returns security, pricechange, period, startdate, and enddate
 
-        securityname = body["security"].split(":")[1]
-        startdate = "2020-03-18"
-        enddate = "2020-04-18"
-        newsapikey = "cb96aea22e024b5090f23187cec75f76"
+#         securityname = body["security"].split(":")[1]
+#         startdate = "2020-03-18"
+#         enddate = "2020-04-18"
+#         newsapikey = "cb96aea22e024b5090f23187cec75f76"
 
-        apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
-            securityname, startdate, enddate, newsapikey)
+#         apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
+#             securityname, startdate, enddate, newsapikey)
 
-        response = requests.request("GET", apiurl)
-        loaded_news = json.loads(response.text)["articles"]
-        return Response(data=loaded_news)
-
+#         response = requests.request("GET", apiurl)
+#         loaded_news = json.loads(response.text)["articles"]
+#         return Response(data=loaded_news)
 
 def get_stockprice(stockid, searchdate, daysafter):
     stockprice_table = Stockprice.objects.filter(stock_id=stockid)

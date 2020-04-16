@@ -79,7 +79,7 @@ class ResultChart extends Component {
 //        var end_date_formatted=[end_date_year,end_date_month,end_date_day].join('-');
 		const end_date_formatted="2018-03-27";
 		var fullurl=baseurl.concat(ticker,"/data.json?order=asc&column_index=4&","start_date=",start_date_formatted,"&end_date=",end_date_formatted,"&api_key=dFvSTC2myD1ts7eJq8VD");
-		fetch(proxyurl+fullurl)
+		fetch(fullurl)
 		.then(function(response) {
 			return response.json();
 		})
