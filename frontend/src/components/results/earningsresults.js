@@ -8,7 +8,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
-import ResultChart from './ResultChart.js';
+import ResultChart from './earningschart.js';
 
 class EarningsResults extends React.Component {
 
@@ -31,11 +31,14 @@ class EarningsResults extends React.Component {
 
             <CardContent>
               <Grid container spacing={0} alignItems="flex-end">
-                <Grid key={item.id} item xs={3} md={3} style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                <Grid key={item.id} item xs={3} md={3} style={{ height: 140, flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 30, paddingBottom: 30 }}>
                   <ul>
-                    <div style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{ flex: 1, flexDirection: 'column', justifyContent: 'top' }}>
                       <li >
                         <b><span>Earnings Release </span></b>
+                      </li>
+                      <li >
+                        <div style={{height:10}} ><span> </span></div>
                       </li>
                       <li >
                         <span>Ticker: {item.Ticker}</span>
@@ -56,11 +59,14 @@ class EarningsResults extends React.Component {
                   </ul>
                 </Grid>
 
-                <Grid key={item.id} item xs={3} md={3} style={{ flex: 1, flexDirection: 'column', justifyContent: 'top' }}>
+                <Grid key={item.id} item xs={3} md={3} style={{ height:140, flex: 1, flexDirection: 'column', justifyContent: 'center', paddingBottom: 30 }}>
                   <ul>
                     <div style={{ flex: 1, flexDirection: 'column', justifyContent: 'top' }}>
                         <li >
                         <b><span>Post-release returns </span></b>
+                        </li>
+                        <li >
+                            <div style={{height:10}} ><span> </span></div>
                         </li>
                         <li >
                         <span> 1 Day: {item.day_return}%</span>
@@ -82,7 +88,7 @@ class EarningsResults extends React.Component {
                 </Grid>
 
                 <Grid key={item.id} item xs={6} md={6}>
-                  <ResultChart style={{ height: 10 }} />
+                  <ResultChart style={{ height: 140 }} />
                 </Grid>
               </Grid>
             </CardContent>
