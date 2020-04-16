@@ -182,7 +182,6 @@ def get_date(request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body) # returns security, pricechange, period, startdate, and enddate
-        # body = {'security': 'AMZN: Amazon', 'pricechange': '1-3', 'period': '1D', 'startdate': '2020-01-02', 'enddate': '2020-04-06'}
         # body = {"security": "AMZN: Amazon", "pricechange": "1-3", "period": "1D", "startdate": "2020-01-02", "enddate": "2020-04-06"}
 
         companyname = body['security'].split(":")[1]
@@ -194,7 +193,7 @@ def get_date(request):
         # fakestartdate = "2020-03-18"
         # fakeenddate = "2020-04-18"
         # newsapikey = "cb96aea22e024b5090f23187cec75f76"
-        apiurl = "https://api.cityfalcon.com/v0.2/stories?identifier_type=full_tickers&identifiers={}_US&categories=mp%2Cop&min_cityfalcon_score=20&order_by=top&time_filter=mth1&languages=en&access_token=3ffa373c7c1524ac4935b333b1b6a4132a6555755aafa15203e1b5a68b7bf65d".format(
+        apiurl = "https://api.cityfalcon.com/v0.2/stories?identifier_type=full_tickers&identifiers={}_US&categories=mp&min_cityfalcon_score=55&order_by=top&time_filter=mth1&languages=en&access_token=3ffa373c7c1524ac4935b333b1b6a4132a6555755aafa15203e1b5a68b7bf65d".format(
             body['security'])
         newsresponse = requests.request("GET", apiurl)
         loaded_news = json.loads(newsresponse.text)["stories"]
@@ -289,9 +288,7 @@ def get_date(request):
         # context = {}
 
         if body['period'] == '1D':
-            loaded_data = json.loads(huge_daily_move) 
-            context.append(loaded_data)
-            print(loaded_data)
+            loaded_data = json.loads(huge_daily_move)
             for item in loaded_data:
                 stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
                 df = pd.DataFrame(list(stockprice_table.values()))
@@ -328,26 +325,29 @@ def get_date(request):
                 #item['date'] = item['date'].strftime('%Y-%m-%d')
             context.append(loaded_data)
             print(loaded_data)
-            context.append(loaded_news)
             context.reverse()
+            context.append(loaded_news)
             return Response(data=context)
         elif body['period'] == '1W':
             loaded_data = json.loads(huge_weekly_move)
             context.append(loaded_data)
-            context = context[0]
+            # context = context[0]
             context.reverse()
+            context.append(loaded_news)
             return Response(data=context)
         elif body['period'] == '1M':
             loaded_data = json.loads(huge_monthly_move)
             context.append(loaded_data)
-            context = context[0]
+            # context = context[0]
             context.reverse()
+            context.append(loaded_news)
             return Response(data=context)
         elif body['period'] == '1Y':
             loaded_data = json.loads(huge_yearly_move)
             context.append(loaded_data)
-            context = context[0]
+            # context = context[0]
             context.reverse()
+            context.append(loaded_news)
             return Response(data=context)
         else:
             context.reverse()

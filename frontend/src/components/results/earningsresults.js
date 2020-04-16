@@ -59,7 +59,7 @@ class EarningsResults extends React.Component {
                   </ul>
                 </Grid>
 
-                <Grid key={item.id} item xs={3} md={3} style={{ height:140, flex: 1, flexDirection: 'column', justifyContent: 'center', paddingBottom: 30 }}>
+                <Grid key={item.id} item xs={3} md={3} style={{ height:140, flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 30, paddingBottom: 30 }}>
                   <ul>
                     <div style={{ flex: 1, flexDirection: 'column', justifyContent: 'top' }}>
                         <li >

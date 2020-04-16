@@ -39,8 +39,8 @@ class PriceMovementResults extends React.Component {
 
      render() {
 //         const { isLoaded } = this.state;
-         const newsitems = this.props.results[0];
-         const items = this.props.results[1];
+         const newsitems = this.props.results[1];
+         const items = this.props.results[0];
          console.log(items)
 
          return (
