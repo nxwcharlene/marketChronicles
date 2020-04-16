@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 function MacroForm() {
   const classes = useStyles();
-  const [input, setInput] = useState({security: "", indicator: "", direction: "Exceed", magnitude: "Large", startdate: "2020-01-01", enddate: "2020-04-18"});
+  const [input, setInput] = useState({security: "", indicator: "", direction: "Exceed", magnitude: "Large", startdate: "2015-01-01", enddate: "2020-04-18"});
   const [results, setResults] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);

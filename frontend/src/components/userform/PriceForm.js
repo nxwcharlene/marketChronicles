@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 function PriceForm() {
     const classes = useStyles();
-    const [input, setInput] = useState({security: "", pricechange: "1-3", period: "1D", startdate: "2020-01-01", enddate: "2020-04-18"});
+    const [input, setInput] = useState({security: "", pricechange: "1-3", period: "1D", startdate: "2015-01-01", enddate: "2020-04-18"});
     const [results, setResults] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isEmpty, setIsEmpty] = useState(false);
