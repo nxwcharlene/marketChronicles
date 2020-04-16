@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 //import macroresultsAPI from './macroresultsAPI';
-import ResultChart from './macrochart.js';
+import MacroChart from './macrochart.js';
 
 
 class MacroResults extends React.Component {
@@ -87,7 +87,7 @@ class MacroResults extends React.Component {
                 </Grid>
 
                 <Grid key={item.id} item xs={6} md={6}>
-                  <ResultChart style={{ height: 10 }} ticker={item.ticker} date={item.date} />
+                  <MacroChart style={{ height: 10 }} ticker={item.ticker} date={item.date} />
                 </Grid>
               </Grid>
             </CardContent>

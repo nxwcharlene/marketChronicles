@@ -8,7 +8,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
-import ResultChart from './earningschart.js';
+import EarningsChart from './earningschart.js';
 
 class EarningsResults extends React.Component {
 
@@ -88,7 +88,7 @@ class EarningsResults extends React.Component {
                 </Grid>
 
                 <Grid key={item.id} item xs={6} md={6}>
-                  <ResultChart style={{ height: 140 }} />
+                  <EarningsChart style={{ height: 140 }} ticker={item.ticker} date={item.date}/>
                 </Grid>
               </Grid>
             </CardContent>
