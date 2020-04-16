@@ -187,7 +187,6 @@ def get_date(request):
         companyname = body['security'].split(":")[1]
         body['security'] = body['security'].split(":")[0]
 
-
         # HARDCODED NEWS W FAKE DATES
         # fakestartdate = "2020-03-18"
         # fakeenddate = "2020-04-18"

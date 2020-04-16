@@ -12,6 +12,8 @@ class ResultChart extends Component {
 
 	render() {
 
+	    const items = this.props.items;
+
 		const options = {
 			theme: "light2", // "light1", "dark1", "dark2"
 			animationEnabled: true,
@@ -62,7 +64,7 @@ class ResultChart extends Component {
 		var chart = this.chart;
 		const baseurl="https://www.quandl.com/api/v3/datasets/WIKI/"
 		const ticker=this.props.ticker
-		const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to avoid CORS error
+//		const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to avoid CORS error
 		var date=new Date(this.props.date);
 		console.log(this.props.date)
         var start_date_year=''+(date.getFullYear()-1); //to provide data starting 1 year ago
@@ -78,8 +80,8 @@ class ResultChart extends Component {
 //        var end_date_day=start_date_day;
 //        var end_date_formatted=[end_date_year,end_date_month,end_date_day].join('-');
 		const end_date_formatted="2018-03-27";
-		var fullurl=baseurl.concat(ticker,"/data.json?order=asc&column_index=4&","start_date=",start_date_formatted,"&end_date=",end_date_formatted,"&api_key=dFvSTC2myD1ts7eJq8VD");
-		fetch(proxyurl+fullurl)
+		var fullurl=baseurl.concat(ticker,"/data.json?order=asc&column_index=4&","start_date=",start_date_formatted,"&end_date=",end_date_formatted,"&api_key=S4xoWAYgz_GMGyxfVAhU");
+		fetch(fullurl)
 		.then(function(response) {
 			return response.json();
 		})
