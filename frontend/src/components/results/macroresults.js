@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 //import macroresultsAPI from './macroresultsAPI';
-import ResultChart from './ResultChart.js';
+import ResultChart from './macrochart.js';
 
 
 class MacroResults extends React.Component {
@@ -32,11 +32,14 @@ class MacroResults extends React.Component {
 
             <CardContent>
               <Grid container spacing={0} alignItems="flex-end">
-                <Grid key={item.id} item xs={3} md={3} style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                <Grid key={item.id} item xs={3} md={3} style={{ height:140, flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 30, paddingBottom: 30 }}>
                   <ul>
-                    <div style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{ flex: 1, flexDirection: 'column', justifyContent: 'top' }}>
                       <li >
                         <b><span>Economic Release </span></b>
+                      </li>
+                      <li >
+                        <div style={{height:10}} ><span> </span></div>
                       </li>
                       <li >
                         <span>Ticker: {item.ticker}</span>
@@ -57,10 +60,13 @@ class MacroResults extends React.Component {
                   </ul>
                 </Grid>
 
-                <Grid key={item.id} item xs={3} md={3}>
+                <Grid key={item.id} item xs={3} md={3} style={{ height:140, flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 30, paddingBottom: 30 }}>
                   <ul>
                     <li >
                       <b><span>Post-release returns </span></b>
+                    </li>
+                    <li >
+                        <div style={{height:10}} ><span> </span></div>
                     </li>
                     <li >
                       <span> 1 Day: {item.day_return}%</span>

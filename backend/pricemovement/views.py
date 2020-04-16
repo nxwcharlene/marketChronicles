@@ -190,7 +190,6 @@ def get_date(request):
         user_startdate = body['startdate']
         user_enddate = body['enddate']
 
-
         # HARDCODED NEWS W FAKE DATES
         # fakestartdate = "2020-03-18"
         # fakeenddate = "2020-04-18"

@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 function PriceForm() {
     const classes = useStyles();
-    const [input, setInput] = useState({security: "", pricechange: "1-3", period: "1D", startdate: "2020-01-01", enddate: "2020-04-18"});
+    const [input, setInput] = useState({security: "", pricechange: "1-3", period: "1D", startdate: "2015-01-01", enddate: "2020-04-18"});
     const [results, setResults] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isEmpty, setIsEmpty] = useState(false);
@@ -121,7 +121,7 @@ function PriceForm() {
                 <div style={{ height: 10 }} />
                 <hr></hr>
                 <h3>Search Results</h3>
-                <h4>Number of instances found: {results.length} </h4>
+                <h4>Number of instances found: {results[1].length} </h4>
                 <PriceMovementResults results={results} />
             </Fragment>
 

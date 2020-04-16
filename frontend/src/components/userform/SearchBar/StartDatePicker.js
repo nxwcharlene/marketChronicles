@@ -10,7 +10,7 @@ function disableWeekends(date) {
 function StartDatePicker(props) {
 //    const [startDate, setStartDate] = React.useState(new Date("2020/01/01"));
 //    const [endDate, setEndDate] = React.useState(new Date("2020/04/06"));
-    const [selectedDate, handleDateChange] = React.useState(new Date("2020-01-01"));
+    const [selectedDate, handleDateChange] = React.useState(new Date("2015-01-01"));
 
       return (
        <Fragment>
