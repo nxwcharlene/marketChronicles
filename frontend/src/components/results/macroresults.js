@@ -87,7 +87,7 @@ class MacroResults extends React.Component {
                 </Grid>
 
                 <Grid key={item.id} item xs={6} md={6}>
-                  <ResultChart style={{ height: 10 }} />
+                  <ResultChart style={{ height: 10 }} ticker={item.ticker} date={item.date} />
                 </Grid>
               </Grid>
             </CardContent>

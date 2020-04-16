@@ -16,7 +16,7 @@ class ResultChart extends Component {
 			zoomEnabled: true,
 			height: 150,
 			title: {
-				text: "Stock Price of ".concat("test")// to change to TICKER
+				text: "Stock Price of ".concat(this.props.ticker),
 			},
             axisX:{
 				valueFormatString: "DD MMM YYYY",
@@ -57,7 +57,22 @@ class ResultChart extends Component {
 
     componentDidMount(){
 		var chart = this.chart;
-		fetch('https://www.quandl.com/api/v3/datasets/WIKI/FB/data.json?order=asc&column_index=4&api_key=dFvSTC2myD1ts7eJq8VD')
+		const baseurl="https://www.quandl.com/api/v3/datasets/WIKI/"
+		const ticker=this.props.ticker
+		var date=new Date(this.props.date);
+		console.log(this.props.date)
+		var start_date_year=''+(date.getFullYear()-1); //to provide data starting 1 year ago
+        var start_date_month=''+ (date.getMonth()+1); //gives one month before so need to +1
+        var start_date_day=''+date.getDate();
+        if (start_date_month.length < 2)
+            start_date_month = '0' + start_date_month;
+        if (start_date_day.length < 2)
+            start_date_day = '0' + start_date_day;
+        var start_date_formatted=[start_date_year,start_date_month,start_date_day].join('-');
+        const end_date_formatted="2018-03-27";
+		var fullurl=baseurl.concat(ticker,"/data.json?order=asc&column_index=4&","start_date=",start_date_formatted,"&end_date=",end_date_formatted,"&api_key=dFvSTC2myD1ts7eJq8VD");
+
+		fetch(fullurl)
 		.then(function(response) {
 			return response.json();
 		})
