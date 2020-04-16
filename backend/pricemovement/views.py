@@ -184,12 +184,21 @@ def get_date(request):
         print(body) # returns security, pricechange, period, startdate, and enddate
         # body = {'security': 'AMZN: Amazon', 'pricechange': '1-3', 'period': '1D', 'startdate': '2020-01-02', 'enddate': '2020-04-06'}
         # body = {"security": "AMZN: Amazon", "pricechange": "1-3", "period": "1D", "startdate": "2020-01-02", "enddate": "2020-04-06"}
-        context = []
 
         companyname = body['security'].split(":")[1]
         body['security'] = body['security'].split(":")[0]
         user_startdate = body['startdate']
         user_enddate = body['enddate']
+
+
+        # HARDCODED NEWS W FAKE DATES
+        # fakestartdate = "2020-03-18"
+        # fakeenddate = "2020-04-18"
+        # newsapikey = "cb96aea22e024b5090f23187cec75f76"
+        apiurl = "https://api.cityfalcon.com/v0.2/stories?identifier_type=full_tickers&identifiers={}_US&categories=mp%2Cop&min_cityfalcon_score=20&order_by=top&time_filter=mth1&languages=en&access_token=3ffa373c7c1524ac4935b333b1b6a4132a6555755aafa15203e1b5a68b7bf65d".format(
+            body['security'])
+        newsresponse = requests.request("GET", apiurl)
+        loaded_news = json.loads(newsresponse.text)["stories"]
 
         stockid = StockId.objects.all()
         for item in stockid.values():
@@ -278,19 +287,12 @@ def get_date(request):
         huge_yearly_move = huge_yearly_move.to_json(orient='records')
 
         context = []
-
-        # NEWS
-        fakestartdate = "2020-03-18"
-        fakeenddate = "2020-04-18"
-        newsapikey = "cb96aea22e024b5090f23187cec75f76"
-        apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
-            companyname, fakestartdate, fakeenddate, newsapikey)
-        newsresponse = requests.request("GET", apiurl)
-        loaded_news = json.loads(newsresponse.text)
-
+        # context = {}
 
         if body['period'] == '1D':
             loaded_data = json.loads(huge_daily_move)
+            # context.update(loaded_data[0])
+            # context.update(loaded_news)
             context.append(loaded_data)
             print(context)
             for item in context:
@@ -329,6 +331,8 @@ def get_date(request):
                 item['date'] = item['date'].strftime('%Y-%m-%d')
             context.append(loaded_news["articles"])
             context = context[0]
+            context.append(loaded_news)
+            # context = context[0]
             context.reverse()
             return Response(data=context)
         elif body['period'] == '1W':
@@ -357,16 +361,13 @@ def get_date(request):
 @api_view(['GET', 'POST'])
 def get_news(request): # dummy get_news request
     if request.method == 'GET':
-        securityname = "amazon"
+        securityname = "fed"
         startdate = "2020-03-19"
         enddate = "2020-04-18"
         newsapikey = "cb96aea22e024b5090f23187cec75f76"
-
-        apiurl = "http://newsapi.org/v2/everything?q={}&from={}&to={}&domains=wsj.com,nytimes.com&sortBy=popularity&apiKey={}".format(
-            securityname, startdate, enddate, newsapikey)
-
+        apiurl = "https://api.cityfalcon.com/v0.2/stories?identifier_type=full_tickers&identifiers=AAPL_US,AMZN_US&categories=mp%2Cop&min_cityfalcon_score=20&order_by=top&time_filter=d1&all_languages=true&access_token=3ffa373c7c1524ac4935b333b1b6a4132a6555755aafa15203e1b5a68b7bf65d"
         response = requests.request("GET", apiurl)
-        loaded_news = json.loads(response.text)
+        loaded_news = json.loads(response.text)["stories"]
         return Response(data=loaded_news)
 
     elif request.method == 'POST':
@@ -383,7 +384,7 @@ def get_news(request): # dummy get_news request
             securityname, startdate, enddate, newsapikey)
 
         response = requests.request("GET", apiurl)
-        loaded_news = json.loads(response.text)
+        loaded_news = json.loads(response.text)["articles"]
         return Response(data=loaded_news)
 
 
