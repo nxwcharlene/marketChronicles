@@ -193,7 +193,7 @@ def get_date(request):
         # fakestartdate = "2020-03-18"
         # fakeenddate = "2020-04-18"
         # newsapikey = "cb96aea22e024b5090f23187cec75f76"
-        apiurl = "https://api.cityfalcon.com/v0.2/stories?identifier_type=full_tickers&identifiers={}_US&categories=mp&min_cityfalcon_score=55&order_by=top&time_filter=mth1&languages=en&access_token=3ffa373c7c1524ac4935b333b1b6a4132a6555755aafa15203e1b5a68b7bf65d".format(
+        apiurl = "https://api.cityfalcon.com/v0.2/stories?identifier_type=full_tickers&identifiers={}_US&categories=mp%2Cop&min_cityfalcon_score=50&order_by=top&time_filter=mth1&languages=en&access_token=3ffa373c7c1524ac4935b333b1b6a4132a6555755aafa15203e1b5a68b7bf65d".format(
             body['security'])
         newsresponse = requests.request("GET", apiurl)
         loaded_news = json.loads(newsresponse.text)["stories"]
