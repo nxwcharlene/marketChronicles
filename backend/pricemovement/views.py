@@ -298,11 +298,13 @@ def get_date(request):
                     item['price_t30']=get_stockprice(stock_number,searchdate, 30)
                     item['price_t90']=get_stockprice(stock_number,searchdate, 90)
                     item['price_t180']=get_stockprice(stock_number,searchdate, 180)
+                    item['price_t360']=get_stockprice(stock_number,searchdate, 360)
                     item['day_return']=get_drift(item['price_t0'],item['price_t1'])
                     item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
                     item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
                     item['threemth_return']=get_drift(item['price_t0'],item['price_t90'])
                     item['sixmth_return']=get_drift(item['price_t0'],item['price_t180'])
+                    item['year_return']=get_drift(item['price_t0'],item['price_t360'])
                 if item['index'] == 'No data':
                     item['price_t0']= 'No data'
                     item['price_t1']= 'No data'
@@ -315,6 +317,7 @@ def get_date(request):
                     item['mth_return']= 'No data'
                     item['threemth_return']= 'No data'
                     item['sixmth_return']= 'No data'
+                    item['year_return']= 'No data'
             context.append(loaded_data)
             print(loaded_data)
             context.reverse()

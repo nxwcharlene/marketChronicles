@@ -85,16 +85,22 @@ class PriceMovementResults extends React.Component {
                                              <b><span>Post-Movement Returns </span></b>
                                          </li>
                                          <li >
-                                             <span> 1 Day: {item.returns}</span>
+                                             <span> 1 Day: {item.day_return}</span>
                                          </li>
                                          <li >
-                                             <span> 1 Week: {item.returns}</span>
+                                             <span> 1 Week: {item.wk_return}</span>
                                          </li>
                                          <li >
-                                             <span> 1 Month: {item.returns}</span>
+                                             <span> 1 Month: {item.mth_return}</span>
                                          </li>
                                          <li >
-                                             <span> 1 Year: {item.returns}</span>
+                                             <span> 3 Months: {item.threemth_return}</span>
+                                         </li>
+                                         <li >
+                                             <span> 6 Months: {item.sixmth_return}</span>
+                                         </li>
+                                         <li >
+                                             <span> 1 Year: {item.year_return}</span>
                                          </li>
                                      </ul>
                                  </Grid>
