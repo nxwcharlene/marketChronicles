@@ -57,7 +57,7 @@ class PriceMovementResults extends React.Component {
 
                          <CardContent>
                              <Grid container spacing={0} alignItems="flex-end">
-                                 <Grid item key={item.ticker} xs={2} md={2} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 10}}>
+                                 <Grid item key={item.ticker} xs={2} md={2} style ={{height: 140, flex: 1, flexDirection: 'column', justifyContent: 'center', paddingLeft: 10}}>
                                    <ul>
                                          <div style={{flex: 1, flexDirection: 'column', justifyContent: 'top'}}>
                                          <li >
@@ -79,7 +79,7 @@ class PriceMovementResults extends React.Component {
                                    </ul>
                                  </Grid>
 
-                                 <Grid item key={item.stock_id} xs={3} md={3} style ={{height: 120, flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                                 <Grid item key={item.stock_id} xs={3} md={3} style ={{height: 140, flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
                                      <ul>
                                          <li >
                                              <b><span>Post-Movement Returns (%)</span></b>
