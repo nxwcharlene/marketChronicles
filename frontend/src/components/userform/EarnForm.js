@@ -40,7 +40,7 @@ function EarnForm(){
   const [results, setResults] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false)
   const [isEmpty, setIsEmpty] = useState(false);
-  const [input, setInput] = useState({security: "", Income: "", direction: "Exceed", magnitude: "Large", startdate: "2015-01-01", enddate: "2020-04-18"});
+  const [input, setInput] = useState({security: "", Income: "", direction: "Exceed", magnitude: "Large", startdate: "2020-01-01", enddate: "2020-04-18"});
 
   const apiUrl = "http://localhost:8000/earnings/earnings-get/";
   const saveInput = (e) => {
