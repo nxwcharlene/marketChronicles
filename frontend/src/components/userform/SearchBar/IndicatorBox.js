@@ -18,11 +18,11 @@ const IndicatorBox = (props) => {
 }
 
 const indicatorlist = [
-  { name: 'Non-Farm Payroll'},
+  { name: 'Change in Nonfarm Payrolls'},
   { name: 'ISM Manufacturing'},
   { name: 'ISM Non-Manufacturing'},
   { name: 'GDP Annualized QoQ'},
-  { name: 'Retail Sales MoM'},
+  { name: 'Retail Sales Less Auto'},
   { name: 'Initial Jobless Claims'},
   { name: 'Unemployment Rate'},
   { name: 'CPI MoM'},
