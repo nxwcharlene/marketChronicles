@@ -45,6 +45,7 @@ class ResultChart extends Component {
             },
             data: [{
                 type: "line",
+                markerType:"none",
                 lineColor:"DarkCyan",
                 xValueFormatString: "DD MMM YYYY",
                 yValueFormatString: "$##0.00", // to change
