@@ -19,7 +19,7 @@ class EarningsChart extends Component {
             zoomEnabled: true,
             height: 150,
             title: {
-                text: "Stock Price of ".concat(this.props.ticker),
+                text: "Stock Price of ".concat(this.props.Ticker),
                 horizontalAlign:"center"
             },
             axisX:{
@@ -63,8 +63,9 @@ class EarningsChart extends Component {
     componentDidMount(){
         var chart = this.chart;
         const baseurl="https://www.quandl.com/api/v3/datasets/WIKI/"
-        const ticker=this.props.ticker
-        const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to avoid CORS error
+        const Ticker=this.props.Ticker
+        console.log(this.props.Ticker)
+//        const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to avoid CORS error
         var date=new Date(this.props.date);
         console.log(this.props.date)
         var start_date_year=''+(date.getFullYear()-1); //to provide data starting 1 year ago
@@ -83,7 +84,7 @@ class EarningsChart extends Component {
             end_date_formatted="2018-03-27";
         if (parseInt(end_date_year)<=2018)
             end_date_formatted=[end_date_year,end_date_month,end_date_day].join('-');
-        var fullurl=baseurl.concat(ticker,"/data.json?order=asc&column_index=4&","start_date=",start_date_formatted,"&end_date=",end_date_formatted,"&api_key=dFvSTC2myD1ts7eJq8VD");
+        var fullurl=baseurl.concat(Ticker,"/data.json?order=asc&column_index=4&","start_date=",start_date_formatted,"&end_date=",end_date_formatted,"&api_key=dFvSTC2myD1ts7eJq8VD");
         var self=this;
         fetch(fullurl)
         .then(function(response) {
