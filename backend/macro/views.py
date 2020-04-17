@@ -20,7 +20,7 @@ import re
 from macro.models import Macro, Stockprice, StockId, MacroInput
 from .serializer import MacroSerializer, StockPriceSerializer
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import json
 
 # constants
@@ -169,6 +169,9 @@ def get_macro(request):
                 item['threemth_return']= 'No data'
                 item['sixmth_return']= 'No data'
             item['date'] = item['date'].strftime('%Y-%m-%d')
+
+        for item in context:
+            item["chartprices"] = get_chartprices(stockid, item['date'])
 
         print(context)
         context.reverse()
@@ -380,3 +383,27 @@ def calculate_surprise_magnitude(actual, survm, stddev):
     #ticker = request.GET.get('ticker', 1)
 
     # macro = Macro.objects.filter(id=ticker, date__range=["2011-01-01", "2011-01-31"])
+
+
+def get_chartprices(stockid, instancedate):
+        # baseurl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="
+        # fullurl = baseurl + ticker + "&outputsize=full&apikey=PO0Z11M2KLE6SZ6F"
+
+        stockprice_table = Stockprice.objects.filter(stock_id=stockid)
+        df = pd.DataFrame(list(stockprice_table.values()))
+        df = df.loc[:, ['date', 'price']]
+        df['date'] = pd.to_datetime(df['date'])
+        # df.set_index('date', inplace=True)
+
+        instancedate = datetime.strptime(instancedate, "%Y-%m-%d")
+        # year = int(instancedate.split("-")[0])
+        # month = int(instancedate.split("-")[1])
+        # day = int(instancedate.split("-")[2])
+        # instancedate = date(year, month, day)
+        startdate = instancedate - timedelta(days=30)
+        enddate = instancedate + timedelta(days=185)
+        df = df.loc[(df['date'] >= startdate) & (df['date'] <= enddate)]
+        df['date'] = df['date'].astype(str)
+        loaded_prices = df.to_json(orient="values")
+
+        return(loaded_prices)
