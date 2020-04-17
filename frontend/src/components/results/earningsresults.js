@@ -91,7 +91,7 @@ class EarningsResults extends React.Component {
                 </Grid>
 
                 <Grid key={item.id} item xs={6} md={6}>
-                  <EarningsChart style={{ height: 140 }} Ticker={item.Ticker} date={item.date}/>
+                  <EarningsChart style={{ height: 140 }} Ticker={item.Ticker} date={item.date} chartprices={item.chartprices}/>
                 </Grid>
               </Grid>
             </CardContent>

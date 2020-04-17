@@ -157,6 +157,9 @@ def get_earnings(request):
                 #     item['1mth_return']= 'No Data'
             item['date'] = item['date'].strftime('%Y-%m-%d')
 
+        for item in shortlist_earnings:
+            item["chartprices"] = get_chartprices(stock_id, item['date'])
+
         print(shortlist_earnings)
         shortlist_earnings.reverse()
         print(shortlist_earnings)
@@ -290,66 +293,89 @@ def get_drift(price_t0, price_driftdate):
     else:
         return('No Data')
 
+def get_chartprices(stockid, instancedate):
+        # baseurl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="
+        # fullurl = baseurl + ticker + "&outputsize=full&apikey=PO0Z11M2KLE6SZ6F"
+
+        stockprice_table = Stockprice.objects.filter(stock_id=stockid)
+        df = pd.DataFrame(list(stockprice_table.values()))
+        df = df.loc[:, ['date', 'price']]
+        df['date'] = pd.to_datetime(df['date'])
+        # df.set_index('date', inplace=True)
+
+        instancedate = datetime.strptime(instancedate, "%Y-%m-%d")
+        # year = int(instancedate.split("-")[0])
+        # month = int(instancedate.split("-")[1])
+        # day = int(instancedate.split("-")[2])
+        # instancedate = date(year, month, day)
+        startdate = instancedate - timedelta(days=7)
+        enddate = instancedate + timedelta(days=180)
+        df = df.loc[(df['date'] >= startdate) & (df['date'] <= enddate)]
+        df['date'] = df['date'].astype(str)
+        loaded_prices = df.to_json(orient="values")
+
+        return(loaded_prices)
+
     
-    '''df=pd.DataFrame(list(idframe.values())) #convert model data to dataframe
+    # '''df=pd.DataFrame(list(idframe.values())) #convert model data to dataframe
 
-    stockidval=df.at[1,"stock_id"]
-    earnings=Earnings.objects.filter(stock_id=stockidval) #replace with stock_id
-    df=pd.DataFrame(list(earnings.values())) #convert model data to dataframe
-    df['date'] = pd.to_datetime(df['date'], format='%Y/%m/%d')
-    value=Stockprice.objects.filter(stock_id=stockidval)
-    values=pd.Dataframe(list(value.values()))
-    values["date"]= pd.to_datetime(values['date'], format='%Y/%m/%d')
-    class user_input: #pending user input from frontend
-        def __init__(self, instrument, indicator, surprise_sign_input, surprise_magnitude):
-            self.instrument = instrument  # to link to drop down
-            self.indicator = indicator  # to link to autofill
-            self.surprise_sign_input = surprise_sign_input  # to link to drop down (exceed, meet, below expections)
-            self.surprise_magnitude = surprise_magnitude  # to link to drop down (large, medium, small), if user chooses 'meet', cannot choose magnitude
-    john=user_input("Apple","ISM Manufacturing","Exceed","Small")
+    # stockidval=df.at[1,"stock_id"]
+    # earnings=Earnings.objects.filter(stock_id=stockidval) #replace with stock_id
+    # df=pd.DataFrame(list(earnings.values())) #convert model data to dataframe
+    # df['date'] = pd.to_datetime(df['date'], format='%Y/%m/%d')
+    # value=Stockprice.objects.filter(stock_id=stockidval)
+    # values=pd.Dataframe(list(value.values()))
+    # values["date"]= pd.to_datetime(values['date'], format='%Y/%m/%d')
+    # class user_input: #pending user input from frontend
+    #     def __init__(self, instrument, indicator, surprise_sign_input, surprise_magnitude):
+    #         self.instrument = instrument  # to link to drop down
+    #         self.indicator = indicator  # to link to autofill
+    #         self.surprise_sign_input = surprise_sign_input  # to link to drop down (exceed, meet, below expections)
+    #         self.surprise_magnitude = surprise_magnitude  # to link to drop down (large, medium, small), if user chooses 'meet', cannot choose magnitude
+    # john=user_input("Apple","ISM Manufacturing","Exceed","Small")
 
-    def surprise_sign_calc(row):
-      if float(row['actual'])-float(row['survm'])>0:
-          return('Exceed')
-      elif float(row['actual'])-float(row['survm'])<0:
-          return('Below')
-      else:
-          return('Meet')
+    # def surprise_sign_calc(row):
+    #   if float(row['actual'])-float(row['survm'])>0:
+    #       return('Exceed')
+    #   elif float(row['actual'])-float(row['survm'])<0:
+    #       return('Below')
+    #   else:
+    #       return('Meet')
 
-    df['surprise_sign'] = df.apply(surprise_sign_calc, axis=1)  # create new column for surprise sign
+    # df['surprise_sign'] = df.apply(surprise_sign_calc, axis=1)  # create new column for surprise sign
 
-    def surprise_magnitude_calc(row):
-      if abs((float(row['actual'])-float(row['survm']))/float(row['stddev']))>2:
-          return('Large')
-      elif abs((float(row['actual'])-float(row['survm']))/float(row['stddev']))<1:
-          return('Small')
-      else:
-          return('Medium')
+    # def surprise_magnitude_calc(row):
+    #   if abs((float(row['actual'])-float(row['survm']))/float(row['stddev']))>2:
+    #       return('Large')
+    #   elif abs((float(row['actual'])-float(row['survm']))/float(row['stddev']))<1:
+    #       return('Small')
+    #   else:
+    #       return('Medium')
 
-    df['surprise_magnitude'] = df.apply(surprise_magnitude_calc, axis=1)  # creates new column for surprise magnitude
+    # df['surprise_magnitude'] = df.apply(surprise_magnitude_calc, axis=1)  # creates new column for surprise magnitude
 
-    if john.surprise_sign_input != "Meet": #replace with input
-        df_results=df[df['surprise_sign'].str.contains(john.surprise_sign_input)&
-                  df['surprise_magnitude'].str.contains(john.surprise_magnitude)]
-    else:
-        df_results=df[df['surprise_sign'].str.contains(john.surprise_sign_input)]
-    def drift_calc(df):
-        for i in df.index:
-            if df.loc[i]["surprise_sign"]==john.surprise_sign_input and df.loc[i]["surprise_magnitude"]==john.surprise_magnitude:
-                try:
-                    print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n The 20 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=20)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n And the 100 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=100)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n")
-                except KeyError:
-                    try:
-                        print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n And the 20 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=50)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n")
-                    except KeyError:
-                        try:
-                            print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n")
-                        except KeyError:
-                            continue
+    # if john.surprise_sign_input != "Meet": #replace with input
+    #     df_results=df[df['surprise_sign'].str.contains(john.surprise_sign_input)&
+    #               df['surprise_magnitude'].str.contains(john.surprise_magnitude)]
+    # else:
+    #     df_results=df[df['surprise_sign'].str.contains(john.surprise_sign_input)]
+    # def drift_calc(df):
+    #     for i in df.index:
+    #         if df.loc[i]["surprise_sign"]==john.surprise_sign_input and df.loc[i]["surprise_magnitude"]==john.surprise_magnitude:
+    #             try:
+    #                 print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n The 20 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=20)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n And the 100 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=100)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n")
+    #             except KeyError:
+    #                 try:
+    #                     print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n And the 20 day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=50)), "Price"]-values.at[df.loc[i]["Date"], "Price"],"\n")
+    #                 except KeyError:
+    #                     try:
+    #                         print("On",df.loc[i]["Date"],"\n The one day price change was",values.at[(df.loc[i]["Date"]+timedelta(days=1)),"Price"]-values.at[df.loc[i]["Date"],"Price"],"\n")
+    #                     except KeyError:
+    #                         continue
 
-    list_of_results = df_results['date']
-    df['data'] = list_of_results
-    jsonized_df=df.to_json(date_format='iso',orient="index")'''
+    # list_of_results = df_results['date']
+    # df['data'] = list_of_results
+    # jsonized_df=df.to_json(date_format='iso',orient="index")'''
 
     # ticker = request.GET.get('ticker', 1)
 

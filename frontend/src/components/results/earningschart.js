@@ -62,46 +62,56 @@ class EarningsChart extends Component {
 
     componentDidMount(){
         var chart = this.chart;
-        const baseurl="https://www.quandl.com/api/v3/datasets/WIKI/"
-        const Ticker=this.props.Ticker
-        console.log(this.props.Ticker)
+        //const baseurl="https://www.quandl.com/api/v3/datasets/WIKI/"
+        // const Ticker=this.props.Ticker
+        // console.log(this.props.Ticker)
 //        const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to avoid CORS error
         var date=new Date(this.props.date);
         console.log(this.props.date)
-        var start_date_year=''+(date.getFullYear()-1); //to provide data starting 1 year ago
-        var start_date_month=''+ (date.getMonth()+1); //gives one month before so need to +1
-        var start_date_day=''+date.getDate();
-        if (start_date_month.length < 2)
-            start_date_month = '0' + start_date_month;
-        if (start_date_day.length < 2)
-            start_date_day = '0' + start_date_day;
-        var start_date_formatted=[start_date_year,start_date_month,start_date_day].join('-');
-        var end_date_year=''+(date.getFullYear()+1);
-        var end_date_month=start_date_month;
-        var end_date_day=start_date_day;
-        var end_date_formatted=""
-        if (parseInt(end_date_year)>2018)
-            end_date_formatted="2018-03-27";
-        if (parseInt(end_date_year)<=2018)
-            end_date_formatted=[end_date_year,end_date_month,end_date_day].join('-');
-        var fullurl=baseurl.concat(Ticker,"/data.json?order=asc&column_index=4&","start_date=",start_date_formatted,"&end_date=",end_date_formatted,"&api_key=dFvSTC2myD1ts7eJq8VD");
+        // var start_date_year=''+(date.getFullYear()-1); //to provide data starting 1 year ago
+        // var start_date_month=''+ (date.getMonth()+1); //gives one month before so need to +1
+        // var start_date_day=''+date.getDate();
+        // if (start_date_month.length < 2)
+        //     start_date_month = '0' + start_date_month;
+        // if (start_date_day.length < 2)
+        //     start_date_day = '0' + start_date_day;
+        // var start_date_formatted=[start_date_year,start_date_month,start_date_day].join('-');
+        // var end_date_year=''+(date.getFullYear()+1);
+        // var end_date_month=start_date_month;
+        // var end_date_day=start_date_day;
+        // var end_date_formatted=""
+        // if (parseInt(end_date_year)>2018)
+        //     end_date_formatted="2018-03-27";
+        // if (parseInt(end_date_year)<=2018)
+        //     end_date_formatted=[end_date_year,end_date_month,end_date_day].join('-');
+        // var fullurl=baseurl.concat(Ticker,"/data.json?order=asc&column_index=4&","start_date=",start_date_formatted,"&end_date=",end_date_formatted,"&api_key=dFvSTC2myD1ts7eJq8VD");
         var self=this;
-        fetch(fullurl)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            var temp = []
-            for (var i = 0; i < data.dataset_data.data.length; i++) {
-                temp.push({
-                    x: new Date(data.dataset_data.data[i][0]),
-                    y: data.dataset_data.data[i][1]
-                });
-            }
-            self.setState({dataPoints: temp});
-            chart.render();
-            console.log(fullurl)
-        });
+        var chartdata = JSON.parse(this.props.chartprices);
+        var temp = []
+        for (var i = 0; i < chartdata.length; i++) {
+            temp.push({
+                x: new Date(chartdata[i][0]),
+                y: chartdata[i][1]
+            })
+        self.setState({dataPoints: temp});
+        chart.render();
+        }
+        // fetch(fullurl)
+        // .then(function(response) {
+        //     return response.json();
+        // })
+        // .then(function(data) {
+        //     var temp = []
+        //     for (var i = 0; i < data.dataset_data.data.length; i++) {
+        //         temp.push({
+        //             x: new Date(data.dataset_data.data[i][0]),
+        //             y: data.dataset_data.data[i][1]
+        //         });
+        //     }
+        //     self.setState({dataPoints: temp});
+        //     chart.render();
+        //     console.log(fullurl)
+        // });
     }
 }
 export default EarningsChart;
