@@ -400,8 +400,8 @@ def get_chartprices(stockid, instancedate):
         # month = int(instancedate.split("-")[1])
         # day = int(instancedate.split("-")[2])
         # instancedate = date(year, month, day)
-        startdate = instancedate - timedelta(days=30)
-        enddate = instancedate + timedelta(days=185)
+        startdate = instancedate - timedelta(days=7)
+        enddate = instancedate + timedelta(days=180)
         df = df.loc[(df['date'] >= startdate) & (df['date'] <= enddate)]
         df['date'] = df['date'].astype(str)
         loaded_prices = df.to_json(orient="values")

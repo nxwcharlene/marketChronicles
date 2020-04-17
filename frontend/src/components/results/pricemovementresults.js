@@ -106,7 +106,7 @@ class PriceMovementResults extends React.Component {
                                  </Grid>
 
                                  <Grid item key={item.id} xs={4} md={4} style={{height: 140, paddingLeft: 10, paddingRight: 20}}>
-                                     <ResultChart ticker={item.ticker} date={item.date}/>
+                                     <ResultChart ticker={item.ticker} date={item.date} chartprices={item.chartprices}/>
                                  </Grid>
 
 

@@ -13,8 +13,7 @@ import json
 import quandl
 import pandas as pd
 import requests
-#from datetime import datetime, timedelta
-import datetime
+from datetime import datetime, timedelta
 quandl.ApiConfig.api_key='dFvSTC2myD1ts7eJq8VD'
 
 
@@ -221,7 +220,11 @@ def get_date(request):
         huge_daily_move.returns = huge_daily_move.returns.astype(str) + '%'
         date_index = huge_daily_move.index.strftime("%Y-%m-%d")
         huge_daily_move = huge_daily_move.set_index(date_index)
+        huge_daily_move['chartprices'] = None
+        for i in range(len(huge_daily_move.index)):
+            huge_daily_move['chartprices'][i] = get_1Dchartprices(stock_number,huge_daily_move.index[i])
         huge_daily_move['date'] = huge_daily_move.index
+        huge_daily_move = huge_daily_move.iloc[::-1]
         huge_daily_move = huge_daily_move.to_json(orient='records')
 
 
@@ -240,7 +243,11 @@ def get_date(request):
         huge_weekly_move.returns = huge_weekly_move.returns.astype(str) + '%'
         date_index = huge_weekly_move.index.strftime("%Y-%m-%d")
         huge_weekly_move = huge_weekly_move.set_index(date_index)
+        huge_weekly_move['chartprices'] = None
+        for i in range(len(huge_weekly_move.index)):
+            huge_weekly_move['chartprices'][i] = get_1Dchartprices(stock_number, huge_weekly_move.index[i])
         huge_weekly_move['date'] = huge_weekly_move.index
+        huge_weekly_move = huge_weekly_move.iloc[::-1]
         huge_weekly_move = huge_weekly_move.to_json(orient='records')
 
         # If period = 1M
@@ -254,10 +261,16 @@ def get_date(request):
         monthly_data['returns'] = round(monthly_data['returns']*100, 2)
         huge_monthly_move = monthly_data[(abs(monthly_data.loc[:, 'returns']) > float(body['pricechange'].split('-')[0])) & (abs(monthly_data.loc[:, 'returns']) < float(body['pricechange'].split('-')[1]))]
         huge_monthly_move = huge_monthly_move.loc[body['startdate']:body['enddate']]
+        # date_index = huge_monthly_move.index.strftime("%Y-%m-%d")  # mmm-yyyy format instead of %Y-%m-%d
+        # huge_monthly_move = huge_monthly_move.set_index(date_index)
+        # huge_monthly_move['chartprices'] = None
+        # for i in range(len(huge_monthly_move.index)):
+        #     huge_monthly_move['chartprices'][i] = get_1Dchartprices(stock_number, huge_monthly_move.index[i])
         huge_monthly_move.returns = huge_monthly_move.returns.astype(str) + '%'
-        date_index = huge_monthly_move.index.strftime("%b-%Y") # mmm-yyyy format instead of %Y-%m-%d
+        date_index = huge_monthly_move.index.strptime(huge_monthly_move.index, "%Y-%m-%d").strftime("%b-%Y") # mmm-yyyy format instead of %Y-%m-%d
         huge_monthly_move = huge_monthly_move.set_index(date_index)
         huge_monthly_move['date'] = huge_monthly_move.index
+        huge_monthly_move = huge_monthly_move.iloc[::-1]
         huge_monthly_move = huge_monthly_move.to_json(orient='records')
 
         # If period = 1Y
@@ -275,6 +288,7 @@ def get_date(request):
         date_index = huge_yearly_move.index.strftime("%Y") # Showing the year only, instead of %Y-%m-%d
         huge_yearly_move = huge_yearly_move.set_index(date_index)
         huge_yearly_move['date'] = huge_yearly_move.index
+        huge_yearly_move = huge_yearly_move.iloc[::-1]
         huge_yearly_move = huge_yearly_move.to_json(orient='records')
 
         context = []
@@ -284,7 +298,7 @@ def get_date(request):
             for item in loaded_data:
                 stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
                 df = pd.DataFrame(list(stockprice_table.values()))
-                searchdate = datetime.datetime.strptime(item['date'], '%Y-%m-%d') #.date()
+                searchdate = datetime.strptime(item['date'], '%Y-%m-%d') #.date()
                 searchdate = searchdate.date()
                 try:
                     index_t0 = df.loc[df['date'] == searchdate].index[0]
@@ -328,7 +342,7 @@ def get_date(request):
             for item in loaded_data:
                 stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
                 df = pd.DataFrame(list(stockprice_table.values()))
-                searchdate = datetime.datetime.strptime(item['date'], '%Y-%m-%d').date()
+                searchdate = datetime.strptime(item['date'], '%Y-%m-%d').date()
                 try:
                     index_t0 = df.loc[df['date'] == searchdate].index[0]
                     item['index']=index_t0
@@ -368,7 +382,7 @@ def get_date(request):
             for item in loaded_data:
                 stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
                 df = pd.DataFrame(list(stockprice_table.values()))
-                searchdate = datetime.datetime.strptime(item['date'], '%Y-%m-%d').date()
+                searchdate = datetime.strptime(item['date'], '%Y-%m-%d').date()
                 try:
                     index_t0 = df.loc[df['date'] == searchdate].index[0]
                     item['index']=index_t0
@@ -408,7 +422,7 @@ def get_date(request):
             for item in loaded_data:
                 stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
                 df = pd.DataFrame(list(stockprice_table.values()))
-                searchdate = datetime.datetime.strptime(item['date'], '%Y-%m-%d').date()
+                searchdate = datetime.strptime(item['date'], '%Y-%m-%d').date()
                 try:
                     index_t0 = df.loc[df['date'] == searchdate].index[0]
                     item['index']=index_t0
@@ -497,3 +511,26 @@ def get_drift(price_t0, price_driftdate):
         return (drift_return)
     else:
         return('No Data')
+
+def get_1Dchartprices(stockid, instancedate):
+    # baseurl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="
+    # fullurl = baseurl + ticker + "&outputsize=full&apikey=PO0Z11M2KLE6SZ6F"
+
+    stockprice_table = Stockprice.objects.filter(stock_id=stockid)
+    df = pd.DataFrame(list(stockprice_table.values()))
+    df = df.loc[:, ['date', 'price']]
+    df['date'] = pd.to_datetime(df['date'])
+    # df.set_index('date', inplace=True)
+
+    instancedate = datetime.strptime(instancedate, "%Y-%m-%d")
+    # year = int(instancedate.split("-")[0])
+    # month = int(instancedate.split("-")[1])
+    # day = int(instancedate.split("-")[2])
+    # instancedate = date(year, month, day)
+    startdate = instancedate - timedelta(days=7)
+    enddate = instancedate + timedelta(days=365)
+    df = df.loc[(df['date'] >= startdate) & (df['date'] <= enddate)]
+    df['date'] = df['date'].astype(str)
+    loaded_prices = df.to_json(orient="values")
+
+    return (loaded_prices)
