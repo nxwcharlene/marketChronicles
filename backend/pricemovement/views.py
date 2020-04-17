@@ -301,7 +301,7 @@ def get_date(request):
             for item in loaded_data:
                 stockprice_table = Stockprice.objects.filter(stock_id=stock_number)
                 df = pd.DataFrame(list(stockprice_table.values()))
-                searchdate = datetime.strptime(item['date'], '%Y-%m-%d') #.date()
+                searchdate = datetime.strptime(item['date'], '%Y-%m-%d').date()
                 try:
                     index_t0 = df.loc[df['date'] == searchdate].index[0]
                     item['index']=index_t0
