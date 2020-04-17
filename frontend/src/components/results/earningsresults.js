@@ -83,6 +83,9 @@ class EarningsResults extends React.Component {
                         <li >
                         <span> 6 Months: {item.sixmth_return}%</span>
                         </li>
+                        <li >
+                        <span> 1 Year: {item.year_return}%</span>
+                        </li>
                     </div>
                   </ul>
                 </Grid>

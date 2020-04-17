@@ -119,11 +119,13 @@ def get_earnings(request):
                 item['price_t30']=get_stockprice(stock_id,item['date'], 30)
                 item['price_t90']=get_stockprice(stock_id,item['date'], 90)
                 item['price_t180']=get_stockprice(stock_id,item['date'], 180)
+                item['price_t360']=get_stockprice(stock_id,item['date'], 360)
                 item['day_return']=get_drift(item['price_t0'],item['price_t1'])
                 item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
                 item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
                 item['threemth_return']=get_drift(item['price_t0'],item['price_t90'])
                 item['sixmth_return']=get_drift(item['price_t0'],item['price_t180'])
+                item['year_return']=get_drift(item['price_t0'],item['price_t360'])
             if item['index'] == 'No data':
                 item['price_t0']= 'No data'
                 item['price_t1']= 'No data'
@@ -136,6 +138,7 @@ def get_earnings(request):
                 item['mth_return']= 'No data'
                 item['threemth_return']= 'No data'
                 item['sixmth_return']= 'No data'
+                item['year_return']= 'No data'
                 # if item['price_t1'] != "No Data":
                 #     item['1day_return']= float(100*((item['price_t1'] - item['price_t0'])/item['price_t0']), 2)
                 # else:
