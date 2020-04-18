@@ -55,6 +55,9 @@ class EarningsResults extends React.Component {
                       <li >
                         <span>Surprise: {item.direction} Expectations</span>
                       </li>
+                      <li >
+                        <span>Return: {item.t0_return}%</span>
+                      </li>
                     </div>
                   </ul>
                 </Grid>
