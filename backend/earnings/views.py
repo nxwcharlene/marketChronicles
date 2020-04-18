@@ -115,7 +115,7 @@ def get_earnings(request):
             if item['index'] != 'No data':
                 item['price_tbef']=get_stockprice(stock_id,item['date'], -1)
                 item['price_t0']=get_stockprice(stock_id,item['date'], 0)
-                item['price_t1']=get_stockprice(stock_id,item['date'],1) #26 is goog's stock_id
+                item['price_t1']=get_stockprice(stock_id,item['date'],1)
                 item['price_t7']=get_stockprice(stock_id,item['date'], 7) 
                 item['price_t30']=get_stockprice(stock_id,item['date'], 30)
                 item['price_t90']=get_stockprice(stock_id,item['date'], 90)
@@ -288,6 +288,7 @@ def get_stockprice(stockid, searchdate, daysafter):
         return float(price)
     except KeyError:
         return ('No Data')
+
 
 def get_drift(price_t0, price_driftdate):
     if price_driftdate != 'No Data':
