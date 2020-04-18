@@ -146,23 +146,27 @@ def get_macro(request):
             except (KeyError, IndexError):
                 item['index'] = 'No data'
             if item['index'] != 'No data':
+                item['price_tbef']=get_stockprice(stockid,item['date'], -1)
                 item['price_t0']=get_stockprice(stockid,item['date'], 0)
                 item['price_t1']=get_stockprice(stockid,item['date'],1) 
                 item['price_t7']=get_stockprice(stockid,item['date'], 7) 
                 item['price_t30']=get_stockprice(stockid,item['date'], 30)
                 item['price_t90']=get_stockprice(stockid,item['date'], 90)
                 item['price_t180']=get_stockprice(stockid,item['date'], 180)
+                item['t0_return']=get_drift(item['price_tbef'],item['price_t0'])
                 item['day_return']=get_drift(item['price_t0'],item['price_t1'])
                 item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
                 item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
                 item['threemth_return']=get_drift(item['price_t0'],item['price_t90'])
                 item['sixmth_return']=get_drift(item['price_t0'],item['price_t180'])
             if item['index'] == 'No data':
+                item['price_tbef']='No data'
                 item['price_t0']= 'No data'
                 item['price_t1']= 'No data'
                 item['price_t7']= 'No data'
                 item['price_t30']= 'No data'
                 item['price_t90']= 'No data'
+                item['t0_return']='No data'
                 item['day_return']= 'No data'
                 item['wk_return']= 'No data'
                 item['mth_return']= 'No data'

@@ -113,6 +113,7 @@ def get_earnings(request):
             except (KeyError, IndexError):
                 item['index'] = 'No data'
             if item['index'] != 'No data':
+                item['price_tbef']=get_stockprice(stock_id,item['date'], -1)
                 item['price_t0']=get_stockprice(stock_id,item['date'], 0)
                 item['price_t1']=get_stockprice(stock_id,item['date'],1) #26 is goog's stock_id
                 item['price_t7']=get_stockprice(stock_id,item['date'], 7) 
@@ -120,6 +121,7 @@ def get_earnings(request):
                 item['price_t90']=get_stockprice(stock_id,item['date'], 90)
                 item['price_t180']=get_stockprice(stock_id,item['date'], 180)
                 item['price_t360']=get_stockprice(stock_id,item['date'], 360)
+                item['t0_return']=get_drift(item['price_tbef'],item['price_t0'])
                 item['day_return']=get_drift(item['price_t0'],item['price_t1'])
                 item['wk_return']=get_drift(item['price_t0'],item['price_t7'])
                 item['mth_return']=get_drift(item['price_t0'],item['price_t30'])
@@ -127,12 +129,14 @@ def get_earnings(request):
                 item['sixmth_return']=get_drift(item['price_t0'],item['price_t180'])
                 item['year_return']=get_drift(item['price_t0'],item['price_t360'])
             if item['index'] == 'No data':
+                item['price_tbef']='No data'
                 item['price_t0']= 'No data'
                 item['price_t1']= 'No data'
                 item['price_t7']= 'No data'
                 item['price_t30']= 'No data'
                 item['price_t90']= 'No data'
                 item['price_t180']= 'No data'
+                item['t0_return']='No data'
                 item['day_return']= 'No data'
                 item['wk_return']= 'No data'
                 item['mth_return']= 'No data'
